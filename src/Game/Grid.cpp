@@ -1,10 +1,5 @@
 #include "Grid.hpp"
 
-#include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
-
-#include "Constants.hpp"
-
 void Grid::init()
 {
 	for (auto i = 0; i < gridSize.first; ++i)
@@ -21,14 +16,6 @@ void Grid::update() {}
 void Grid::render(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, SDL_ALPHA_OPAQUE);
-
-	const auto gridWidth = gridSize.first * cellSize.first;
-	const auto gridHeight = gridSize.second * cellSize.second;
-	const std::pair<int, int> offset
-	{
-		(WINDOW_WIDTH - gridWidth) / 2,
-		(WINDOW_HEIGHT - gridHeight) / 2
-	};
 
 	int row{0}, col{0};
 	for (const auto& gridLine : grid)

@@ -1,14 +1,13 @@
 #pragma once
 
+#include <SDL3_image/SDL_image.h>
 #include <vector>
-
-class SDL_Renderer;
 
 class Grid
 {
 public:
-	Grid() : gridSize(), cellSize() {}
-	Grid(std::pair<int, int> gridSize, std::pair<int, int> cellSize) : gridSize(gridSize), cellSize(cellSize) {}
+	Grid() : gridSize(), cellSize(), offset() {}
+	Grid(std::pair<int, int> gridSize, std::pair<int, int> cellSize, std::pair<int, int> offset) : gridSize(gridSize), cellSize(cellSize), offset(offset) {}
 
 	void init();
 	void update();
@@ -17,5 +16,6 @@ public:
 private:
 	std::pair<int, int> gridSize;
 	std::pair<int, int> cellSize;
+	std::pair<int, int> offset;
 	std::vector<std::vector<int>> grid;
 };
