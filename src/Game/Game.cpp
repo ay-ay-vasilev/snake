@@ -39,25 +39,25 @@ SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
 	if (event->type == SDL_EVENT_QUIT || (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE))
 		return SDL_APP_SUCCESS;
 
-	if (event->key.type == SDL_EVENT_KEY_UP)
+	if (event->key.type == SDL_EVENT_KEY_DOWN)
 	{
 		switch (event->key.key)
 		{
 		case SDLK_W:
 		case SDLK_UP:
-			snake->setDirection(0);
+			snake->setDirection(Snake::eDirection::UP);
 			break;
 		case SDLK_D:
 		case SDLK_RIGHT:
-			snake->setDirection(1);
+			snake->setDirection(Snake::eDirection::RIGHT);
 			break;
 		case SDLK_S:
 		case SDLK_DOWN:
-			snake->setDirection(2);
+			snake->setDirection(Snake::eDirection::DOWN);
 			break;
 		case SDLK_A:
 		case SDLK_LEFT:
-			snake->setDirection(3);
+			snake->setDirection(Snake::eDirection::LEFT);
 			break;
 		
 		default:

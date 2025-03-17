@@ -2,6 +2,8 @@
 
 #include <SDL3_image/SDL_image.h>
 #include <deque>
+#include <queue>
+#include <optional>
 
 class Snake
 {
@@ -14,7 +16,7 @@ public:
 
 	enum class eDirection
 	{
-		UP = 0,
+		UP,
 		RIGHT,
 		DOWN,
 		LEFT
@@ -25,15 +27,20 @@ public:
 	void render(SDL_Renderer* renderer);
 
 	inline const int getDirection() const { return static_cast<int>(direction); };
-	void setDirection(int newDirection);
+	void setDirection(eDirection newDirection);
 
 private:
 	void move();
+	std::optional<eDirection> getDirectionFromQueue();
+	std::optional<eDirection> getInitialDirection();
 
 	std::deque<std::pair<int, int>> partPositions;
-	std::pair<int, int> size;
-	std::pair<int, int> offset;
+	std::pair<int, int> size{0, 0};
+	std::pair<int, int> offset{0, 0};
 
 	bool isMoving{false};
-	eDirection direction;
+	bool isChangingDirection{false};
+
+	eDirection direction{eDirection::RIGHT};
+	std::queue<eDirection> directionQueue;
 };
