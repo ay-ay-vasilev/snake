@@ -6,6 +6,8 @@
 class UI
 {
 public:
+	UI(std::pair<int, int> offset) : offset(offset) {}
+
 	void init();
 	void update();
 	void render(SDL_Renderer* renderer);

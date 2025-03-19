@@ -14,8 +14,14 @@ static Game game;
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
+	auto& dataManager = constants::DataManager::getInstance();
+	dataManager.LoadConstants();
+
+	const auto windowWidth = dataManager.getWindowWidth();
+	const auto windowHeight = dataManager.getWindowHeight();
+
 	/* Create the window */
-	if (!SDL_CreateWindowAndRenderer("Snake Game", constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, 0, &window, &renderer))
+	if (!SDL_CreateWindowAndRenderer("Snake Game", windowWidth, windowHeight, 0, &window, &renderer))
 	{
 		SDL_Log("Couldn't create window and renderer: %s\n", SDL_GetError());
 		return SDL_APP_FAILURE;

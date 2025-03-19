@@ -8,10 +8,11 @@ project(snake
 	LANGUAGES CXX
 )
 
-include(cmake/SetupSDL.cmake)
+include(cmake/SetupLibs.cmake)
 
 add_executable(snake_app
 	src/main.cpp
+	src/Game/Constants.cpp
 	src/Game/Game.cpp
 	src/Game/Grid.cpp
 	src/Game/Snake.cpp
@@ -24,4 +25,5 @@ target_link_libraries(snake_app
 	PRIVATE
 		SDL3::SDL3
 		SDL3_image::SDL3_image
+		nlohmann_json::nlohmann_json
 )

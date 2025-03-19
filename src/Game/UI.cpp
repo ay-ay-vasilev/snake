@@ -2,15 +2,7 @@
 
 #include "Constants.hpp"
 
-void UI::init()
-{
-	using namespace constants;
-	offset =
-	{
-		(WINDOW_WIDTH - GRID_SIZE * CELL_SIZE) / 2,
-		(WINDOW_HEIGHT - GRID_SIZE * CELL_SIZE) / 2
-	};
-}
+void UI::init() {}
 
 void UI::update()
 {
@@ -29,7 +21,7 @@ void UI::render(SDL_Renderer* renderer)
 	SDL_SetRenderScale(renderer, 1.f, 1.f);
 
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	SDL_SetRenderScale(renderer,TEXT_DIRECTION_SCALE, TEXT_DIRECTION_SCALE);
+	SDL_SetRenderScale(renderer, TEXT_DIRECTION_SCALE, TEXT_DIRECTION_SCALE);
 	SDL_RenderDebugText(renderer,
 		(TEXT_DIRECTION_X + offset.first) / TEXT_DIRECTION_SCALE,
 		(TEXT_DIRECTION_Y + offset.second) / TEXT_DIRECTION_SCALE,

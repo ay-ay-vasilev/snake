@@ -23,6 +23,7 @@ private:
 	void update();
 	void render(SDL_Renderer* renderer);
 
+	int frameStep{};
 	Uint64 lastStep = 0;
 
 	std::unique_ptr<Grid> grid;

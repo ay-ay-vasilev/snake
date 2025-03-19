@@ -10,7 +10,7 @@ class Snake
 public:
 	Snake(
 		std::deque<std::pair<int, int>> initPos,
-		std::pair<int, int> size,
+		std::pair<size_t, size_t> size,
 		std::pair<int, int> offset
 	);
 
@@ -35,7 +35,7 @@ private:
 	std::optional<eDirection> getInitialDirection();
 
 	std::deque<std::pair<int, int>> partPositions;
-	std::pair<int, int> size{0, 0};
+	std::pair<size_t, size_t> size{0, 0};
 	std::pair<int, int> offset{0, 0};
 
 	bool isMoving{false};

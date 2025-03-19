@@ -13,15 +13,24 @@ Game::~Game() = default;
 
 void Game::init()
 {
-	const auto gridWidth = constants::GRID_SIZE * constants::CELL_SIZE;
-	const auto gridHeight = constants::GRID_SIZE * constants::CELL_SIZE;
+	auto& dataManager = constants::DataManager::getInstance();
+
+	const auto windowWidth = dataManager.getWindowWidth();
+	const auto windowHeight = dataManager.getWindowHeight();
+	const auto gridWH = dataManager.getGridSize();
+	const auto cellWH = dataManager.getCellSize();
+
+	frameStep = dataManager.getFrameStep();
+
+	const auto gridWidth = gridWH * cellWH;
+	const auto gridHeight = gridWH * cellWH;
 	const std::pair<int, int> offset =
 	{
-		(constants::WINDOW_WIDTH - gridWidth) / 2,
-		(constants::WINDOW_HEIGHT - gridHeight) / 2
+		(windowWidth - gridWidth) / 2,
+		(windowHeight - gridHeight) / 2
 	};
-	const std::pair<int, int> gridSize = {constants::GRID_SIZE, constants::GRID_SIZE};
-	const std::pair<int, int> cellSize = {constants::CELL_SIZE, constants::CELL_SIZE};
+	const std::pair<int, int> gridSize = { gridWH, gridWH };
+	const std::pair<int, int> cellSize = { cellWH, cellWH };
 
 	grid = std::make_unique<Grid>(gridSize, cellSize, offset);
 	grid->init();
@@ -30,7 +39,7 @@ void Game::init()
 
 	snake = std::make_unique<Snake>(snakePosition, cellSize, offset);
 
-	ui = std::make_unique<UI>();
+	ui = std::make_unique<UI>(offset);
 	ui->init();
 }
 
@@ -74,10 +83,10 @@ SDL_AppResult Game::gameLoop(void* appstate, SDL_Renderer* renderer)
 {
 	const auto now = SDL_GetTicks();
 
-	while((now - lastStep) >= constants::FRAME_STEP)
+	while((now - lastStep) >= frameStep)
 	{
 		update();
-		lastStep += constants::FRAME_STEP;
+		lastStep += frameStep;
 	}
 
 	render(renderer);

@@ -13,7 +13,7 @@ bool isDirectionValid(Snake::eDirection newDirection, Snake::eDirection curDirec
 
 Snake::Snake(
 	std::deque<std::pair<int, int>> initPos,
-	std::pair<int, int> size,
+	std::pair<size_t, size_t> size,
 	std::pair<int, int> offset
 ) :
 	partPositions(initPos),
