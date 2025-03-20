@@ -8,11 +8,7 @@
 class Snake
 {
 public:
-	Snake(
-		std::deque<std::pair<int, int>> initPos,
-		std::pair<size_t, size_t> size,
-		std::pair<int, int> offset
-	);
+	Snake();
 
 	enum class eDirection
 	{
@@ -22,11 +18,15 @@ public:
 		LEFT
 	};
 
-	void init();
+	void init(
+		std::deque<std::pair<int, int>> initPartPositions = {{0,0}},
+		std::pair<size_t, size_t> size = {0,0},
+		std::pair<int, int> offset = {0,0}
+	);
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	inline const int getDirection() const { return static_cast<int>(direction); };
+	inline const int getDirection() const { return static_cast<int>(direction_); };
 	void setDirection(eDirection newDirection);
 
 private:
@@ -34,13 +34,13 @@ private:
 	std::optional<eDirection> getDirectionFromQueue();
 	std::optional<eDirection> getInitialDirection();
 
-	std::deque<std::pair<int, int>> partPositions;
-	std::pair<size_t, size_t> size{0, 0};
-	std::pair<int, int> offset{0, 0};
+	std::deque<std::pair<int, int>> partPositions_;
+	std::pair<size_t, size_t> size_{0, 0};
+	std::pair<int, int> offset_{0, 0};
 
-	bool isMoving{false};
-	bool isChangingDirection{false};
+	bool isMoving_{false};
+	bool isChangingDirection_{false};
 
-	eDirection direction{eDirection::RIGHT};
-	std::queue<eDirection> directionQueue;
+	eDirection direction_{eDirection::RIGHT};
+	std::queue<eDirection> directionQueue_;
 };

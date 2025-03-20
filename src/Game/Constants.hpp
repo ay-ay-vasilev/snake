@@ -24,21 +24,21 @@ namespace constants
 
 		void LoadConstants();
 
-		const int& getWindowWidth() const { return windowWidth; }
-		const int& getWindowHeight() const { return windowHeight; }
+		const int& getWindowWidth() const { return windowWidth_; }
+		const int& getWindowHeight() const { return windowHeight_; }
 
-		const int& getFrameStep() const { return frameStep; }
+		const int& getFrameStep() const { return frameStep_; }
 
-		const int& getGridSize() const { return gridSize; }
-		const int& getCellSize() const { return cellSize; }
+		const int& getGridSize() const { return gridSize_; }
+		const int& getCellSize() const { return cellSize_; }
 
 	private:
-		int windowWidth{};
-		int windowHeight{};
-		int gridSize{};
-		int cellSize{};
+		int windowWidth_{};
+		int windowHeight_{};
+		int gridSize_{};
+		int cellSize_{};
 
-		int frameStep{};
+		int frameStep_{};
 
 		template <typename T>
 		void setValue(const nlohmann::json& data, T& value, const std::string_view& propertyName)

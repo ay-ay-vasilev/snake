@@ -11,19 +11,15 @@ bool isDirectionValid(Snake::eDirection newDirection, Snake::eDirection curDirec
 	return false;
 }
 
-Snake::Snake(
-	std::deque<std::pair<int, int>> initPos,
-	std::pair<size_t, size_t> size,
-	std::pair<int, int> offset
-) :
-	partPositions(initPos),
-	size(size),
-	offset(offset)
-{
-	direction = getInitialDirection().value_or(eDirection::RIGHT);
-}
+Snake::Snake() {}
 
-void Snake::init() {}
+void Snake::init(std::deque<std::pair<int, int>> initPartPositions, std::pair<size_t, size_t> size, std::pair<int, int> offset)
+{
+	partPositions_ = initPartPositions;
+	size_ = size;
+	offset_ = offset;
+	direction_ = getInitialDirection().value_or(eDirection::RIGHT);
+}
 
 void Snake::update()
 {
@@ -33,18 +29,18 @@ void Snake::update()
 void Snake::render(SDL_Renderer* renderer)
 {
 	bool headDrawn = false;
-	for (const auto& part : partPositions)
+	for (const auto& part : partPositions_)
 	{
 		SDL_SetRenderDrawColor(renderer, 0, headDrawn ? 100 : 255, 0, SDL_ALPHA_OPAQUE);
 		if (!headDrawn) headDrawn = true;	
 
 		SDL_FRect rect;
 
-		rect.x = offset.first + part.first * size.first;
-		rect.y = offset.second + part.second * size.second;
+		rect.x = offset_.first + part.first * size_.first;
+		rect.y = offset_.second + part.second * size_.second;
 	
-		rect.w = size.first;
-		rect.h = size.second;
+		rect.w = size_.first;
+		rect.h = size_.second;
 
 		SDL_RenderFillRect(renderer, &rect);
 	}
@@ -52,20 +48,20 @@ void Snake::render(SDL_Renderer* renderer)
 
 void Snake::setDirection(eDirection newDirection)
 {
-	if (!isMoving) isMoving = true;
+	if (!isMoving_) isMoving_ = true;
 	
-	directionQueue.emplace(newDirection);
+	directionQueue_.emplace(newDirection);
 };
 
 void Snake::move()
 {
-	if (!isMoving) return;
+	if (!isMoving_) return;
 
-	std::pair<int, int> newPosition {partPositions.front()};
-	partPositions.pop_back();
+	std::pair<int, int> newPosition {partPositions_.front()};
+	partPositions_.pop_back();
 
-	direction = getDirectionFromQueue().value_or(direction);
-	switch (direction)
+	direction_ = getDirectionFromQueue().value_or(direction_);
+	switch (direction_)
 	{
 	case eDirection::UP:
 		--newPosition.second;
@@ -83,16 +79,16 @@ void Snake::move()
 		break;
 	}
 
-	partPositions.push_front(newPosition);
+	partPositions_.push_front(newPosition);
 };
 
 std::optional<Snake::eDirection> Snake::getDirectionFromQueue()
 {
-	while(!directionQueue.empty())
+	while(!directionQueue_.empty())
 	{
-		eDirection directionNext = directionQueue.front();
-		directionQueue.pop();
-		if (isDirectionValid(directionNext, direction))
+		eDirection directionNext = directionQueue_.front();
+		directionQueue_.pop();
+		if (isDirectionValid(directionNext, direction_))
 			return directionNext;
 	}
 
@@ -101,12 +97,12 @@ std::optional<Snake::eDirection> Snake::getDirectionFromQueue()
 
 std::optional<Snake::eDirection> Snake::getInitialDirection()
 {
-	if (partPositions.size() > 1)
+	if (partPositions_.size() > 1)
 	{
-		if (partPositions[0].first > partPositions[1].first) return eDirection::RIGHT;
-		else if (partPositions[0].first < partPositions[1].first) return eDirection::LEFT;
-		else if (partPositions[0].second > partPositions[1].second) return eDirection::DOWN;
-		else if (partPositions[0].second < partPositions[1].second) return eDirection::UP;
+		if (partPositions_[0].first > partPositions_[1].first) return eDirection::RIGHT;
+		else if (partPositions_[0].first < partPositions_[1].first) return eDirection::LEFT;
+		else if (partPositions_[0].second > partPositions_[1].second) return eDirection::DOWN;
+		else if (partPositions_[0].second < partPositions_[1].second) return eDirection::UP;
 	}
 
 	return std::nullopt;

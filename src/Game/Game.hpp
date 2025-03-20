@@ -23,11 +23,14 @@ private:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	int frameStep{};
-	Uint64 lastStep = 0;
+	void reset();
 
-	std::unique_ptr<Grid> grid;
-	std::unique_ptr<Snake> snake;
-	std::unique_ptr<UI> ui;
+	int frameStep_{};
+	Uint64 lastStep_ = 0;
+	bool isPaused_{false};
+
+	std::unique_ptr<Grid> grid_;
+	std::unique_ptr<Snake> snake_;
+	std::unique_ptr<UI> ui_;
 
 };

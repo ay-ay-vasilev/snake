@@ -19,10 +19,10 @@ namespace constants
 		nlohmann::json constantsJson;
 		file >> constantsJson;
 		
-		setValue<int>(constantsJson, windowWidth, "window_width");
-		setValue<int>(constantsJson, windowHeight, "window_height");
-		setValue<int>(constantsJson, frameStep, "frame_step");
-		setValue<int>(constantsJson, cellSize, "cell_size");
-		setValue<int>(constantsJson, gridSize, "grid_size");
+		setValue<int>(constantsJson, windowWidth_, "window_width");
+		setValue<int>(constantsJson, windowHeight_, "window_height");
+		setValue<int>(constantsJson, frameStep_, "frame_step");
+		setValue<int>(constantsJson, cellSize_, "cell_size");
+		setValue<int>(constantsJson, gridSize_, "grid_size");
 	}
 }

@@ -6,15 +6,17 @@
 class Grid
 {
 public:
-	Grid() : gridSize(), cellSize(), offset() {}
-	Grid(std::pair<size_t, size_t> gridSize, std::pair<size_t, size_t> cellSize, std::pair<int, int> offset) : gridSize(gridSize), cellSize(cellSize), offset(offset) {}
+	Grid() : gridSize_(), cellSize_(), offset_() {}
 
-	void init();
+	void init(
+		std::pair<size_t, size_t> gridSize = {0, 0},
+		std::pair<size_t, size_t> cellSize = {0, 0},
+		std::pair<int, int> offset = {0, 0});
 	void update();
 	void render(SDL_Renderer* renderer);
 
 private:
-	std::pair<size_t, size_t> gridSize;
-	std::pair<size_t, size_t> cellSize;
-	std::pair<int, int> offset;
+	std::pair<size_t, size_t> gridSize_{0,0};
+	std::pair<size_t, size_t> cellSize_{0,0};
+	std::pair<int, int> offset_{0,0};
 };

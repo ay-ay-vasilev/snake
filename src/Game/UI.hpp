@@ -6,18 +6,19 @@
 class UI
 {
 public:
-	UI(std::pair<int, int> offset) : offset(offset) {}
+	UI() {}
 
-	void init();
+	void init(std::pair<int, int> offset = {});
 	void update();
 	void render(SDL_Renderer* renderer);
 
 	void addScore(int value);
-	void setDirection(int direction);
+	void setPaused(bool value);
 
 private:
-	std::string scoreText{};
-	std::string directionText{};
-	int score{0};
-	std::pair<int, int> offset;
+	std::string scoreText_{};
+	std::string pausedText_{};
+	int score_{0};
+	bool isPaused_{false};
+	std::pair<int, int> offset_{};
 };

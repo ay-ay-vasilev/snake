@@ -1,6 +1,11 @@
 #include "Grid.hpp"
 
-void Grid::init() {}
+void Grid::init(std::pair<size_t, size_t> gridSize, std::pair<size_t, size_t> cellSize, std::pair<int, int> offset)
+{
+	gridSize_ = gridSize;
+	cellSize_ = cellSize;
+	offset_ = offset;
+}
 
 void Grid::update() {}
 
@@ -8,17 +13,17 @@ void Grid::render(SDL_Renderer* renderer)
 {
 	SDL_SetRenderDrawColor(renderer, 100, 100, 100, SDL_ALPHA_OPAQUE);
 
-	for (size_t i = 0; i < gridSize.first; ++i)
+	for (size_t i = 0; i < gridSize_.first; ++i)
 	{
-		for (size_t j = 0; j < gridSize.second; ++j)
+		for (size_t j = 0; j < gridSize_.second; ++j)
 		{
 			SDL_FRect rect;
 
-			rect.x = offset.first + i * cellSize.first;
-			rect.y = offset.second + j * cellSize.second;
+			rect.x = offset_.first + i * cellSize_.first;
+			rect.y = offset_.second + j * cellSize_.second;
 
-			rect.w = cellSize.first;
-			rect.h = cellSize.second;
+			rect.w = cellSize_.first;
+			rect.h = cellSize_.second;
 			SDL_RenderRect(renderer, &rect);
 		}
 	}
