@@ -28,3 +28,11 @@ void Grid::render(SDL_Renderer* renderer)
 		}
 	}
 }
+
+bool Grid::isCollision(const std::pair<int, int>& position) const
+{
+	const auto& x = std::get<0>(position);
+	const auto& y = std::get<1>(position);
+
+	return (x < 0 || x >= gridSize_.first || y < 0 || y >= gridSize_.second);
+}

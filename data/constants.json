@@ -4,5 +4,9 @@
 	"frame_step" : 100,
 
 	"grid_size" : 20,
-	"cell_size" : 20
+	"cell_size" : 20,
+
+	"score_text" : { "x" : 0, "y" : -30, "scale" : 2 },
+	"game_state_text" : { "x" : 0, "y" : -60, "scale" : 2 },
+	"debug_text" : { "x" : 0, "y" : -90, "scale" : 2 }
 }

@@ -29,6 +29,8 @@ public:
 	inline const int getDirection() const { return static_cast<int>(direction_); };
 	void setDirection(eDirection newDirection);
 
+	inline const std::pair<int, int>& getHeadPosition() const { return partPositions_.front(); }
+
 private:
 	void move();
 	std::optional<eDirection> getDirectionFromQueue();

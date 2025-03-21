@@ -4,7 +4,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "Game/Game.hpp"
-#include "Game/Constants.hpp"
+#include "Constants/Constants.hpp"
 
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
@@ -17,8 +17,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 	auto& dataManager = constants::DataManager::getInstance();
 	dataManager.LoadConstants();
 
-	const auto windowWidth = dataManager.getWindowWidth();
-	const auto windowHeight = dataManager.getWindowHeight();
+	const auto windowWidth = dataManager.getConstant<int>("window_width");
+	const auto windowHeight = dataManager.getConstant<int>("window_height");
 
 	/* Create the window */
 	if (!SDL_CreateWindowAndRenderer("Snake Game", windowWidth, windowHeight, 0, &window, &renderer))

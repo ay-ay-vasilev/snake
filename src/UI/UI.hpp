@@ -3,6 +3,14 @@
 #include <SDL3_image/SDL_image.h>
 #include <string>
 
+struct UIText
+{
+	int x;
+	int y;
+	double scale;
+	std::string text;
+};
+
 class UI
 {
 public:
@@ -14,10 +22,12 @@ public:
 
 	void addScore(int value);
 	void setPaused(bool value);
+	void setDebugText(const std::string_view& text);
 
 private:
-	std::string scoreText_{};
-	std::string pausedText_{};
+	UIText scoreText_{};
+	UIText gameStateText_{};
+	UIText debugText_{};
 	int score_{0};
 	bool isPaused_{false};
 	std::pair<int, int> offset_{};

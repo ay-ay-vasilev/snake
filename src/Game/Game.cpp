@@ -4,8 +4,8 @@
 
 #include "Grid.hpp"
 #include "Snake.hpp"
-#include "UI.hpp"
-#include "Constants.hpp"
+#include "../UI/UI.hpp"
+#include "../Constants/Constants.hpp"
 
 Game::Game() = default;
 
@@ -90,8 +90,12 @@ void Game::update()
 {
 	if (!isPaused_)
 	{
-		snake_->update();
 		grid_->update();
+		snake_->update();
+
+		const auto& snakePos = snake_->getHeadPosition();
+		if (checkCollision(snakePos))
+			reset();
 	}
 
 	ui_->update();
@@ -113,12 +117,12 @@ void Game::reset()
 {
 	auto& dataManager = constants::DataManager::getInstance();
 
-	const auto windowWidth = dataManager.getWindowWidth();
-	const auto windowHeight = dataManager.getWindowHeight();
-	const auto gridWH = dataManager.getGridSize();
-	const auto cellWH = dataManager.getCellSize();
+	const auto windowWidth = dataManager.getConstant<int>("window_width");
+	const auto windowHeight = dataManager.getConstant<int>("window_height");
+	const auto gridWH = dataManager.getConstant<int>("grid_size");
+	const auto cellWH = dataManager.getConstant<int>("cell_size");
 
-	frameStep_ = dataManager.getFrameStep();
+	frameStep_ = dataManager.getConstant<int>("frame_step");
 
 	const auto gridWidth = gridWH * cellWH;
 	const auto gridHeight = gridWH * cellWH;
@@ -142,4 +146,9 @@ void Game::reset()
 	grid_->init(gridSize, cellSize, offset);
 	snake_->init(snakePosition, cellSize, offset);
 	ui_->init(offset);
+}
+
+bool Game::checkCollision(const std::pair<int, int>& position) const
+{
+	return grid_->isCollision(position);
 }

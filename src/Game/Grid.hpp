@@ -15,6 +15,8 @@ public:
 	void update();
 	void render(SDL_Renderer* renderer);
 
+	bool isCollision(const std::pair<int, int>& position) const;
+
 private:
 	std::pair<size_t, size_t> gridSize_{0,0};
 	std::pair<size_t, size_t> cellSize_{0,0};

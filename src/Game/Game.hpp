@@ -22,8 +22,9 @@ public:
 private:
 	void update();
 	void render(SDL_Renderer* renderer);
-
 	void reset();
+
+	bool checkCollision(const std::pair<int, int>& position) const;
 
 	int frameStep_{};
 	Uint64 lastStep_ = 0;
