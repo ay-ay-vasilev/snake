@@ -40,7 +40,6 @@ private:
 	std::pair<size_t, size_t> size_{0, 0};
 	std::pair<int, int> offset_{0, 0};
 
-	bool isMoving_{false};
 	bool isChangingDirection_{false};
 
 	eDirection direction_{eDirection::RIGHT};

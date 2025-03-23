@@ -1,13 +1,11 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-
 #include <memory>
 
-class Grid;
-class Snake;
-class UI;
+class GameObjects;
 class SDL_Renderer;
+class GameState;
 
 class Game
 {
@@ -22,16 +20,13 @@ public:
 private:
 	void update();
 	void render(SDL_Renderer* renderer);
-	void reset();
-
-	bool checkCollision(const std::pair<int, int>& position) const;
 
 	int frameStep_{};
 	Uint64 lastStep_ = 0;
+
 	bool isPaused_{false};
 
-	std::unique_ptr<Grid> grid_;
-	std::unique_ptr<Snake> snake_;
-	std::unique_ptr<UI> ui_;
+	std::unique_ptr<GameObjects> gameObjects_;
 
+	GameState* state_;
 };

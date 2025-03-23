@@ -1,27 +1,27 @@
 #include "UI.hpp"
-
 #include "../Constants/Constants.hpp"
+
+void initUIText(const constants::TextData& textData, UIText& uiText)
+{
+	uiText.x = textData.x;
+	uiText.y = textData.y;
+	uiText.scale = textData.scale;
+}
 
 void UI::init(std::pair<int, int> offset)
 {
 	auto& dataManager = constants::DataManager::getInstance();
+
 	const auto& scoreTextData = dataManager.getConstant<constants::TextData>("score_text");
-	scoreText_.x = scoreTextData.x;
-	scoreText_.y = scoreTextData.y;
-	scoreText_.scale = scoreTextData.scale;
-
 	const auto& gameStateTextData = dataManager.getConstant<constants::TextData>("game_state_text");
-	gameStateText_.x = gameStateTextData.x;
-	gameStateText_.y = gameStateTextData.y;
-	gameStateText_.scale = gameStateTextData.scale;
-
 	const auto& debugTextData = dataManager.getConstant<constants::TextData>("debug_text");
-	debugText_.x = debugTextData.x;
-	debugText_.y = debugTextData.y;
-	debugText_.scale = debugTextData.scale;
+
+	initUIText(scoreTextData, scoreText_);
+	initUIText(gameStateTextData, gameStateText_);
+	initUIText(debugTextData, debugText_);
 
 	offset_ = offset;
-	gameStateText_.text = "PAUSED";
+	gameStateText_.text = "START";
 	debugText_.text = "DEBUG";
 }
 
@@ -32,32 +32,19 @@ void UI::update()
 
 void UI::render(SDL_Renderer* renderer)
 {
-	using namespace constants;
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	SDL_SetRenderScale(renderer, scoreText_.scale, scoreText_.scale);
-	SDL_RenderDebugText(renderer,
-		(scoreText_.x + offset_.first) / scoreText_.scale,
-		(scoreText_.y + offset_.second) / scoreText_.scale,
-		scoreText_.text.c_str());
-	SDL_SetRenderScale(renderer, 1.f, 1.f);
+	renderUIText(renderer, scoreText_);
+	renderUIText(renderer, gameStateText_);
+	renderUIText(renderer, debugText_);
+}
 
-	if (isPaused_)
-	{
-		SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-		SDL_SetRenderScale(renderer, gameStateText_.scale, gameStateText_.scale);
-		SDL_RenderDebugText(renderer,
-			(gameStateText_.x + offset_.first) / gameStateText_.scale,
-			(gameStateText_.y + offset_.second) / gameStateText_.scale,
-			gameStateText_.text.c_str());
-		SDL_SetRenderScale(renderer, 1.f, 1.f);
-	}
-
+void UI::renderUIText(SDL_Renderer* renderer, const UIText& uiText)
+{
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	SDL_SetRenderScale(renderer, debugText_.scale, debugText_.scale);
+	SDL_SetRenderScale(renderer, uiText.scale, uiText.scale);
 	SDL_RenderDebugText(renderer,
-		(debugText_.x + offset_.first) / debugText_.scale,
-		(debugText_.y + offset_.second) / debugText_.scale,
-		debugText_.text.c_str());
+		(uiText.x + offset_.first) / uiText.scale,
+		(uiText.y + offset_.second) / uiText.scale,
+		uiText.text.c_str());
 	SDL_SetRenderScale(renderer, 1.f, 1.f);
 }
 
@@ -66,9 +53,9 @@ void UI::addScore(int value)
 	score_ += value;
 }
 
-void UI::setPaused(bool value)
+void UI::setGameStateText(const std::string_view& text)
 {
-	isPaused_ = value;
+	gameStateText_.text = text;
 }
 
 void UI::setDebugText(const std::string_view& text)

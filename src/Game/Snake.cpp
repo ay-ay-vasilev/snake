@@ -48,15 +48,11 @@ void Snake::render(SDL_Renderer* renderer)
 
 void Snake::setDirection(eDirection newDirection)
 {
-	if (!isMoving_) isMoving_ = true;
-	
 	directionQueue_.emplace(newDirection);
 };
 
 void Snake::move()
 {
-	if (!isMoving_) return;
-
 	std::pair<int, int> newPosition {partPositions_.front()};
 	partPositions_.pop_back();
 

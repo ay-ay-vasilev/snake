@@ -21,14 +21,16 @@ public:
 	void render(SDL_Renderer* renderer);
 
 	void addScore(int value);
-	void setPaused(bool value);
+	void setGameStateText(const std::string_view& text);
 	void setDebugText(const std::string_view& text);
 
 private:
+	void renderUIText(SDL_Renderer* renderer, const UIText& uiText);
+
 	UIText scoreText_{};
 	UIText gameStateText_{};
 	UIText debugText_{};
 	int score_{0};
-	bool isPaused_{false};
+
 	std::pair<int, int> offset_{};
 };
