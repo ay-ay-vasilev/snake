@@ -9,7 +9,7 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 	- [x] Snake collision
 	- [x] Reset game button
 	- [x] Game over state
-- [ ] 3. Add randomly generated food on the game world and its logic.
+- [x] 3. Add randomly generated food on the game world and its logic.
 - [ ] 4. Snake body collision.
 - [ ] 5. High score table.
 - [ ] 6. Multiplayer ?

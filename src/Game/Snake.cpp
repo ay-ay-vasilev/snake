@@ -30,21 +30,21 @@ void Snake::update()
 
 void Snake::render(SDL_Renderer* renderer)
 {
-	bool headDrawn = false;
-	for (const auto& part : m_partPositions)
+	for (auto part = m_partPositions.rbegin(); part < m_partPositions.rend(); ++part)
 	{
-		SDL_SetRenderDrawColor(renderer, 0, headDrawn ? 100 : 255, 0, SDL_ALPHA_OPAQUE);
-		if (!headDrawn) headDrawn = true;	
-
 		SDL_FRect rect;
 
-		rect.x = m_offset.first + part.first * m_size.first;
-		rect.y = m_offset.second + part.second * m_size.second;
+		rect.x = m_offset.first + part->first * m_size.first;
+		rect.y = m_offset.second + part->second * m_size.second;
 	
 		rect.w = m_size.first;
 		rect.h = m_size.second;
 
+		SDL_SetRenderDrawColor(renderer, 0, *part != m_partPositions.front() ? 100 : 255, 0, SDL_ALPHA_OPAQUE);
 		SDL_RenderFillRect(renderer, &rect);
+
+		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_RenderRect(renderer, &rect);
 	}
 }
 
@@ -59,6 +59,13 @@ void Snake::undoMove()
 
 	m_partPositions.emplace_back(m_prevTail.value());
 	m_partPositions.pop_front();
+}
+
+void Snake::grow()
+{
+	assert(m_prevTail.has_value());
+
+	m_partPositions.emplace_back(m_prevTail.value());
 }
 
 void Snake::move()

@@ -2,9 +2,9 @@
 
 #include "../GameObjects.hpp"
 
-GameState& changeState(GameState& currentState, GameState& newState, std::unique_ptr<GameObjects>& gameObjects)
+state::GameState& state::GameState::changeState(state::GameState& newState, std::unique_ptr<GameObjects>& gameObjects)
 {
-	currentState.onExit(gameObjects);
+	onExit(gameObjects);
 	newState.onEnter(gameObjects);
 	return newState;
 }

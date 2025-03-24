@@ -15,7 +15,8 @@ public:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	bool isCollision(const std::pair<int, int>& position) const;
+	bool isWallCollision(const std::pair<int, int>& position) const;
+	const std::pair<size_t, size_t>& getGridSize() const { return m_gridSize; }
 
 private:
 	std::pair<size_t, size_t> m_gridSize{0,0};

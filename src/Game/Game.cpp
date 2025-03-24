@@ -3,13 +3,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "GameObjects.hpp"
-#include "GameState/LoseState.hpp"
-#include "GameState/PauseState.hpp"
-#include "GameState/PlayState.hpp"
 #include "GameState/StartState.hpp"
-#include "Grid.hpp"
-#include "Snake.hpp"
-#include "../UI/UI.hpp"
 #include "../Constants/Constants.hpp"
 
 Game::Game() = default;
@@ -22,12 +16,9 @@ void Game::init()
 	m_frameStep = dataManager.getConstant<int>("frame_step");
 
 	m_gameObjects = std::make_unique<GameObjects>();
+	m_gameObjects->init();
 
-	m_gameObjects->grid = std::make_unique<Grid>();
-	m_gameObjects->snake = std::make_unique<Snake>();
-	m_gameObjects->ui = std::make_unique<UI>();
-
-	m_state = &startState;
+	m_state = &state::startState;
 	m_state->onEnter(m_gameObjects);
 }
 
@@ -69,9 +60,7 @@ void Game::render(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(renderer);
 
-	m_gameObjects->grid->render(renderer);
-	m_gameObjects->snake->render(renderer);
-	m_gameObjects->ui->render(renderer);
+	m_state->render(renderer, m_gameObjects);
 
 	SDL_RenderPresent(renderer);
 }

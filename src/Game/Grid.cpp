@@ -29,7 +29,7 @@ void Grid::render(SDL_Renderer* renderer)
 	}
 }
 
-bool Grid::isCollision(const std::pair<int, int>& position) const
+bool Grid::isWallCollision(const std::pair<int, int>& position) const
 {
 	const auto& x = std::get<0>(position);
 	const auto& y = std::get<1>(position);

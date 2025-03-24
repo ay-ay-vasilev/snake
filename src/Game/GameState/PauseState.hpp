@@ -2,16 +2,22 @@
 
 #include "GameState.hpp"
 
-class PauseState : public GameState
+class SDL_Renderer;
+
+namespace state
 {
-public:
-	PauseState() = default;
-	~PauseState() override = default;
+	class PauseState : public GameState
+	{
+	public:
+		PauseState() = default;
+		~PauseState() override = default;
 
-	GameState& update(std::unique_ptr<GameObjects>& gameObjects) override;
-	GameState& handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects) override;
-	void onEnter(std::unique_ptr<GameObjects>& gameObjects) override;
-	void onExit(std::unique_ptr<GameObjects>& gameObjects) override;
-};
+		GameState& update(std::unique_ptr<GameObjects>& gameObjects) override;
+		void render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects) override;
+		GameState& handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects) override;
+		void onEnter(std::unique_ptr<GameObjects>& gameObjects) override;
+		void onExit(std::unique_ptr<GameObjects>& gameObjects) override;
+	};
 
-static PauseState pauseState = PauseState();
+	static PauseState pauseState = PauseState();
+}

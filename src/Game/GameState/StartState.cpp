@@ -1,32 +1,30 @@
 #include "StartState.hpp"
 #include "../GameObjects.hpp"
-#include "../Grid.hpp"
-#include "../Snake.hpp"
 #include "../../UI/UI.hpp"
 #include "PauseState.hpp"
 #include "PlayState.hpp"
 #include "../../Constants/Constants.hpp"
 
-GameState& StartState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::GameState& state::StartState::update(std::unique_ptr<GameObjects>& gameObjects)
 {
-	gameObjects->ui->update();
+	gameObjects->getUI()->update();
 	return startState;
 }
 
-GameState& StartState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+state::GameState& state::StartState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
 		switch (event->key.key)
 		{
 		case SDLK_SPACE:
-			return changeState(startState, pauseState, gameObjects);
+			return changeState(pauseState, gameObjects);
 			break;
 		case SDLK_R:
-			return changeState(startState, startState, gameObjects);
+			return changeState(startState, gameObjects);
 			break;
 		default:
-			return changeState(startState, playState, gameObjects);
+			return changeState(playState, gameObjects);
 			break;
 		}
 	}
@@ -34,7 +32,12 @@ GameState& StartState::handleInput(void* appstate, SDL_Event* event, std::unique
 	return startState;
 }
 
-void StartState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
+void state::StartState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
+{
+	gameObjects->render(renderer);
+}
+
+void state::StartState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
 {
 	auto& dataManager = constants::DataManager::getInstance();
 
@@ -54,19 +57,15 @@ void StartState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
 	const std::pair<int, int> cellSize = { cellWH, cellWH };
 	const std::deque<std::pair<int, int>> snakePosition = {{4, 4},{3, 4},{2, 4},{1, 4}};
 
-	gameObjects->grid.reset();
-	gameObjects->snake.reset();
-	gameObjects->ui.reset();
+	gameObjects->reset();
+	gameObjects->init();
 
-	gameObjects->grid = std::make_unique<Grid>();
-	gameObjects->snake = std::make_unique<Snake>();
-	gameObjects->ui = std::make_unique<UI>();
+	gameObjects->getGrid()->init(gridSize, cellSize, offset);
+	gameObjects->getSnake()->init(snakePosition, cellSize, offset);
+	gameObjects->getFood()->init(cellSize, offset);
+	gameObjects->getUI()->init(offset);
 
-	gameObjects->grid->init(gridSize, cellSize, offset);
-	gameObjects->snake->init(snakePosition, cellSize, offset);
-	gameObjects->ui->init(offset);
-
-	gameObjects->ui->setGameStateText("START");
+	gameObjects->getUI()->setGameStateText("START");
 }
 
-void StartState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}
+void state::StartState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}

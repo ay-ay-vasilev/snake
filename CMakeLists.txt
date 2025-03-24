@@ -19,9 +19,11 @@ add_executable(snake_app
 	src/Game/GameState/PauseState.cpp
 	src/Game/GameState/PlayState.cpp
 	src/Game/GameState/StartState.cpp
+	src/Game/GameObjects.cpp
 	src/Game/Game.cpp
 	src/Game/Grid.cpp
 	src/Game/Snake.cpp
+	src/Game/Food.cpp
 )
 
 include(cmake/PostBuild.cmake)

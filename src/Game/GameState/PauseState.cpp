@@ -1,26 +1,30 @@
 #include "PauseState.hpp"
 #include "../GameObjects.hpp"
-#include "../../UI/UI.hpp"
 #include "PlayState.hpp"
 #include "StartState.hpp"
 
-GameState& PauseState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::GameState& state::PauseState::update(std::unique_ptr<GameObjects>& gameObjects)
 {
-	gameObjects->ui->update();
+	gameObjects->getUI()->update();
 	return pauseState;
 }
 
-GameState& PauseState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+void state::PauseState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
+{
+	gameObjects->render(renderer);
+}
+
+state::GameState& state::PauseState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
 		switch (event->key.key)
 		{
 		case SDLK_SPACE:
-			return changeState(pauseState, playState, gameObjects);
+			return changeState(playState, gameObjects);
 			break;
 		case SDLK_R:
-			return changeState(pauseState, startState, gameObjects);
+			return changeState(startState, gameObjects);
 			break;
 		default:
 			break;
@@ -30,9 +34,9 @@ GameState& PauseState::handleInput(void* appstate, SDL_Event* event, std::unique
 	return pauseState;
 }
 
-void PauseState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
+void state::PauseState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
 {
-	gameObjects->ui->setGameStateText("PAUSED");
+	gameObjects->getUI()->setGameStateText("PAUSED");
 }
 
-void PauseState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}
+void state::PauseState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}

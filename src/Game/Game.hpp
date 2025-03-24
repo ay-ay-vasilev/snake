@@ -5,7 +5,11 @@
 
 class GameObjects;
 class SDL_Renderer;
-class GameState;
+
+namespace state
+{
+	class GameState;
+}
 
 class Game
 {
@@ -24,5 +28,5 @@ private:
 	int m_frameStep{};
 	Uint64 m_lastStep = 0;
 	std::unique_ptr<GameObjects> m_gameObjects;
-	GameState* m_state;
+	state::GameState* m_state;
 };

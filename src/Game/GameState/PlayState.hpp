@@ -2,18 +2,24 @@
 
 #include "GameState.hpp"
 
-static bool checkCollision(std::unique_ptr<Grid>& grid, const std::pair<int, int>& position);
+class SDL_Renderer;
 
-class PlayState : public GameState
+namespace state
 {
-public:
-	PlayState() = default;
-	~PlayState() override = default;
+	static bool isWallCollision(std::unique_ptr<Grid>& grid, const std::pair<int, int>& position);
 
-	GameState& update(std::unique_ptr<GameObjects>& gameObjects) override;
-	GameState& handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects) override;
-	void onEnter(std::unique_ptr<GameObjects>& gameObjects) override;
-	void onExit(std::unique_ptr<GameObjects>& gameObjects) override;
-};
+	class PlayState : public GameState
+	{
+	public:
+		PlayState() = default;
+		~PlayState() override = default;
 
-static PlayState playState = PlayState();
+		GameState& update(std::unique_ptr<GameObjects>& gameObjects) override;
+		void render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects) override;
+		GameState& handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects) override;
+		void onEnter(std::unique_ptr<GameObjects>& gameObjects) override;
+		void onExit(std::unique_ptr<GameObjects>& gameObjects) override;
+	};
+
+	static PlayState playState = PlayState();
+}
