@@ -19,6 +19,11 @@ state::GameState& state::PlayState::update(std::unique_ptr<GameObjects>& gameObj
 		return changeState(loseState, gameObjects);
 	}
 
+	if (snake->isSnakeCollision(snakePos))
+	{
+		return changeState(loseState, gameObjects);
+	}
+
 	if (food->tryProcessFoodCollision(snakePos))
 	{
 		ui->addScore(1);

@@ -19,7 +19,7 @@ state::GameState& state::LoseState::handleInput(void* appstate, SDL_Event* event
 	{
 		switch (event->key.key)
 		{
-		default:
+		case SDLK_R:
 			return changeState(startState, gameObjects);
 			break;
 		}

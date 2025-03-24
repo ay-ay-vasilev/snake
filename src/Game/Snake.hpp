@@ -29,6 +29,7 @@ public:
 	void setDirection(eDirection newDirection);
 	void undoMove();
 	void grow();
+	const bool isSnakeCollision(const std::pair<int, int>& position) const;
 	inline const std::pair<int, int>& getHeadPosition() const { return m_partPositions.front(); }
 	inline const std::deque<std::pair<int, int>>& getPartPositions() const { return m_partPositions; }
 

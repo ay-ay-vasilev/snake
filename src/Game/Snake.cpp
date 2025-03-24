@@ -68,6 +68,11 @@ void Snake::grow()
 	m_partPositions.emplace_back(m_prevTail.value());
 }
 
+const bool Snake::isSnakeCollision(const std::pair<int, int>& position) const
+{
+	return (std::find(m_partPositions.begin() + 1, m_partPositions.end(), position) != m_partPositions.end());
+}
+
 void Snake::move()
 {
 	m_prevTail = m_partPositions.back();
