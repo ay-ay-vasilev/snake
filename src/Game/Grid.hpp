@@ -6,7 +6,7 @@
 class Grid
 {
 public:
-	Grid() : gridSize_(), cellSize_(), offset_() {}
+	Grid() : m_gridSize(), m_cellSize(), m_offset() {}
 
 	void init(
 		std::pair<size_t, size_t> gridSize = {0, 0},
@@ -18,7 +18,7 @@ public:
 	bool isCollision(const std::pair<int, int>& position) const;
 
 private:
-	std::pair<size_t, size_t> gridSize_{0,0};
-	std::pair<size_t, size_t> cellSize_{0,0};
-	std::pair<int, int> offset_{0,0};
+	std::pair<size_t, size_t> m_gridSize{0,0};
+	std::pair<size_t, size_t> m_cellSize{0,0};
+	std::pair<int, int> m_offset{0,0};
 };

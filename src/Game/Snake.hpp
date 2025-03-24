@@ -26,22 +26,20 @@ public:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	inline const int getDirection() const { return static_cast<int>(direction_); };
 	void setDirection(eDirection newDirection);
-
-	inline const std::pair<int, int>& getHeadPosition() const { return partPositions_.front(); }
+	void undoMove();
+	inline const std::pair<int, int>& getHeadPosition() const { return m_partPositions.front(); }
 
 private:
 	void move();
 	std::optional<eDirection> getDirectionFromQueue();
-	std::optional<eDirection> getInitialDirection();
+	std::optional<eDirection> getInitialDirection() const;
+	std::pair<int, int> getNextPosition() const;
 
-	std::deque<std::pair<int, int>> partPositions_;
-	std::pair<size_t, size_t> size_{0, 0};
-	std::pair<int, int> offset_{0, 0};
-
-	bool isChangingDirection_{false};
-
-	eDirection direction_{eDirection::RIGHT};
-	std::queue<eDirection> directionQueue_;
+	std::deque<std::pair<int, int>> m_partPositions;
+	std::pair<size_t, size_t> m_size{0, 0};
+	std::pair<int, int> m_offset{0, 0};
+	std::optional<std::pair<int, int>> m_prevTail;
+	eDirection m_direction{eDirection::RIGHT};
+	std::queue<eDirection> m_directionQueue;
 };

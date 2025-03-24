@@ -15,6 +15,10 @@ add_executable(snake_app
 	src/Constants/Constants.cpp
 	src/UI/UI.cpp
 	src/Game/GameState/GameState.cpp
+	src/Game/GameState/LoseState.cpp
+	src/Game/GameState/PauseState.cpp
+	src/Game/GameState/PlayState.cpp
+	src/Game/GameState/StartState.cpp
 	src/Game/Game.cpp
 	src/Game/Grid.cpp
 	src/Game/Snake.cpp

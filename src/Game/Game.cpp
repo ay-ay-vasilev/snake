@@ -3,7 +3,10 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "GameObjects.hpp"
-#include "GameState/GameState.hpp"
+#include "GameState/LoseState.hpp"
+#include "GameState/PauseState.hpp"
+#include "GameState/PlayState.hpp"
+#include "GameState/StartState.hpp"
 #include "Grid.hpp"
 #include "Snake.hpp"
 #include "../UI/UI.hpp"
@@ -16,16 +19,16 @@ Game::~Game() = default;
 void Game::init()
 {
 	auto& dataManager = constants::DataManager::getInstance();
-	frameStep_ = dataManager.getConstant<int>("frame_step");
+	m_frameStep = dataManager.getConstant<int>("frame_step");
 
-	gameObjects_ = std::make_unique<GameObjects>();
+	m_gameObjects = std::make_unique<GameObjects>();
 
-	gameObjects_->grid = std::make_unique<Grid>();
-	gameObjects_->snake = std::make_unique<Snake>();
-	gameObjects_->ui = std::make_unique<UI>();
+	m_gameObjects->grid = std::make_unique<Grid>();
+	m_gameObjects->snake = std::make_unique<Snake>();
+	m_gameObjects->ui = std::make_unique<UI>();
 
-	state_ = &startState;
-	state_->onEnter(gameObjects_);
+	m_state = &startState;
+	m_state->onEnter(m_gameObjects);
 }
 
 SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
@@ -36,7 +39,7 @@ SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
 	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
 		return SDL_APP_SUCCESS;
 
-	state_ = &state_->handleInput(appstate, event, gameObjects_);
+	m_state = &m_state->handleInput(appstate, event, m_gameObjects);
 
 	return SDL_APP_CONTINUE;
 }
@@ -45,10 +48,10 @@ SDL_AppResult Game::gameLoop(void* appstate, SDL_Renderer* renderer)
 {
 	const auto now = SDL_GetTicks();
 
-	while((now - lastStep_) >= frameStep_)
+	while((now - m_lastStep) >= m_frameStep)
 	{
 		update();
-		lastStep_ += frameStep_;
+		m_lastStep += m_frameStep;
 	}
 
 	render(renderer);
@@ -58,7 +61,7 @@ SDL_AppResult Game::gameLoop(void* appstate, SDL_Renderer* renderer)
 
 void Game::update()
 {
-	state_ = &state_->update(gameObjects_);
+	m_state = &m_state->update(m_gameObjects);
 }
 
 void Game::render(SDL_Renderer* renderer)
@@ -66,9 +69,9 @@ void Game::render(SDL_Renderer* renderer)
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_RenderClear(renderer);
 
-	gameObjects_->grid->render(renderer);
-	gameObjects_->snake->render(renderer);
-	gameObjects_->ui->render(renderer);
+	m_gameObjects->grid->render(renderer);
+	m_gameObjects->snake->render(renderer);
+	m_gameObjects->ui->render(renderer);
 
 	SDL_RenderPresent(renderer);
 }

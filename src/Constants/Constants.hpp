@@ -27,18 +27,16 @@ namespace constants
 		T getConstant(const std::string& key) { return std::any_cast<T>(get(key)); }
 
 	private:
-		std::unordered_map<std::string, std::any> data_;
-
 		std::any get(const std::string& key) const
 		{
-			auto it = data_.find(key);
-			return (it != data_.end()) ? it->second : std::any();
+			auto it = m_data.find(key);
+			return (it != m_data.end()) ? it->second : std::any();
 		}
 
 		template <typename T>
 		void set(const std::string& key, const T& value)
 		{
-			data_[key] = value;
+			m_data[key] = value;
 		}
 
 		template <typename T>
@@ -60,5 +58,7 @@ namespace constants
 				set<TextData>(key, newTextData);
 			}
 		}
+
+		std::unordered_map<std::string, std::any> m_data;
 	};
 }

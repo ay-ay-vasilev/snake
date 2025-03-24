@@ -16,25 +16,26 @@ void UI::init(std::pair<int, int> offset)
 	const auto& gameStateTextData = dataManager.getConstant<constants::TextData>("game_state_text");
 	const auto& debugTextData = dataManager.getConstant<constants::TextData>("debug_text");
 
-	initUIText(scoreTextData, scoreText_);
-	initUIText(gameStateTextData, gameStateText_);
-	initUIText(debugTextData, debugText_);
+	initUIText(scoreTextData, m_scoreText);
+	initUIText(gameStateTextData, m_gameStateText);
+	initUIText(debugTextData, m_debugText);
 
-	offset_ = offset;
-	gameStateText_.text = "START";
-	debugText_.text = "DEBUG";
+	m_offset = offset;
+	m_scoreText.text = "Score: " + std::to_string(m_score);
+	m_gameStateText.text = "START";
+	m_debugText.text = "DEBUG";
 }
 
 void UI::update()
 {
-	scoreText_.text = "Score: " + std::to_string(score_);
+	m_scoreText.text = "Score: " + std::to_string(m_score);
 }
 
 void UI::render(SDL_Renderer* renderer)
 {
-	renderUIText(renderer, scoreText_);
-	renderUIText(renderer, gameStateText_);
-	renderUIText(renderer, debugText_);
+	renderUIText(renderer, m_scoreText);
+	renderUIText(renderer, m_gameStateText);
+	renderUIText(renderer, m_debugText);
 }
 
 void UI::renderUIText(SDL_Renderer* renderer, const UIText& uiText)
@@ -42,23 +43,23 @@ void UI::renderUIText(SDL_Renderer* renderer, const UIText& uiText)
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 	SDL_SetRenderScale(renderer, uiText.scale, uiText.scale);
 	SDL_RenderDebugText(renderer,
-		(uiText.x + offset_.first) / uiText.scale,
-		(uiText.y + offset_.second) / uiText.scale,
+		(uiText.x + m_offset.first) / uiText.scale,
+		(uiText.y + m_offset.second) / uiText.scale,
 		uiText.text.c_str());
 	SDL_SetRenderScale(renderer, 1.f, 1.f);
 }
 
 void UI::addScore(int value)
 {
-	score_ += value;
+	m_score += value;
 }
 
 void UI::setGameStateText(const std::string_view& text)
 {
-	gameStateText_.text = text;
+	m_gameStateText.text = text;
 }
 
 void UI::setDebugText(const std::string_view& text)
 {
-	debugText_.text = text;
+	m_debugText.text = text;
 }

@@ -27,10 +27,9 @@ public:
 private:
 	void renderUIText(SDL_Renderer* renderer, const UIText& uiText);
 
-	UIText scoreText_{};
-	UIText gameStateText_{};
-	UIText debugText_{};
-	int score_{0};
-
-	std::pair<int, int> offset_{};
+	UIText m_scoreText{};
+	UIText m_gameStateText{};
+	UIText m_debugText{};
+	int m_score{0};
+	std::pair<int, int> m_offset{};
 };

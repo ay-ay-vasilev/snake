@@ -21,12 +21,8 @@ private:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	int frameStep_{};
-	Uint64 lastStep_ = 0;
-
-	bool isPaused_{false};
-
-	std::unique_ptr<GameObjects> gameObjects_;
-
-	GameState* state_;
+	int m_frameStep{};
+	Uint64 m_lastStep = 0;
+	std::unique_ptr<GameObjects> m_gameObjects;
+	GameState* m_state;
 };
