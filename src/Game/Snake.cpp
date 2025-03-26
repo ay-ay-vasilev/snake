@@ -1,6 +1,7 @@
 #include "Snake.hpp"
 
 #include <assert.h>
+#include <algorithm>
 
 bool isDirectionValid(Snake::eDirection newDirection, Snake::eDirection curDirection)
 {

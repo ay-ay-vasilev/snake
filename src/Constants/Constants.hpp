@@ -46,17 +46,22 @@ namespace constants
 				set<T>(key, it->get<T>());
 		}
 
-		template <>
-		void setFromJson<TextData>(const nlohmann::json& data, const std::string& key)
+		// Overload instead of specialization
+		void setFromJson(const nlohmann::json& data, const std::string& key, TextData*)
 		{
 			if (auto it = data.find(key); it != data.end())
 			{
 				TextData newTextData;
-				newTextData.x = data[key]["x"].get<int>();
-				newTextData.y = data[key]["y"].get<int>();
-				newTextData.scale = data[key]["scale"].get<double>();
+				newTextData.x = (*it)["x"].get<int>();
+				newTextData.y = (*it)["y"].get<int>();
+				newTextData.scale = (*it)["scale"].get<double>();
 				set<TextData>(key, newTextData);
 			}
+		}
+
+		void setFromJson(const nlohmann::json& data, const std::string& key)
+		{
+			setFromJson(data, key, static_cast<TextData*>(nullptr));
 		}
 
 		std::unordered_map<std::string, std::any> m_data;

@@ -28,8 +28,8 @@ namespace constants
 		setFromJson<int>(constantsJson, "grid_size");
 		setFromJson<int>(constantsJson, "grid_size");
 
-		setFromJson<TextData>(constantsJson, "score_text");
-		setFromJson<TextData>(constantsJson, "game_state_text");
-		setFromJson<TextData>(constantsJson, "debug_text");
+		setFromJson(constantsJson, "score_text");
+		setFromJson(constantsJson, "game_state_text");
+		setFromJson(constantsJson, "debug_text");
 	}
 }
