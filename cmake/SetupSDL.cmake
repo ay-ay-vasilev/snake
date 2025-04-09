@@ -1,14 +1,5 @@
-# Detect platform and set SDL3 path
-if(WIN32)
-	set(SDL3_PATH "${CMAKE_SOURCE_DIR}/libs/windows/SDL")
-	set(SDL3IMAGE_PATH "${CMAKE_SOURCE_DIR}/libs/windows/SDL_image")
-elseif(APPLE)
-	set(SDL3_PATH "${CMAKE_SOURCE_DIR}/libs/windows/SDL")
-	set(SDL3IMAGE_PATH "${CMAKE_SOURCE_DIR}/libs/windows/SDL_image")
-elseif(UNIX)
-	set(SDL3_PATH "${CMAKE_SOURCE_DIR}/libs/linux/SDL")
-	set(SDL3IMAGE_PATH "${CMAKE_SOURCE_DIR}/libs/linux/SDL_image")
-endif()
+set(SDL3_PATH "${CMAKE_SOURCE_DIR}/libs/SDL")
+set(SDL3IMAGE_PATH "${CMAKE_SOURCE_DIR}/libs/SDL_image")
 
 # Set CMake prefix path for SDL3
 list(APPEND CMAKE_PREFIX_PATH "${SDL3_PATH}" "${SDL3IMAGE_PATH}")

@@ -57,10 +57,5 @@ void Game::update()
 
 void Game::render(SDL_Renderer* renderer)
 {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-	SDL_RenderClear(renderer);
-
 	m_state->render(renderer, m_gameObjects);
-
-	SDL_RenderPresent(renderer);
 }

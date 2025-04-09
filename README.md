@@ -12,5 +12,14 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 - [x] 3. Add randomly generated food on the game world and its logic.
 - [x] 4. Snake body collision.
 - [ ] 5. Main menu + Options screen.
+	- [x] Implement imgui
+	- [ ] Main menu screen with imgui
+	- [ ] Options screen with imgui
+	- [ ] imgui customization (fonts, colors, textures ?)
 - [ ] 6. High score screen + table. Score serialization.
 - [ ] 7. Multiplayer ?
+
+## Additional TODO:
+
+- [ ] 1. Read about CMake presets and implement to this project.
+- [ ] 2. Write out instructions for compiling this project.

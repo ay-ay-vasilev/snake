@@ -33,4 +33,8 @@ target_link_libraries(snake_app
 		SDL3::SDL3
 		SDL3_image::SDL3_image
 		nlohmann_json::nlohmann_json
+	PUBLIC
+		imgui
 )
+
+target_include_directories(snake_app PUBLIC imgui)
