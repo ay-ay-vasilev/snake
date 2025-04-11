@@ -7,7 +7,7 @@ namespace constants
 {
 	void DataManager::LoadConstants()
 	{
-		const auto fileName = "../data/constants.json";
+		const auto fileName = "../res/data/constants.json";
 
 		std::ifstream file(fileName);
 		if (!file.is_open())

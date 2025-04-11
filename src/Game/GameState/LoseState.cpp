@@ -2,10 +2,9 @@
 #include "../GameObjects.hpp"
 #include "StartState.hpp"
 
-state::GameState& state::LoseState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::LoseState::update(std::unique_ptr<GameObjects>& gameObjects)
 {
-	gameObjects->getUI()->update();
-	return loseState;
+	return state::StateType::eLose;
 }
 
 void state::LoseState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
@@ -13,25 +12,25 @@ void state::LoseState::render(SDL_Renderer* renderer, std::unique_ptr<GameObject
 	gameObjects->render(renderer);
 }
 
-state::GameState& state::LoseState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::LoseState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
 		switch (event->key.key)
 		{
 		case SDLK_R:
-			return changeState(startState, gameObjects);
+			return state::StateType::eStart;
 			break;
 		}
 	}
 
-	return loseState;
+	return state::StateType::eLose;
 }
 
 void state::LoseState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
 {
 	gameObjects->getSnake()->undoMove();
-	gameObjects->getUI()->setGameStateText("LOSE");
+	CreateMessage(ObserverMessageType::eGameState, std::string("LOSE"));
 }
 
 void state::LoseState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}

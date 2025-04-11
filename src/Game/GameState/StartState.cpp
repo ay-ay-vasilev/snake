@@ -1,35 +1,33 @@
 #include "StartState.hpp"
 #include "../GameObjects.hpp"
-#include "../../UI/UI.hpp"
 #include "PauseState.hpp"
 #include "PlayState.hpp"
 #include "../../Constants/Constants.hpp"
 
-state::GameState& state::StartState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::StartState::update(std::unique_ptr<GameObjects>& gameObjects)
 {
-	gameObjects->getUI()->update();
-	return startState;
+	return StateType::eStart;
 }
 
-state::GameState& state::StartState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::StartState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
 		switch (event->key.key)
 		{
 		case SDLK_SPACE:
-			return changeState(pauseState, gameObjects);
+			return StateType::ePause;
 			break;
 		case SDLK_R:
-			return changeState(startState, gameObjects);
+			return StateType::eStart;
 			break;
 		default:
-			return changeState(playState, gameObjects);
+			return StateType::ePlay;
 			break;
 		}
 	}
 
-	return startState;
+	return StateType::eStart;
 }
 
 void state::StartState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
@@ -63,9 +61,8 @@ void state::StartState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
 	gameObjects->getGrid()->init(gridSize, cellSize, offset);
 	gameObjects->getSnake()->init(snakePosition, cellSize, offset);
 	gameObjects->getFood()->init(cellSize, offset);
-	gameObjects->getUI()->init(offset);
 
-	gameObjects->getUI()->setGameStateText("START");
+	CreateMessage(ObserverMessageType::eGameState, std::string("START"));
 }
 
 void state::StartState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}
