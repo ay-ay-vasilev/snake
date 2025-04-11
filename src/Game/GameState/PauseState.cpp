@@ -3,17 +3,17 @@
 #include "PlayState.hpp"
 #include "StartState.hpp"
 
-state::StateType state::PauseState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::PauseState::update()
 {
 	return state::StateType::ePause;
 }
 
-void state::PauseState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
+void state::PauseState::render(SDL_Renderer* renderer)
 {
-	gameObjects->render(renderer);
+	m_gameObjects->render(renderer);
 }
 
-state::StateType state::PauseState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::PauseState::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
@@ -33,9 +33,9 @@ state::StateType state::PauseState::handleInput(void* appstate, SDL_Event* event
 	return state::StateType::ePause;
 }
 
-void state::PauseState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
+void state::PauseState::onEnter()
 {
-	CreateMessage(ObserverMessageType::eGameState, std::string("PAUSED"));
+	createMessage(ObserverMessageType::eGameState, std::string("PAUSED"));
 }
 
-void state::PauseState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}
+void state::PauseState::onExit() {}

@@ -28,12 +28,11 @@ private:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	void changeState(std::shared_ptr<state::GameState>& newState, std::unique_ptr<GameObjects>& gameObjects);
+	void changeState(std::shared_ptr<state::GameState>& newState);
 	std::shared_ptr<state::GameState>& getState(state::StateType type);
 
 	int m_frameStep{};
 	Uint64 m_lastStep = 0;
-	std::unique_ptr<GameObjects> m_gameObjects; // remove
 	std::shared_ptr<state::GameState> m_state;
 	std::unordered_map<state::StateType, std::shared_ptr<state::GameState>> m_states;
 };

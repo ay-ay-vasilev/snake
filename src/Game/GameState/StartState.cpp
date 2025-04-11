@@ -4,12 +4,12 @@
 #include "PlayState.hpp"
 #include "../../Constants/Constants.hpp"
 
-state::StateType state::StartState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::StartState::update()
 {
 	return StateType::eStart;
 }
 
-state::StateType state::StartState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::StartState::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
@@ -30,12 +30,12 @@ state::StateType state::StartState::handleInput(void* appstate, SDL_Event* event
 	return StateType::eStart;
 }
 
-void state::StartState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
+void state::StartState::render(SDL_Renderer* renderer)
 {
-	gameObjects->render(renderer);
+	m_gameObjects->render(renderer);
 }
 
-void state::StartState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
+void state::StartState::onEnter()
 {
 	auto& dataManager = constants::DataManager::getInstance();
 
@@ -55,14 +55,14 @@ void state::StartState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
 	const std::pair<int, int> cellSize = { cellWH, cellWH };
 	const std::deque<std::pair<int, int>> snakePosition = {{4, 4},{3, 4},{2, 4},{1, 4}};
 
-	gameObjects->reset();
-	gameObjects->init();
+	m_gameObjects->reset();
+	m_gameObjects->init();
 
-	gameObjects->getGrid()->init(gridSize, cellSize, offset);
-	gameObjects->getSnake()->init(snakePosition, cellSize, offset);
-	gameObjects->getFood()->init(cellSize, offset);
+	m_gameObjects->getGrid()->init(gridSize, cellSize, offset);
+	m_gameObjects->getSnake()->init(snakePosition, cellSize, offset);
+	m_gameObjects->getFood()->init(cellSize, offset);
 
-	CreateMessage(ObserverMessageType::eGameState, std::string("START"));
+	createMessage(ObserverMessageType::eGameState, std::string("START"));
 }
 
-void state::StartState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}
+void state::StartState::onExit() {}

@@ -10,9 +10,9 @@ class ISubject
 public:
 	ISubject() = default;
 	virtual ~ISubject() = default;
-	virtual void Attach(IObserver* observer) = 0;
-	virtual void Detach(IObserver* observer) = 0;
-	virtual void Notify() = 0;
+	virtual void attach(IObserver* observer) = 0;
+	virtual void detach(IObserver* observer) = 0;
+	virtual void notify() = 0;
 };
 
 class Subject : public ISubject
@@ -20,24 +20,24 @@ class Subject : public ISubject
 public:
 	virtual ~Subject() override {}
 
-	void Attach(IObserver* observer) override
+	void attach(IObserver* observer) override
 	{
 		m_observers.emplace_back(observer);
 	}
 
-	void Detach(IObserver* observer) override
+	void detach(IObserver* observer) override
 	{
 		m_observers.remove(observer);
 	}
 
-	void CreateMessage(ObserverMessageType type, std::any value)
+	void createMessage(ObserverMessageType type, std::any value)
 	{
 		m_message = {type, value};
-		Notify();
+		notify();
 	}
 
 private:
-	void Notify() override
+	void notify() override
 	{
 		for (const auto observer : m_observers)
 			observer->getNotified(m_message);

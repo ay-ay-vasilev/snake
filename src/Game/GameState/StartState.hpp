@@ -15,10 +15,10 @@ namespace state
 		};
 		~StartState() override = default;
 
-		StateType update(std::unique_ptr<GameObjects>& gameObjects) override;
-		void render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects) override;
-		StateType handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects) override;
-		void onEnter(std::unique_ptr<GameObjects>& gameObjects) override;
-		void onExit(std::unique_ptr<GameObjects>& gameObjects) override;
+		StateType update() override;
+		void render(SDL_Renderer* renderer) override;
+		StateType handleInput(void* appstate, SDL_Event* event) override;
+		void onEnter() override;
+		void onExit() override;
 	};
 }

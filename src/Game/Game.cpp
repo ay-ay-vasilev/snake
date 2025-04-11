@@ -26,20 +26,22 @@ void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 	m_states[state::StateType::ePause] = std::make_shared<state::PauseState>();
 	m_states[state::StateType::eLose]  = std::make_shared<state::LoseState>();
 
+	auto gameObjects = std::make_shared<GameObjects>();
+	gameObjects->init();
 	for (auto& state : m_states)
-		state.second->Attach(&uiManager);
+	{
+		state.second->attach(&uiManager);
+		state.second->setGameObjects(gameObjects);
+	}
 
 	auto& dataManager = constants::DataManager::getInstance();
 	m_frameStep = dataManager.getConstant<int>("frame_step");
 
 	uiManager.init(window, renderer);
 
-	m_gameObjects = std::make_unique<GameObjects>();
-	m_gameObjects->init();
-
 	m_state = getState(state::StateType::eStart);
-	m_state->Attach(&uiManager);
-	m_state->onEnter(m_gameObjects);
+	m_state->attach(&uiManager);
+	m_state->onEnter();
 }
 
 SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
@@ -50,9 +52,9 @@ SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
 	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
 		return SDL_APP_SUCCESS;
 
-	if (auto newStateType = m_state->handleInput(appstate, event, m_gameObjects); newStateType != m_state->getStateType())
+	if (auto newStateType = m_state->handleInput(appstate, event); newStateType != m_state->getStateType())
 	{
-		changeState(getState(newStateType), m_gameObjects);
+		changeState(getState(newStateType));
 	}
 
 	uiManager.handleInput(appstate, event);
@@ -85,23 +87,23 @@ void Game::shutdown()
 
 void Game::update()
 {
-	if (auto newStateType = m_state->update(m_gameObjects); newStateType != m_state->getStateType())
+	if (auto newStateType = m_state->update(); newStateType != m_state->getStateType())
 	{
-		changeState(getState(newStateType), m_gameObjects);
+		changeState(getState(newStateType));
 	}
 }
 
 void Game::render(SDL_Renderer* renderer)
 {
-	m_state->render(renderer, m_gameObjects);
+	m_state->render(renderer);
 }
 
-void Game::changeState(std::shared_ptr<state::GameState>& newState, std::unique_ptr<GameObjects>& gameObjects)
+void Game::changeState(std::shared_ptr<state::GameState>& newState)
 {
 	if (m_state)
-		m_state->onExit(gameObjects);
+		m_state->onExit();
 	
-	newState->onEnter(gameObjects);
+	newState->onEnter();
 	m_state = newState;
 }
 

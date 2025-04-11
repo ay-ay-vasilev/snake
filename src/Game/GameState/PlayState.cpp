@@ -4,13 +4,13 @@
 #include "PauseState.hpp"
 #include "StartState.hpp"
 
-state::StateType state::PlayState::update(std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::PlayState::update()
 {
-	const auto& grid = gameObjects->getGrid();
-	const auto& snake = gameObjects->getSnake();
-	const auto& food = gameObjects->getFood();
+	const auto& grid = m_gameObjects->getGrid();
+	const auto& snake = m_gameObjects->getSnake();
+	const auto& food = m_gameObjects->getFood();
 
-	gameObjects->update();
+	m_gameObjects->update();
 
 	const auto& snakePos = snake->getHeadPosition();
 	if (grid->isWallCollision(snakePos))
@@ -25,7 +25,7 @@ state::StateType state::PlayState::update(std::unique_ptr<GameObjects>& gameObje
 
 	if (food->tryProcessFoodCollision(snakePos))
 	{
-		CreateMessage(ObserverMessageType::eScore, 1);
+		createMessage(ObserverMessageType::eScore, 1);
 		snake->grow();
 	}
 
@@ -35,12 +35,12 @@ state::StateType state::PlayState::update(std::unique_ptr<GameObjects>& gameObje
 	return state::StateType::ePlay;
 }
 
-void state::PlayState::render(SDL_Renderer* renderer, std::unique_ptr<GameObjects>& gameObjects)
+void state::PlayState::render(SDL_Renderer* renderer)
 {
-	gameObjects->render(renderer);
+	m_gameObjects->render(renderer);
 }
 
-state::StateType state::PlayState::handleInput(void* appstate, SDL_Event* event, std::unique_ptr<GameObjects>& gameObjects)
+state::StateType state::PlayState::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
@@ -63,19 +63,19 @@ state::StateType state::PlayState::handleInput(void* appstate, SDL_Event* event,
 		{
 		case SDLK_W:
 		case SDLK_UP:
-			gameObjects->getSnake()->setDirection(Snake::eDirection::UP);
+			m_gameObjects->getSnake()->setDirection(Snake::eDirection::UP);
 			break;
 		case SDLK_D:
 		case SDLK_RIGHT:
-			gameObjects->getSnake()->setDirection(Snake::eDirection::RIGHT);
+			m_gameObjects->getSnake()->setDirection(Snake::eDirection::RIGHT);
 			break;
 		case SDLK_S:
 		case SDLK_DOWN:
-			gameObjects->getSnake()->setDirection(Snake::eDirection::DOWN);
+			m_gameObjects->getSnake()->setDirection(Snake::eDirection::DOWN);
 			break;
 		case SDLK_A:
 		case SDLK_LEFT:
-			gameObjects->getSnake()->setDirection(Snake::eDirection::LEFT);
+			m_gameObjects->getSnake()->setDirection(Snake::eDirection::LEFT);
 			break;
 		
 		default:
@@ -86,9 +86,9 @@ state::StateType state::PlayState::handleInput(void* appstate, SDL_Event* event,
 	return state::StateType::ePlay;
 }
 
-void state::PlayState::onEnter(std::unique_ptr<GameObjects>& gameObjects)
+void state::PlayState::onEnter()
 {
-	CreateMessage(ObserverMessageType::eGameState, std::string("PLAY"));
+	createMessage(ObserverMessageType::eGameState, std::string("PLAY"));
 }
 
-void state::PlayState::onExit(std::unique_ptr<GameObjects>& gameObjects) {}
+void state::PlayState::onExit() {}

@@ -10,11 +10,10 @@ project(snake
 
 include(cmake/SetupLibs.cmake)
 
-add_executable(snake_app
+set(SOURCE
 	src/main.cpp
 	src/Constants/Constants.cpp
 	src/UI/UI.cpp
-	src/Game/GameState/GameState.cpp
 	src/Game/GameState/LoseState.cpp
 	src/Game/GameState/PauseState.cpp
 	src/Game/GameState/PlayState.cpp
@@ -24,6 +23,26 @@ add_executable(snake_app
 	src/Game/Grid.cpp
 	src/Game/Snake.cpp
 	src/Game/Food.cpp
+)
+
+set(HEADERS
+	src/Constants/Constants.hpp
+	src/UI/UI.hpp
+	src/Game/GameState/GameState.hpp
+	src/Game/GameState/LoseState.hpp
+	src/Game/GameState/PauseState.hpp
+	src/Game/GameState/PlayState.hpp
+	src/Game/GameState/StartState.hpp
+	src/Game/GameObjects.hpp
+	src/Game/Game.hpp
+	src/Game/Grid.hpp
+	src/Game/Snake.hpp
+	src/Game/Food.hpp
+)
+
+add_executable(snake_app
+	${SOURCE}
+	${HEADERS}
 )
 
 include(cmake/PostBuild.cmake)

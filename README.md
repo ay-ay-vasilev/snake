@@ -23,4 +23,4 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 
 - [ ] 1. Read about CMake presets and implement to this project.
 - [ ] 2. Write out instructions for compiling this project.
-- [ ] 3. Refactor GameObjects
+- [x] 3. Refactor GameObjects
