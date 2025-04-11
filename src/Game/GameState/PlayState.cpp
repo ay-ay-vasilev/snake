@@ -1,10 +1,10 @@
 #include "PlayState.hpp"
-#include "../GameObjects.hpp"
+#include "../GameObjects/GameObjects.hpp"
 #include "LoseState.hpp"
 #include "PauseState.hpp"
 #include "StartState.hpp"
 
-state::StateType state::PlayState::update()
+std::optional<state::StateType> state::PlayState::update()
 {
 	const auto& grid = m_gameObjects->getGrid();
 	const auto& snake = m_gameObjects->getSnake();
@@ -32,7 +32,7 @@ state::StateType state::PlayState::update()
 	if (food->getFoodCount() < 1)
 		food->spawnFood(grid->getGridSize(), {snake->getPartPositions()});
 
-	return state::StateType::ePlay;
+	return std::nullopt;
 }
 
 void state::PlayState::render(SDL_Renderer* renderer)
@@ -40,7 +40,7 @@ void state::PlayState::render(SDL_Renderer* renderer)
 	m_gameObjects->render(renderer);
 }
 
-state::StateType state::PlayState::handleInput(void* appstate, SDL_Event* event)
+std::optional<state::StateType> state::PlayState::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
@@ -83,7 +83,7 @@ state::StateType state::PlayState::handleInput(void* appstate, SDL_Event* event)
 		}
 	}
 
-	return state::StateType::ePlay;
+	return std::nullopt;
 }
 
 void state::PlayState::onEnter()

@@ -2,12 +2,11 @@
 
 #include <SDL3_image/SDL_image.h>
 
-#include "GameObjects.hpp"
-#include "GameState/GameState.hpp"
-#include "GameState/StartState.hpp"
-#include "GameState/PlayState.hpp"
-#include "GameState/PauseState.hpp"
-#include "GameState/LoseState.hpp"
+#include "../Scenes/Scene.hpp"
+#include "../Scenes/GameplayScene.hpp"
+#include "../Scenes/MainMenuScene.hpp"
+#include "../Scenes/OptionsScene.hpp"
+
 #include "../UI/UI.hpp"
 #include "../Constants/Constants.hpp"
 
@@ -15,33 +14,23 @@ static ui::UI uiManager;
 
 Game::Game() = default;
 
-Game::~Game()
-{
-};
+Game::~Game() = default;
 
 void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 {
-	m_states[state::StateType::eStart] = std::make_shared<state::StartState>();
-	m_states[state::StateType::ePlay]  = std::make_shared<state::PlayState>();
-	m_states[state::StateType::ePause] = std::make_shared<state::PauseState>();
-	m_states[state::StateType::eLose]  = std::make_shared<state::LoseState>();
+	uiManager.init(window, renderer);
 
-	auto gameObjects = std::make_shared<GameObjects>();
-	gameObjects->init();
-	for (auto& state : m_states)
-	{
-		state.second->attach(&uiManager);
-		state.second->setGameObjects(gameObjects);
-	}
+	m_scenes[scene::SceneType::eGameplay] = std::make_shared<scene::GameplayScene>();
+	m_scenes[scene::SceneType::eMainMenu]  = std::make_shared<scene::MainMenuScene>();
+	m_scenes[scene::SceneType::eOptions] = std::make_shared<scene::OptionsScene>();
+	
+	for (auto& scene : m_scenes)
+		scene.second->init(uiManager);
 
 	auto& dataManager = constants::DataManager::getInstance();
 	m_frameStep = dataManager.getConstant<int>("frame_step");
 
-	uiManager.init(window, renderer);
-
-	m_state = getState(state::StateType::eStart);
-	m_state->attach(&uiManager);
-	m_state->onEnter();
+	changeScene(scene::SceneType::eGameplay);
 }
 
 SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
@@ -52,9 +41,9 @@ SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
 	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
 		return SDL_APP_SUCCESS;
 
-	if (auto newStateType = m_state->handleInput(appstate, event); newStateType != m_state->getStateType())
+	if (auto next = m_currentScene->handleInput(appstate, event))
 	{
-		changeState(getState(newStateType));
+		changeScene(*next);
 	}
 
 	uiManager.handleInput(appstate, event);
@@ -87,27 +76,20 @@ void Game::shutdown()
 
 void Game::update()
 {
-	if (auto newStateType = m_state->update(); newStateType != m_state->getStateType())
-	{
-		changeState(getState(newStateType));
-	}
+	m_currentScene->update();
 }
 
 void Game::render(SDL_Renderer* renderer)
 {
-	m_state->render(renderer);
+	m_currentScene->render(renderer);
 }
 
-void Game::changeState(std::shared_ptr<state::GameState>& newState)
+void Game::changeScene(scene::SceneType type)
 {
-	if (m_state)
-		m_state->onExit();
-	
-	newState->onEnter();
-	m_state = newState;
-}
+	if (m_currentScene) {
+		m_currentScene->onExit();
+	}
 
-std::shared_ptr<state::GameState>& Game::getState(state::StateType type)
-{
-	return m_states[type];
+	m_currentScene = m_scenes[type];
+	m_currentScene->onEnter();
 }

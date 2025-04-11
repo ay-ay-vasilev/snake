@@ -1,10 +1,10 @@
 #include "LoseState.hpp"
-#include "../GameObjects.hpp"
+#include "../GameObjects/GameObjects.hpp"
 #include "StartState.hpp"
 
-state::StateType state::LoseState::update()
+std::optional<state::StateType> state::LoseState::update()
 {
-	return state::StateType::eLose;
+	return std::nullopt;
 }
 
 void state::LoseState::render(SDL_Renderer* renderer)
@@ -12,7 +12,7 @@ void state::LoseState::render(SDL_Renderer* renderer)
 	m_gameObjects->render(renderer);
 }
 
-state::StateType state::LoseState::handleInput(void* appstate, SDL_Event* event)
+std::optional<state::StateType> state::LoseState::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
@@ -24,7 +24,7 @@ state::StateType state::LoseState::handleInput(void* appstate, SDL_Event* event)
 		}
 	}
 
-	return state::StateType::eLose;
+	return std::nullopt;
 }
 
 void state::LoseState::onEnter()

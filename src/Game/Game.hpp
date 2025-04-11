@@ -7,10 +7,10 @@
 class GameObjects;
 class SDL_Renderer;
 
-namespace state
+namespace scene
 {
-	class GameState;
-	enum class StateType;
+	class Scene;
+	enum class SceneType;
 }
 
 class Game
@@ -28,11 +28,11 @@ private:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	void changeState(std::shared_ptr<state::GameState>& newState);
-	std::shared_ptr<state::GameState>& getState(state::StateType type);
+	void changeScene(scene::SceneType type);
 
 	int m_frameStep{};
 	Uint64 m_lastStep = 0;
-	std::shared_ptr<state::GameState> m_state;
-	std::unordered_map<state::StateType, std::shared_ptr<state::GameState>> m_states;
+
+	std::unordered_map<scene::SceneType, std::shared_ptr<scene::Scene>> m_scenes;
+	std::shared_ptr<scene::Scene> m_currentScene;
 };

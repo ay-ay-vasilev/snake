@@ -15,9 +15,9 @@ namespace state
 		};
 		~StartState() override = default;
 
-		StateType update() override;
+		std::optional<StateType> update() override;
 		void render(SDL_Renderer* renderer) override;
-		StateType handleInput(void* appstate, SDL_Event* event) override;
+		std::optional<StateType> handleInput(void* appstate, SDL_Event* event) override;
 		void onEnter() override;
 		void onExit() override;
 	};

@@ -1,15 +1,15 @@
 #include "StartState.hpp"
-#include "../GameObjects.hpp"
+#include "../GameObjects/GameObjects.hpp"
 #include "PauseState.hpp"
 #include "PlayState.hpp"
 #include "../../Constants/Constants.hpp"
 
-state::StateType state::StartState::update()
+std::optional<state::StateType> state::StartState::update()
 {
-	return StateType::eStart;
+	return std::nullopt;
 }
 
-state::StateType state::StartState::handleInput(void* appstate, SDL_Event* event)
+std::optional<state::StateType> state::StartState::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP)
 	{
@@ -27,7 +27,7 @@ state::StateType state::StartState::handleInput(void* appstate, SDL_Event* event
 		}
 	}
 
-	return StateType::eStart;
+	return std::nullopt;
 }
 
 void state::StartState::render(SDL_Renderer* renderer)
