@@ -7,7 +7,6 @@
 #include "../Scenes/MainMenuScene.hpp"
 #include "../Scenes/OptionsScene.hpp"
 
-#include "../UI/UI.hpp"
 #include "../Constants/Constants.hpp"
 
 Game::Game() = default;
