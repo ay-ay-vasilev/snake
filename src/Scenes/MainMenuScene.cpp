@@ -2,7 +2,7 @@
 
 #include "../UI/UI.hpp"
 
-void scene::MainMenuScene::init(ui::UI& uiManager)
+void scene::MainMenuScene::init(SDL_Window* window, SDL_Renderer* renderer)
 {
 	
 }
@@ -13,6 +13,11 @@ void scene::MainMenuScene::update()
 }
 
 void scene::MainMenuScene::render(SDL_Renderer* renderer)
+{
+
+}
+
+void scene::MainMenuScene::shutdown()
 {
 
 }

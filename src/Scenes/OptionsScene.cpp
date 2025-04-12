@@ -2,7 +2,7 @@
 
 #include "../UI/UI.hpp"
 
-void scene::OptionsScene::init(ui::UI& uiManager)
+void scene::OptionsScene::init(SDL_Window* window, SDL_Renderer* renderer)
 {
 	
 }
@@ -13,6 +13,11 @@ void scene::OptionsScene::update()
 }
 
 void scene::OptionsScene::render(SDL_Renderer* renderer)
+{
+
+}
+
+void scene::OptionsScene::shutdown()
 {
 
 }

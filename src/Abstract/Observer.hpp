@@ -5,7 +5,8 @@
 enum class ObserverMessageType
 {
 	eNone,
-	eScore,
+	eAddScore,
+	eClearScore,
 	eGameState
 };
 

@@ -5,7 +5,10 @@
 
 #include "../Abstract/Observer.hpp"
 
-struct ImFont;
+namespace constants
+{
+	struct TextData;
+}
 
 namespace ui
 {
@@ -17,33 +20,24 @@ namespace ui
 		std::string text;
 	};
 
+	void initUIText(const constants::TextData& textData, ui::UIText& uiText);
+
 	class UI : public IObserver
 	{
 	public:
 		UI() {}
+		virtual ~UI() {}
 
-		void init(SDL_Window* window, SDL_Renderer* renderer);
-		void handleInput(void* appstate, SDL_Event* event);
-		void update();
-		void preRender(SDL_Renderer* renderer);
-		void postRender(SDL_Renderer* renderer);
-		void shutdown();
+		virtual void init(SDL_Window* window, SDL_Renderer* renderer);
+		virtual void handleInput(void* appstate, SDL_Event* event);
+		virtual void update();
+		virtual void preRender(SDL_Renderer* renderer);
+		virtual void postRender(SDL_Renderer* renderer);
+		virtual void shutdown();
 
-		void addScore(int value);
-		void setGameStateText(const std::string_view& text);
-		void setDebugText(const std::string_view& text);
-
-	private:
-		void getNotified(const ObserverMessage& message) override;
-
+	protected:
 		void renderUIText(SDL_Renderer* renderer, const UIText& uiText);
 
-		ImFont* regularFont;
-
-		UIText m_scoreText{};
-		UIText m_gameStateText{};
-		UIText m_debugText{};
-		int m_score{0};
 		std::pair<int, int> m_windowSize{};
 		std::pair<int, int> m_offset{};
 	};

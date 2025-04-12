@@ -63,6 +63,7 @@ void state::StartState::onEnter()
 	m_gameObjects->getFood()->init(cellSize, offset);
 
 	createMessage(ObserverMessageType::eGameState, std::string("START"));
+	createMessage(ObserverMessageType::eClearScore, std::nullopt);
 }
 
 void state::StartState::onExit() {}

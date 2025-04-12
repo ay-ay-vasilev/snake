@@ -24,9 +24,10 @@ namespace scene
 	public:
 		Scene() {};
 		virtual ~Scene() = default;
-		virtual void init(ui::UI& uiManager) = 0;
+		virtual void init(SDL_Window* window, SDL_Renderer* renderer) = 0;
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
+		virtual void shutdown() = 0;
 		virtual std::optional<SceneType> handleInput(void* appstate, SDL_Event* event) = 0;
 		virtual void onEnter() = 0;
 		virtual void onExit() = 0;

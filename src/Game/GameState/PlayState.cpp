@@ -25,7 +25,7 @@ std::optional<state::StateType> state::PlayState::update()
 
 	if (food->tryProcessFoodCollision(snakePos))
 	{
-		createMessage(ObserverMessageType::eScore, 1);
+		createMessage(ObserverMessageType::eAddScore, 1);
 		snake->grow();
 	}
 

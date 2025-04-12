@@ -10,22 +10,18 @@
 #include "../UI/UI.hpp"
 #include "../Constants/Constants.hpp"
 
-static ui::UI uiManager;
-
 Game::Game() = default;
 
 Game::~Game() = default;
 
 void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 {
-	uiManager.init(window, renderer);
-
 	m_scenes[scene::SceneType::eGameplay] = std::make_shared<scene::GameplayScene>();
 	m_scenes[scene::SceneType::eMainMenu]  = std::make_shared<scene::MainMenuScene>();
 	m_scenes[scene::SceneType::eOptions] = std::make_shared<scene::OptionsScene>();
 	
 	for (auto& scene : m_scenes)
-		scene.second->init(uiManager);
+		scene.second->init(window, renderer);
 
 	auto& dataManager = constants::DataManager::getInstance();
 	m_frameStep = dataManager.getConstant<int>("frame_step");
@@ -46,8 +42,6 @@ SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
 		changeScene(*next);
 	}
 
-	uiManager.handleInput(appstate, event);
-
 	return SDL_APP_CONTINUE;
 }
 
@@ -58,20 +52,17 @@ SDL_AppResult Game::gameLoop(void* appstate, SDL_Renderer* renderer)
 	while((now - m_lastStep) >= m_frameStep)
 	{
 		update();
-		uiManager.update();
 		m_lastStep += m_frameStep;
 	}
-
-	uiManager.preRender(renderer);
 	render(renderer);
-	uiManager.postRender(renderer);
 
 	return SDL_APP_CONTINUE;
 }
 
 void Game::shutdown()
 {
-	uiManager.shutdown();
+	for (auto& scene : m_scenes)
+		scene.second->shutdown();
 }
 
 void Game::update()

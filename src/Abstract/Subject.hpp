@@ -4,14 +4,15 @@
 #include <list>
 #include <string>
 #include <any>
+#include <memory>
 
 class ISubject
 {
 public:
 	ISubject() = default;
 	virtual ~ISubject() = default;
-	virtual void attach(IObserver* observer) = 0;
-	virtual void detach(IObserver* observer) = 0;
+	virtual void attach(std::shared_ptr<IObserver> observer) = 0;
+	virtual void detach(std::shared_ptr<IObserver> observer) = 0;
 	virtual void notify() = 0;
 };
 
@@ -20,12 +21,12 @@ class Subject : public ISubject
 public:
 	virtual ~Subject() override {}
 
-	void attach(IObserver* observer) override
+	void attach(std::shared_ptr<IObserver> observer) override
 	{
 		m_observers.emplace_back(observer);
 	}
 
-	void detach(IObserver* observer) override
+	void detach(std::shared_ptr<IObserver> observer) override
 	{
 		m_observers.remove(observer);
 	}
@@ -43,6 +44,6 @@ private:
 			observer->getNotified(m_message);
 	}
 
-	std::list<IObserver*> m_observers;
+	std::list<std::shared_ptr<IObserver>> m_observers;
 	ObserverMessage m_message {ObserverMessageType::eNone};
 };

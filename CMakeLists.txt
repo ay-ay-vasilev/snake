@@ -13,6 +13,7 @@ include(cmake/SetupLibs.cmake)
 set(SOURCE
 	src/main.cpp
 	src/Constants/Constants.cpp
+	src/UI/GameplaySceneUI.cpp
 	src/UI/UI.cpp
 	src/Scenes/GameplayScene.cpp
 	src/Scenes/MainMenuScene.cpp
@@ -30,6 +31,7 @@ set(SOURCE
 
 set(HEADERS
 	src/Constants/Constants.hpp
+	src/UI/GameplaySceneUI.hpp
 	src/UI/UI.hpp
 	src/Scenes/Scene.hpp
 	src/Scenes/GameplayScene.hpp

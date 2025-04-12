@@ -13,6 +13,7 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 - [x] 4. Snake body collision.
 - [ ] 5. Main menu + Options screen.
 	- [x] Implement imgui
+    - [ ] Refactor UI
 	- [ ] Main menu screen with imgui
 	- [ ] Options screen with imgui
 	- [ ] imgui customization (fonts, colors, textures ?)
