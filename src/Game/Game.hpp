@@ -7,6 +7,11 @@
 class GameObjects;
 class SDL_Renderer;
 
+namespace ui
+{
+	class UIManager;
+}
+
 namespace scene
 {
 	class Scene;
@@ -35,4 +40,5 @@ private:
 
 	std::unordered_map<scene::SceneType, std::shared_ptr<scene::Scene>> m_scenes;
 	std::shared_ptr<scene::Scene> m_currentScene;
+	std::unique_ptr<ui::UIManager> m_uiManager;
 };

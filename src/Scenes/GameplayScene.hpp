@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Scene.hpp"
+
 #include <memory>
 #include <unordered_map>
 
@@ -12,6 +13,7 @@ namespace state
 
 namespace ui
 {
+	class UIManager;
 	class GameplaySceneUI;
 }
 
@@ -21,7 +23,8 @@ namespace scene
 	{
 		public:
 			~GameplayScene() override = default;
-			void init(SDL_Window* window, SDL_Renderer* renderer) override;
+			void init() override;
+			void setSceneUI(std::unique_ptr<ui::UIManager>& uiManager) override;
 			void update() override;
 			void render(SDL_Renderer* renderer) override;
 			void shutdown() override;
@@ -30,8 +33,6 @@ namespace scene
 			void onExit() override;
 
 		private:
-			std::shared_ptr<ui::GameplaySceneUI> m_sceneUI;
-
 			void changeState(state::StateType newState);
 
 			std::unordered_map<state::StateType, std::shared_ptr<state::GameState>> m_states;

@@ -8,7 +8,8 @@ namespace scene
 	{
 		public:
 			~OptionsScene() override = default;
-			void init(SDL_Window* window, SDL_Renderer* renderer) override;
+			void init() override;
+			void setSceneUI(std::unique_ptr<ui::UIManager>& uiManager) override;
 			void update() override;
 			void render(SDL_Renderer* renderer) override;
 			void shutdown() override;

@@ -13,7 +13,7 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 - [x] 4. Snake body collision.
 - [ ] 5. Main menu + Options screen.
 	- [x] Implement imgui
-    - [ ] Refactor UI
+    - [x] Refactor UI
 	- [ ] Main menu screen with imgui
 	- [ ] Options screen with imgui
 	- [ ] imgui customization (fonts, colors, textures ?)
@@ -25,3 +25,19 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 - [ ] 1. Read about CMake presets and implement to this project.
 - [ ] 2. Write out instructions for compiling this project.
 - [x] 3. Refactor GameObjects
+
+Cheat sheet on how to enable clangd (C++ language server):
+
+Add this to CMakeLists.txt:
+`set(CMAKE_EXPORT_COMPILE_COMMANDS ON)`
+
+Run this:
+`cmake -S . -G "Unix Makefiles" -B cmake`
+
+Then create a `clangd` file in the root project folder with the following contents:
+```
+CompileFlags:
+    CompilationDatabase: "cmake"
+```
+
+The cmake command needs to be run every time a new source file is added/removed from the project.

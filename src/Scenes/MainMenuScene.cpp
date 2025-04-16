@@ -1,10 +1,13 @@
 #include "MainMenuScene.hpp"
 
-#include "../UI/UI.hpp"
-
-void scene::MainMenuScene::init(SDL_Window* window, SDL_Renderer* renderer)
+void scene::MainMenuScene::init()
 {
 	
+}
+
+void scene::MainMenuScene::setSceneUI(std::unique_ptr<ui::UIManager>& uiManager)
+{
+
 }
 
 void scene::MainMenuScene::update()

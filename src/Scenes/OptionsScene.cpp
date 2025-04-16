@@ -1,11 +1,15 @@
 #include "OptionsScene.hpp"
 
-#include "../UI/UI.hpp"
-
-void scene::OptionsScene::init(SDL_Window* window, SDL_Renderer* renderer)
+void scene::OptionsScene::init()
 {
 	
 }
+
+void scene::OptionsScene::setSceneUI(std::unique_ptr<ui::UIManager>& uiManager)
+{
+
+}
+
 
 void scene::OptionsScene::update()
 {
