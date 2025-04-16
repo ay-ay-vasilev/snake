@@ -15,6 +15,10 @@ Started as a way to learn the SDL3 library as well as correct CMake practices.
 	- [x] Implement imgui
     - [x] Refactor UI
 	- [ ] Main menu screen with imgui
+        - [x] The screen itself is done
+        - [ ] Add buttons that can be clicked
+        - [ ] Add keyboard controls to button selection
+        - [ ] Show the version on the screen
 	- [ ] Options screen with imgui
 	- [ ] imgui customization (fonts, colors, textures ?)
 - [ ] 6. High score screen + table. Score serialization.

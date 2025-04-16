@@ -57,7 +57,7 @@ void scene::GameplayScene::shutdown()
 {
 }
 
-std::optional<scene::SceneType> scene::GameplayScene::handleInput(void *appstate, SDL_Event* event)
+std::optional<scene::eSceneType> scene::GameplayScene::handleInput(void *appstate, SDL_Event* event)
 {
 	if (auto next = m_state->handleInput(appstate, event)) {
 		changeState(*next);

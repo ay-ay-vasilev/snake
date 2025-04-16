@@ -14,7 +14,7 @@ namespace ui
 
 namespace scene
 {
-	enum class SceneType
+	enum class eSceneType
 	{
 		eMainMenu,
 		eOptions,
@@ -33,7 +33,7 @@ namespace scene
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
 		virtual void shutdown() = 0;
-		virtual std::optional<SceneType> handleInput(void* appstate, SDL_Event* event) = 0;
+		virtual std::optional<eSceneType> handleInput(void* appstate, SDL_Event* event) = 0;
 		virtual void onEnter() = 0;
 		virtual void onExit() = 0;
 		virtual void setSceneUI(std::unique_ptr<ui::UIManager>& uiManager) = 0;

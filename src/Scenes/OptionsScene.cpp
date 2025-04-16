@@ -26,7 +26,7 @@ void scene::OptionsScene::shutdown()
 
 }
 
-std::optional<scene::SceneType> scene::OptionsScene::handleInput(void *appstate, SDL_Event* event)
+std::optional<scene::eSceneType> scene::OptionsScene::handleInput(void *appstate, SDL_Event* event)
 {
 	return std::nullopt;
 }

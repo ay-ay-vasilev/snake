@@ -13,7 +13,7 @@ namespace scene
 			void update() override;
 			void render(SDL_Renderer* renderer) override;
 			void shutdown() override;
-			std::optional<scene::SceneType> handleInput(void *appstate, SDL_Event* event) override;
+			std::optional<scene::eSceneType> handleInput(void *appstate, SDL_Event* event) override;
 			void onEnter() override;
 			void onExit() override;
 	};

@@ -19,9 +19,9 @@ void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 	m_uiManager = std::make_unique<ui::UIManager>();
 	m_uiManager->init(window, renderer);
 
-	m_scenes[scene::SceneType::eGameplay] = std::make_shared<scene::GameplayScene>();
-	m_scenes[scene::SceneType::eMainMenu]  = std::make_shared<scene::MainMenuScene>();
-	m_scenes[scene::SceneType::eOptions] = std::make_shared<scene::OptionsScene>();
+	m_scenes[scene::eSceneType::eGameplay] = std::make_shared<scene::GameplayScene>();
+	m_scenes[scene::eSceneType::eMainMenu]  = std::make_shared<scene::MainMenuScene>();
+	m_scenes[scene::eSceneType::eOptions] = std::make_shared<scene::OptionsScene>();
 	
 	for (auto& scene : m_scenes)
 		scene.second->init();
@@ -29,7 +29,7 @@ void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 	auto& dataManager = constants::DataManager::getInstance();
 	m_frameStep = dataManager.getConstant<int>("frame_step");
 
-	changeScene(scene::SceneType::eGameplay);
+	changeScene(scene::eSceneType::eMainMenu);
 }
 
 SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
@@ -83,7 +83,7 @@ void Game::render(SDL_Renderer* renderer)
 	m_uiManager->postRender(renderer);
 }
 
-void Game::changeScene(scene::SceneType type)
+void Game::changeScene(scene::eSceneType type)
 {
 	if (m_currentScene) {
 		m_currentScene->onExit();

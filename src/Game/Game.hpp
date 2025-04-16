@@ -15,7 +15,7 @@ namespace ui
 namespace scene
 {
 	class Scene;
-	enum class SceneType;
+	enum class eSceneType;
 }
 
 class Game
@@ -33,12 +33,12 @@ private:
 	void update();
 	void render(SDL_Renderer* renderer);
 
-	void changeScene(scene::SceneType type);
+	void changeScene(scene::eSceneType type);
 
 	int m_frameStep{};
 	Uint64 m_lastStep = 0;
 
-	std::unordered_map<scene::SceneType, std::shared_ptr<scene::Scene>> m_scenes;
+	std::unordered_map<scene::eSceneType, std::shared_ptr<scene::Scene>> m_scenes;
 	std::shared_ptr<scene::Scene> m_currentScene;
 	std::unique_ptr<ui::UIManager> m_uiManager;
 };
