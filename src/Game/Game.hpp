@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include <memory>
 #include <unordered_map>
+#include <optional>
 
 class GameObjects;
 class SDL_Renderer;
@@ -30,7 +31,7 @@ public:
 	void shutdown();
 
 private:
-	void update();
+	std::optional<SDL_AppResult> update();
 	void render(SDL_Renderer* renderer);
 
 	void changeScene(scene::eSceneType type);

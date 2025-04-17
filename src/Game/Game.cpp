@@ -56,7 +56,8 @@ SDL_AppResult Game::gameLoop(void* appstate, SDL_Renderer* renderer)
 
 	while((now - m_lastStep) >= m_frameStep)
 	{
-		update();
+		if (auto appResult = update())
+			return *appResult;
 		m_lastStep += m_frameStep;
 	}
 	render(renderer);
@@ -70,10 +71,24 @@ void Game::shutdown()
 		scene.second->shutdown();
 }
 
-void Game::update()
+std::optional<SDL_AppResult> Game::update()
 {
 	m_uiManager->update();
 	m_currentScene->update();
+
+	if (auto command = m_uiManager->pollCommand())
+	{
+		if (command->type == ui::eUICommandType::ChangeScene)
+		{
+			changeScene(std::any_cast<scene::eSceneType>(command->value));
+		}
+		else if (command->type == ui::eUICommandType::QuitGame)
+		{
+			return SDL_APP_SUCCESS;
+		}
+	}
+
+	return std::nullopt;
 }
 
 void Game::render(SDL_Renderer* renderer)

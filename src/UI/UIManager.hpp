@@ -1,6 +1,10 @@
 #pragma once
 
+#include "UICommand.hpp"
+
 #include <SDL3_image/SDL_image.h>
+#include <optional>
+#include <queue>
 #include <memory>
 
 struct ImFont;
@@ -23,8 +27,13 @@ public:
 	void shutdown();
 
 	void setSceneUI(std::shared_ptr<SceneUI> sceneUI);
+
+	void pushCommand(const UICommand& command);
+	std::optional<UICommand> pollCommand();
 private:
 	std::shared_ptr<SceneUI> m_sceneUI;
 	std::shared_ptr<SceneUIData> m_sceneUIData;
+
+	std::queue<UICommand> m_commandQueue;
 };
 }

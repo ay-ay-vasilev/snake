@@ -34,11 +34,11 @@ set(SOURCE
 
 set(HEADERS
 	src/Constants/Constants.hpp
+	src/UI/UICommand.hpp
 	src/UI/UIManager.hpp
 	src/UI/GameplaySceneUI.hpp
 	src/UI/MainMenuSceneUI.hpp
 	src/UI/SceneUI.hpp
-	src/UI/UI.hpp
 	src/Scenes/Scene.hpp
 	src/Scenes/GameplayScene.hpp
 	src/Scenes/MainMenuScene.hpp

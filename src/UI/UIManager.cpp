@@ -69,7 +69,6 @@ void ui::UIManager::preRender(SDL_Renderer* renderer)
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoScrollbar;
-	window_flags |= ImGuiWindowFlags_MenuBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoResize;
 	window_flags |= ImGuiWindowFlags_NoCollapse;
@@ -104,4 +103,23 @@ void ui::UIManager::setSceneUI(std::shared_ptr<ui::SceneUI> sceneUI)
 {
 	m_sceneUI = sceneUI;
 	m_sceneUI->setSceneUIData(m_sceneUIData);
+	m_sceneUI->setCommandCallback([this](UICommand command)
+							   {
+							   m_commandQueue.push(std::move(command));
+							   });
+}
+
+void ui::UIManager::pushCommand(const ui::UICommand& command)
+{
+	m_commandQueue.push(command);
+}
+
+std::optional<ui::UICommand> ui::UIManager::pollCommand()
+{
+	if (m_commandQueue.empty())
+		return std::nullopt;
+
+	auto command = m_commandQueue.front();
+	m_commandQueue.pop();
+	return command;
 }

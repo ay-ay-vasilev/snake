@@ -9,23 +9,12 @@ void ui::initUIText(const constants::TextData& textData, ui::UIText& uiText)
 	uiText.scale = textData.scale;
 }
 
-void ui::SceneUI::init()
-{
-}
-
-void ui::SceneUI::handleInput(void* appstate, SDL_Event* event)
-{
-}
-
-void ui::SceneUI::update()
-{
-}
-
-void ui::SceneUI::render(SDL_Renderer* renderer, int windowFlags) 
-{
-}
-
 void ui::SceneUI::setSceneUIData(std::shared_ptr<SceneUIData> sceneUIData)
 {
 	m_sceneUIData = sceneUIData;
+}
+
+void ui::SceneUI::setCommandCallback(std::function<void(ui::UICommand)> callback)
+{
+	m_commandCallback = std::move(callback);
 }
