@@ -33,15 +33,6 @@ void scene::MainMenuScene::shutdown()
 
 std::optional<scene::eSceneType> scene::MainMenuScene::handleInput(void *appstate, SDL_Event* event)
 {
-	if (event->key.type == SDL_EVENT_KEY_UP)
-	{
-		switch (event->key.key)
-		{
-		default:
-			return scene::eSceneType::eGameplay;
-			break;
-		}
-	}
 	return std::nullopt;
 }
 

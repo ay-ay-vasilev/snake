@@ -18,8 +18,9 @@ namespace ui
 
 	private:
 		void getNotified(const ObserverMessage& message) override {} 
+
+		void renderButton(std::string buttonId, std::string label, std::function<void()> callback = {});
 		
 		std::string m_title{};
-		std::string m_description{};
 	};
 }
