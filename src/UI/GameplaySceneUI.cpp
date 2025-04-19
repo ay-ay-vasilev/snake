@@ -4,6 +4,7 @@
 #include "backends/imgui_impl_sdl3.h"
 
 #include "../Constants/Constants.hpp"
+#include "../Scenes/Scene.hpp"
 
 void ui::GameplaySceneUI::init()
 {
@@ -24,6 +25,8 @@ void ui::GameplaySceneUI::init()
 
 void ui::GameplaySceneUI::handleInput(void* appstate, SDL_Event* event)
 {
+	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
+		m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::eMainMenu});
 }
 
 void ui::GameplaySceneUI::update()

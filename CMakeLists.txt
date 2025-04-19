@@ -16,7 +16,8 @@ set(SOURCE
 	src/Constants/Constants.cpp
 	src/UI/UIManager.cpp
 	src/UI/GameplaySceneUI.cpp
-	src/UI/MainMenuSceneUI.cpp
+	src/UI/MainMenu/MainMenuSceneUI.cpp
+	src/UI/MainMenu/MainMenuSceneUIButton.cpp
 	src/UI/SceneUI.cpp
 	src/Scenes/GameplayScene.cpp
 	src/Scenes/MainMenuScene.cpp
@@ -37,7 +38,8 @@ set(HEADERS
 	src/UI/UICommand.hpp
 	src/UI/UIManager.hpp
 	src/UI/GameplaySceneUI.hpp
-	src/UI/MainMenuSceneUI.hpp
+	src/UI/MainMenu/MainMenuSceneUI.hpp
+	src/UI/MainMenu/MainMenuSceneUIButton.hpp
 	src/UI/SceneUI.hpp
 	src/Scenes/Scene.hpp
 	src/Scenes/GameplayScene.hpp

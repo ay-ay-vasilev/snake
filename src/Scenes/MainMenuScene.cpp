@@ -1,7 +1,7 @@
 #include "MainMenuScene.hpp"
 
 #include "../UI/UIManager.hpp"
-#include "../UI/MainMenuSceneUI.hpp"
+#include "../UI/MainMenu/MainMenuSceneUI.hpp"
 
 void scene::MainMenuScene::init()
 {

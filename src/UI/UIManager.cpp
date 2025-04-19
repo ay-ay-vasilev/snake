@@ -49,6 +49,7 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 void ui::UIManager::handleInput(void* appstate, SDL_Event* event)
 {
 	ImGui_ImplSDL3_ProcessEvent(event);
+	m_sceneUI->handleInput(appstate, event);
 }
 
 void ui::UIManager::update()

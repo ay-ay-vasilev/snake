@@ -24,8 +24,7 @@ void scene::GameplayScene::init()
 		state.second->setGameObjects(gameObjects);
 	}
 
-	m_state = m_states[state::StateType::eStart];
-	m_state->onEnter();
+	changeState(state::StateType::eStart);
 }
 
 void scene::GameplayScene::setSceneUI(std::unique_ptr<ui::UIManager>& uiManager)
@@ -68,7 +67,7 @@ std::optional<scene::eSceneType> scene::GameplayScene::handleInput(void *appstat
 
 void scene::GameplayScene::onEnter()
 {
-
+	changeState(state::StateType::eStart);
 }
 
 void scene::GameplayScene::onExit()

@@ -2,7 +2,10 @@
 
 #include <SDL3_image/SDL_image.h>
 
-#include "SceneUI.hpp"
+#include "../SceneUI.hpp"
+#include "MainMenuSceneUIButton.hpp"
+
+#include <vector>
 
 namespace ui
 {
@@ -18,9 +21,10 @@ namespace ui
 
 	private:
 		void getNotified(const ObserverMessage& message) override {} 
-
-		void renderButton(std::string buttonId, std::string label, std::function<void()> callback = {});
+		void renderButtons();
 		
+		std::vector<MainMenuSceneUIButton> m_buttons;
+		int m_selectedIndex;
 		std::string m_title{};
 	};
 }

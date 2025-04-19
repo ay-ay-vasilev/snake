@@ -37,9 +37,6 @@ SDL_AppResult Game::handleInput(void* appstate, SDL_Event* event)
 	if (event->type == SDL_EVENT_QUIT)
 		return SDL_APP_SUCCESS;
 
-	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
-		return SDL_APP_SUCCESS;
-
 	if (auto next = m_currentScene->handleInput(appstate, event))
 	{
 		changeScene(*next);
