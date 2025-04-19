@@ -9,6 +9,11 @@ project(snake
 	LANGUAGES CXX
 )
 
+configure_file(
+	${CMAKE_CURRENT_SOURCE_DIR}/cmake/Version.hpp.in
+	${CMAKE_CURRENT_BINARY_DIR}/Version.hpp
+)
+
 include(cmake/SetupLibs.cmake)
 
 set(SOURCE
@@ -73,4 +78,7 @@ target_link_libraries(snake_app
 		imgui
 )
 
-target_include_directories(snake_app PUBLIC imgui)
+target_include_directories(snake_app
+	PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+	PUBLIC imgui
+)

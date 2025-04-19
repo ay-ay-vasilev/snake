@@ -22,9 +22,11 @@ namespace ui
 	private:
 		void getNotified(const ObserverMessage& message) override {} 
 		void renderButtons();
+		void renderVersion();
 		
 		std::vector<MainMenuSceneUIButton> m_buttons;
 		int m_selectedIndex;
 		std::string m_title{};
+		std::string m_version{};
 	};
 }

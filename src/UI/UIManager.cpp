@@ -39,8 +39,10 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 	m_sceneUIData->m_windowSize = {windowWidth, windowHeight};
 
 	const auto fileName = "../res/fonts/romulus.ttf";
+	auto smallFont = io.Fonts->AddFontFromFileTTF(fileName, 20.0f);
 	auto regularFont = io.Fonts->AddFontFromFileTTF(fileName, 60.0f);
 	auto bigFont = io.Fonts->AddFontFromFileTTF(fileName, 120.0f);
+	m_sceneUIData->m_fonts["small_font"] = smallFont;
 	m_sceneUIData->m_fonts["regular_font"] = regularFont;
 	m_sceneUIData->m_fonts["big_font"] = bigFont;
 	ImGui::GetIO().Fonts->Build();

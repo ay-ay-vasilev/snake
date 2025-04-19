@@ -2,12 +2,5 @@ build.*
 .vscode
 libs/SDL
 libs/SDL_image
-
-.clangd
-cmake/.cache/
-cmake/CMakeCache.txt
-cmake/CMakeFiles/
-cmake/Makefile
-cmake/_deps/
-cmake/cmake_install.cmake
-cmake/compile_commands.json
+.cache/
+compile_commands.json

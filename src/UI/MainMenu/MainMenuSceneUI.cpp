@@ -3,12 +3,15 @@
 #include "../../Scenes/Scene.hpp"
 #include "../../Constants/Constants.hpp"
 
+#include "Version.hpp"
+
 #include "imgui.h"
 #include "backends/imgui_impl_sdl3.h"
 
 void ui::MainMenuSceneUI::init()
 {
 	m_title = "SNAKE";
+	m_version = "v" + std::string(PROJECT_VERSION);
 
 	auto& dataManager = constants::DataManager::getInstance();
 
@@ -46,7 +49,8 @@ void ui::MainMenuSceneUI::init()
 
 void ui::MainMenuSceneUI::handleInput(void* appstate, SDL_Event* event)
 {
-
+	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
+		m_commandCallback({eUICommandType::QuitGame, std::nullopt});
 }
 
 void ui::MainMenuSceneUI::update()
@@ -65,9 +69,22 @@ void ui::MainMenuSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::Text("%s", m_title.c_str());
 	ImGui::PopFont();
 
+	renderVersion();
 	renderButtons();
 
 	ImGui::End();
+}
+
+void ui::MainMenuSceneUI::renderVersion()
+{
+	ImGui::PushFont(m_sceneUIData->m_fonts["small_font"]);
+	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(140, 140, 140, 255));
+	auto titleTextSize = ImGui::CalcTextSize(m_version.c_str());
+	ImGui::SetCursorPosX(0);
+	ImGui::SetCursorPosY(m_sceneUIData->m_windowSize.second - titleTextSize.y);
+	ImGui::Text("%s", m_version.c_str());
+	ImGui::PopStyleColor();
+	ImGui::PopFont();
 }
 
 void ui::MainMenuSceneUI::renderButtons()
@@ -117,9 +134,9 @@ void ui::MainMenuSceneUI::renderButtons()
 		}
 	}
 
-	if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space))
+	if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space) || ImGui::IsKeyDown(ImGuiKey_E))
 		m_buttons.at(m_selectedIndex).press();
-	if (ImGui::IsKeyReleased(ImGuiKey_Enter) || ImGui::IsKeyReleased(ImGuiKey_Space))
+	if (ImGui::IsKeyReleased(ImGuiKey_Enter) || ImGui::IsKeyReleased(ImGuiKey_Space) || ImGui::IsKeyReleased(ImGuiKey_E))
 		m_buttons.at(m_selectedIndex).activate();
 
 	for (auto& button : m_buttons)

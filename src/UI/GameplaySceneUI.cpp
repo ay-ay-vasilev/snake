@@ -38,7 +38,7 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
 
-	ImGui::PushFont(m_sceneUIData->m_fonts["regularFont"]);
+	ImGui::PushFont(m_sceneUIData->m_fonts["regular_font"]);
 	const auto scoreText = m_scoreText.text.c_str();
 	ImGui::SetCursorPosX(m_sceneUIData->m_offset.first);
 	ImGui::Text("%s", scoreText);
