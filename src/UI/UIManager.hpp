@@ -2,10 +2,13 @@
 
 #include "UICommand.hpp"
 
-#include <SDL3_image/SDL_image.h>
 #include <optional>
 #include <queue>
 #include <memory>
+
+struct SDL_Window;
+struct SDL_Renderer;
+union SDL_Event;
 
 struct ImFont;
 

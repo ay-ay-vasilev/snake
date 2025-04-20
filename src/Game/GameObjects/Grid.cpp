@@ -1,5 +1,7 @@
 #include "Grid.hpp"
 
+#include <SDL3_image/SDL_image.h>
+
 void Grid::init(std::pair<size_t, size_t> gridSize, std::pair<size_t, size_t> cellSize, std::pair<int, int> offset)
 {
 	m_gridSize = gridSize;

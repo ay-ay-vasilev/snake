@@ -1,5 +1,6 @@
 #include "GameplaySceneUI.hpp"
 
+#include <SDL3_image/SDL_image.h>
 #include "imgui.h"
 #include "backends/imgui_impl_sdl3.h"
 
@@ -26,7 +27,7 @@ void ui::GameplaySceneUI::init()
 void ui::GameplaySceneUI::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
-		m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::eMainMenu});
+		m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
 }
 
 void ui::GameplaySceneUI::update()

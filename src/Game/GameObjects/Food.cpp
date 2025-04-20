@@ -1,5 +1,6 @@
 #include "Food.hpp"
 
+#include <SDL3_image/SDL_image.h>
 #include <algorithm>
 #include <random>
 

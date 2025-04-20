@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL3_image/SDL_image.h>
-
 #include "../SceneUI.hpp"
 #include "MainMenuSceneUIButton.hpp"
 
@@ -12,7 +10,7 @@ namespace ui
 	class MainMenuSceneUI : public SceneUI
 	{
 	public:
-		MainMenuSceneUI() {}
+		MainMenuSceneUI() : m_selectedIndex(0) {}
 		~MainMenuSceneUI() override = default;
 		void init() override;
 		void handleInput(void* appstate, SDL_Event* event) override;
@@ -25,7 +23,7 @@ namespace ui
 		void renderVersion();
 		
 		std::vector<MainMenuSceneUIButton> m_buttons;
-		int m_selectedIndex;
+		int m_selectedIndex{0};
 		std::string m_title{};
 		std::string m_version{};
 	};

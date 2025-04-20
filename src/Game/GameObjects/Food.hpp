@@ -1,8 +1,9 @@
 #pragma once
 
-#include <SDL3_image/SDL_image.h>
 #include <vector>
 #include <deque>
+
+struct SDL_Renderer;
 
 class Food
 {

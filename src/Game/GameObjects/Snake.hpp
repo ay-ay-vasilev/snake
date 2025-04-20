@@ -1,9 +1,10 @@
 #pragma once
 
-#include <SDL3_image/SDL_image.h>
 #include <deque>
 #include <queue>
 #include <optional>
+
+struct SDL_Renderer;
 
 class Snake
 {

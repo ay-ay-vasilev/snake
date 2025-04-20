@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL3_image/SDL_image.h>
-
 #include "SceneUI.hpp"
 
 namespace ui

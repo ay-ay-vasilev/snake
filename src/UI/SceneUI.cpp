@@ -1,5 +1,7 @@
 #include "SceneUI.hpp"
 
+#include <SDL3_image/SDL_image.h>
+
 #include "../Constants/Constants.hpp"
 
 void ui::initUIText(const constants::TextData& textData, ui::UIText& uiText)

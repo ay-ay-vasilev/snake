@@ -1,5 +1,6 @@
 #include "Snake.hpp"
 
+#include <SDL3_image/SDL_image.h>
 #include <assert.h>
 #include <algorithm>
 

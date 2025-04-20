@@ -16,9 +16,9 @@ namespace scene
 {
 	enum class eSceneType
 	{
-		eMainMenu,
-		eOptions,
-		eGameplay
+		MainMenu,
+		Options,
+		Gameplay
 	};
 	
 	class Scene

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <SDL3_image/SDL_image.h>
 #include <utility>
+
+struct SDL_Renderer;
 
 class Grid
 {

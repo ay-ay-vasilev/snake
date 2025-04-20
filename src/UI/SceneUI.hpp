@@ -1,13 +1,14 @@
 #pragma once
 
-#include <SDL3_image/SDL_image.h>
-
 #include "../Abstract/Observer.hpp"
 #include "UICommand.hpp"
 #include <string>
 #include <unordered_map>
 #include <memory>
 #include <functional>
+
+struct SDL_Renderer;
+union SDL_Event;
 
 namespace constants
 {

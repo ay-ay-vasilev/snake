@@ -1,12 +1,11 @@
 #include "MainMenuSceneUI.hpp"
 
-#include "../../Scenes/Scene.hpp"
-#include "../../Constants/Constants.hpp"
-
+#include <SDL3_image/SDL_image.h>
+#include "imgui.h"
 #include "Version.hpp"
 
-#include "imgui.h"
-#include "backends/imgui_impl_sdl3.h"
+#include "../../Scenes/Scene.hpp"
+#include "../../Constants/Constants.hpp"
 
 void ui::MainMenuSceneUI::init()
 {
@@ -23,7 +22,7 @@ void ui::MainMenuSceneUI::init()
 			MainMenuSceneUIButton(
 				ImVec2(windowWidth * 0.5f, windowHeight * 0.5f), ImVec2(500, 80),
 				std::string("##startBtn"), std::string("Start"),
-				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::eGameplay});}
+				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Gameplay});}
 			)
 		);
 	m_buttons.emplace_back
@@ -31,7 +30,7 @@ void ui::MainMenuSceneUI::init()
 			MainMenuSceneUIButton(
 				ImVec2(windowWidth * 0.5f, windowHeight * 0.6f), ImVec2(500, 80),
 				std::string("##optionsBtn"), std::string("Options"),
-				[](){}
+				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Options});}
 			)
 		);
 	m_buttons.emplace_back
@@ -44,7 +43,6 @@ void ui::MainMenuSceneUI::init()
 		);
 
 	m_buttons.front().setIsSelected(true);
-	m_selectedIndex = 0;
 }
 
 void ui::MainMenuSceneUI::handleInput(void* appstate, SDL_Event* event)
