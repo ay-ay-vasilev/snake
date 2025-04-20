@@ -30,8 +30,25 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::PushFont(m_sceneUIData->m_fonts["big_font"]);
 	auto titleTextWidth = ImGui::CalcTextSize(sceneTitle.c_str()).x;
 	ImGui::SetCursorPosX((m_sceneUIData->m_windowSize.first - titleTextWidth) * 0.5f);
-	ImGui::SetCursorPosY(m_sceneUIData->m_windowSize.second * 0.2f);
+	ImGui::SetCursorPosY(m_sceneUIData->m_windowSize.second * 0.1f);
 	ImGui::Text("%s", sceneTitle.c_str());
+	ImGui::PopFont();
+
+	ImGui::PushFont(m_sceneUIData->m_fonts["regular_font"]);
+	ImGui::Text("Resolution:");
+	ImGui::SameLine(800);
+	if (ImGui::TreeNode("Resolution"))
+	{
+		ImGui::Indent(800);
+		ImGui::Indent();
+		static int selected = -1;
+		ImGui::Selectable("640x480", selected == 0);
+		ImGui::Selectable("1200x800", selected == 1);
+		ImGui::Selectable("1920x1080", selected == 2);
+		ImGui::Unindent();
+		ImGui::Unindent();
+		ImGui::TreePop();
+	}
 	ImGui::PopFont();
 
 	ImGui::End();

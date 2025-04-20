@@ -21,7 +21,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 	const auto windowHeight = dataManager.getConstant<int>("window_height");
 
 	/* Create the window */
-	if (!SDL_CreateWindowAndRenderer("Snake Game", windowWidth, windowHeight, 0, &window, &renderer))
+	SDL_WindowFlags flags = 0;
+	// flags |= SDL_WINDOW_FULLSCREEN;
+	if (!SDL_CreateWindowAndRenderer("Snake Game", windowWidth, windowHeight, flags, &window, &renderer))
 	{
 		SDL_Log("Couldn't create window and renderer: %s\n", SDL_GetError());
 		return SDL_APP_FAILURE;
