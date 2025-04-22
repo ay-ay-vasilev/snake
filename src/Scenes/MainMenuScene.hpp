@@ -2,11 +2,17 @@
 
 #include "Scene.hpp"
 
+namespace context
+{
+	class GameContext;
+}
+
 namespace scene
 {
 	class MainMenuScene : public Scene
 	{
 		public:
+			MainMenuScene(GameContextRef gameContext) : Scene(gameContext) {}
 			~MainMenuScene() override = default;
 			void init() override;
 			void setSceneUI(std::unique_ptr<ui::UIManager>& uiManager) override;

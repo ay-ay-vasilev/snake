@@ -11,10 +11,10 @@
 
 void scene::GameplayScene::init()
 {
-	m_states[state::StateType::eStart] = std::make_shared<state::StartState>();
-	m_states[state::StateType::ePlay]  = std::make_shared<state::PlayState>();
-	m_states[state::StateType::ePause] = std::make_shared<state::PauseState>();
-	m_states[state::StateType::eLose]  = std::make_shared<state::LoseState>();
+	m_states[state::StateType::eStart] = std::make_shared<state::StartState>(m_gameContext);
+	m_states[state::StateType::ePlay]  = std::make_shared<state::PlayState>(m_gameContext);
+	m_states[state::StateType::ePause] = std::make_shared<state::PauseState>(m_gameContext);
+	m_states[state::StateType::eLose]  = std::make_shared<state::LoseState>(m_gameContext);
 
 	auto gameObjects = std::make_shared<GameObjects>();
 	gameObjects->init();
@@ -29,7 +29,7 @@ void scene::GameplayScene::init()
 
 void scene::GameplayScene::setSceneUI(std::unique_ptr<ui::UIManager>& uiManager)
 {
-	auto sceneUI = std::make_shared<ui::GameplaySceneUI>();
+	auto sceneUI = std::make_shared<ui::GameplaySceneUI>(m_gameContext, uiManager->getFontsRef());
 	sceneUI->init();
 
 	for (auto& state : m_states)

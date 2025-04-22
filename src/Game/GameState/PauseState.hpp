@@ -9,7 +9,7 @@ namespace state
 	class PauseState : public GameState
 	{
 	public:
-		PauseState()
+		PauseState(GameContextRef gameContext) : GameState(gameContext)
 		{
 			setStateType(StateType::ePause);
 		};

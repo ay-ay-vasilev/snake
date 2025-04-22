@@ -7,7 +7,7 @@ namespace ui
 	class GameplaySceneUI : public SceneUI
 	{
 	public:
-		GameplaySceneUI() {}
+		GameplaySceneUI(GameContextRef gameContext, FontsMapRef fonts) : SceneUI(gameContext, fonts) {}
 		~GameplaySceneUI() override = default;
 		void init() override;
 		void handleInput(void* appstate, SDL_Event* event) override;
@@ -26,5 +26,6 @@ namespace ui
 		UIText m_gameStateText{};
 		UIText m_debugText{};
 		int m_score{0};
+		std::pair<int, int> m_offset{};
 	};
 }

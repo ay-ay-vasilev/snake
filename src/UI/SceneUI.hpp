@@ -3,28 +3,28 @@
 #include "../Abstract/Observer.hpp"
 #include "UICommand.hpp"
 #include <string>
-#include <unordered_map>
-#include <memory>
 #include <functional>
+#include <memory>
 
 struct SDL_Renderer;
 union SDL_Event;
 
-namespace constants
+namespace context
+{
+	class GameContext;
+}
+using GameContextRef = std::unique_ptr<context::GameContext>&;
+
+namespace data
 {
 	struct TextData;
 }
 
 class ImFont;
+using FontsMapRef = std::unordered_map<std::string, ImFont*>&;
+
 namespace ui
 {
-	struct SceneUIData // todo: rethink
-	{
-		std::pair<int, int> m_windowSize{};
-		std::pair<int, int> m_offset{};
-		std::unordered_map<std::string, ImFont*> m_fonts;
-	};
-
 	struct UIText // todo: utilize better
 	{
 		int x;
@@ -33,22 +33,22 @@ namespace ui
 		std::string text;
 	};
 
-	void initUIText(const constants::TextData& textData, ui::UIText& uiText);
+	void initUIText(const data::TextData& textData, ui::UIText& uiText);
 
 	class SceneUI : public IObserver 
 	{
 	public:
-		SceneUI() {}
+		SceneUI(GameContextRef gameContext, FontsMapRef fonts) : m_gameContext(gameContext), m_fonts(fonts) {}
 		virtual ~SceneUI() {}
 
 		virtual void init() = 0;
 		virtual void handleInput(void* appstate, SDL_Event* event) = 0;
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer* renderer, int windowFlags) = 0;
-		void setSceneUIData(std::shared_ptr<SceneUIData> sceneUIData);
 		void setCommandCallback(std::function<void(UICommand)> callback);
 	protected:
-		std::shared_ptr<SceneUIData> m_sceneUIData;
+		GameContextRef m_gameContext;
 		std::function<void(UICommand)> m_commandCallback;
+		FontsMapRef m_fonts;
 	};
 }

@@ -1,8 +1,7 @@
 #include "StartState.hpp"
 #include "../GameObjects/GameObjects.hpp"
-#include "PauseState.hpp"
-#include "PlayState.hpp"
-#include "../../Constants/Constants.hpp"
+#include "../GameContext.hpp"
+#include "../../Data/DataManager.hpp"
 
 std::optional<state::StateType> state::StartState::update()
 {
@@ -37,12 +36,12 @@ void state::StartState::render(SDL_Renderer* renderer)
 
 void state::StartState::onEnter()
 {
-	auto& dataManager = constants::DataManager::getInstance();
+	auto& dataManager = m_gameContext->getDataManager();
 
-	const auto windowWidth = dataManager.getConstant<int>("window_width");
-	const auto windowHeight = dataManager.getConstant<int>("window_height");
-	const auto gridWH = dataManager.getConstant<int>("grid_size");
-	const auto cellWH = dataManager.getConstant<int>("cell_size");
+	const auto windowWidth = dataManager->getConstant<int>("window_width");
+	const auto windowHeight = dataManager->getConstant<int>("window_height");
+	const auto gridWH = dataManager->getConstant<int>("grid_size");
+	const auto cellWH = dataManager->getConstant<int>("cell_size");
 
 	const auto gridWidth = gridWH * cellWH;
 	const auto gridHeight = gridWH * cellWH;

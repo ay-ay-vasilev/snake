@@ -7,24 +7,25 @@
 
 namespace ui
 {
-	class MainMenuSceneUI : public SceneUI
-	{
-	public:
-		MainMenuSceneUI() : m_selectedIndex(0) {}
-		~MainMenuSceneUI() override = default;
-		void init() override;
-		void handleInput(void* appstate, SDL_Event* event) override;
-		void update() override;
-		void render(SDL_Renderer* renderer, int windowFlags) override;
+class MainMenuSceneUI : public SceneUI
+{
+public:
+	MainMenuSceneUI(GameContextRef gameContext, FontsMapRef fonts) : SceneUI(gameContext, fonts), m_selectedIndex(0) {}
+	~MainMenuSceneUI() override = default;
+	void init() override;
+	void handleInput(void* appstate, SDL_Event* event) override;
+	void update() override;
+	void render(SDL_Renderer* renderer, int windowFlags) override;
 
-	private:
-		void getNotified(const ObserverMessage& message) override {} 
-		void renderButtons();
-		void renderVersion();
-		
-		std::vector<MainMenuSceneUIButton> m_buttons;
-		int m_selectedIndex{0};
-		std::string m_title{};
-		std::string m_version{};
-	};
+private:
+	void getNotified(const ObserverMessage& message) override {} 
+	void renderButtons();
+	void renderVersion();
+
+	std::pair<int, int> m_windowSize;
+	std::vector<MainMenuSceneUIButton> m_buttons;
+	int m_selectedIndex{0};
+	std::string m_title{};
+	std::string m_version{};
+};
 }

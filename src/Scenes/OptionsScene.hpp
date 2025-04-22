@@ -7,6 +7,7 @@ namespace scene
 	class OptionsScene : public Scene
 	{
 		public:
+			OptionsScene(GameContextRef gameContext) : Scene(gameContext) {}
 			~OptionsScene() override = default;
 			void init() override;
 			void setSceneUI(std::unique_ptr<ui::UIManager>& uiManager) override;

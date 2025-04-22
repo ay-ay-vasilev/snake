@@ -8,10 +8,11 @@
 class GameObjects;
 class SDL_Renderer;
 
-namespace ui
+namespace context
 {
-	class UIManager;
+	class GameContext;
 }
+using GameContextRef = std::unique_ptr<context::GameContext>&;
 
 namespace scene
 {
@@ -19,10 +20,15 @@ namespace scene
 	enum class eSceneType;
 }
 
+namespace ui
+{
+	class UIManager;
+}
+
 class Game
 {
 public:
-	Game();
+	Game(GameContextRef gameContext) : m_gameContext(gameContext) {}
 	~Game();
 
 	void init(SDL_Window* window, SDL_Renderer* renderer);
@@ -42,4 +48,5 @@ private:
 	std::unordered_map<scene::eSceneType, std::shared_ptr<scene::Scene>> m_scenes;
 	std::shared_ptr<scene::Scene> m_currentScene;
 	std::unique_ptr<ui::UIManager> m_uiManager;
+	GameContextRef m_gameContext;
 };

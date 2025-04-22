@@ -7,27 +7,26 @@
 #include "../Scenes/MainMenuScene.hpp"
 #include "../Scenes/OptionsScene.hpp"
 
+#include "GameContext.hpp"
 #include "../UI/UIManager.hpp"
-#include "../Constants/Constants.hpp"
-
-Game::Game() = default;
+#include "../Data/DataManager.hpp"
 
 Game::~Game() = default;
 
 void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 {
-	m_uiManager = std::make_unique<ui::UIManager>();
+	m_uiManager = std::make_unique<ui::UIManager>(m_gameContext);
 	m_uiManager->init(window, renderer);
 
-	m_scenes[scene::eSceneType::Gameplay] = std::make_shared<scene::GameplayScene>();
-	m_scenes[scene::eSceneType::MainMenu]  = std::make_shared<scene::MainMenuScene>();
-	m_scenes[scene::eSceneType::Options] = std::make_shared<scene::OptionsScene>();
+	m_scenes[scene::eSceneType::Gameplay] = std::make_shared<scene::GameplayScene>(m_gameContext);
+	m_scenes[scene::eSceneType::MainMenu]  = std::make_shared<scene::MainMenuScene>(m_gameContext);
+	m_scenes[scene::eSceneType::Options] = std::make_shared<scene::OptionsScene>(m_gameContext);
 	
 	for (auto& scene : m_scenes)
 		scene.second->init();
 
-	auto& dataManager = constants::DataManager::getInstance();
-	m_frameStep = dataManager.getConstant<int>("frame_step");
+	auto& dataManager = m_gameContext->getDataManager();
+	m_frameStep = dataManager->getConstant<int>("frame_step");
 
 	changeScene(scene::eSceneType::MainMenu);
 }

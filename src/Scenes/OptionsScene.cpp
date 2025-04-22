@@ -10,7 +10,7 @@ void scene::OptionsScene::init()
 
 void scene::OptionsScene::setSceneUI(std::unique_ptr<ui::UIManager>& uiManager)
 {
-	auto sceneUI = std::make_shared<ui::OptionsSceneUI>();
+	auto sceneUI = std::make_shared<ui::OptionsSceneUI>(m_gameContext, uiManager->getFontsRef());
 	sceneUI->init();
 
 	uiManager->setSceneUI(sceneUI);

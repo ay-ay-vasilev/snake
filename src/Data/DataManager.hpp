@@ -2,7 +2,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace constants
+namespace data 
 {
 	struct TextData
 	{
@@ -14,13 +14,7 @@ namespace constants
 	class DataManager
 	{
 	public:
-
-		static DataManager& getInstance()
-		{
-			static DataManager dataManager;
-			return dataManager;
-		}
-
+		DataManager() = default;
 		void LoadConstants();
 
 		template <typename T>

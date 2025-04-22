@@ -2,6 +2,8 @@
 
 #include "UICommand.hpp"
 
+#include <unordered_map>
+#include <string>
 #include <optional>
 #include <queue>
 #include <memory>
@@ -12,16 +14,21 @@ union SDL_Event;
 
 struct ImFont;
 
+namespace context
+{
+	class GameContext;
+}
+using GameContextRef = std::unique_ptr<context::GameContext>&;
+
 namespace ui
 {
 
 class SceneUI;
-struct SceneUIData;
 
 class UIManager
 {
 public:
-	UIManager() {}
+	UIManager(GameContextRef gameContext) : m_gameContext(gameContext) {}
 	void init(SDL_Window* window, SDL_Renderer* renderer);
 	void handleInput(void* appstate, SDL_Event* event);
 	void update();
@@ -33,10 +40,15 @@ public:
 
 	void pushCommand(const UICommand& command);
 	std::optional<UICommand> pollCommand();
+
+	std::unordered_map<std::string, ImFont*>& getFontsRef() { return m_fonts; }
 private:
+	GameContextRef m_gameContext;
+
+	std::pair<int, int> m_windowSize; // todo move to OptionsManager?
 	std::shared_ptr<SceneUI> m_sceneUI;
-	std::shared_ptr<SceneUIData> m_sceneUIData;
 
 	std::queue<UICommand> m_commandQueue;
+	std::unordered_map<std::string, ImFont*> m_fonts;
 };
 }

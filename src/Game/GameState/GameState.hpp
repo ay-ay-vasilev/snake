@@ -9,6 +9,12 @@ class SDL_Renderer;
 class GameObjects;
 class Grid;
 
+namespace context
+{
+class GameContext;
+}
+using GameContextRef = std::unique_ptr<context::GameContext>&;
+
 namespace state
 {
 	enum class StateType { eStart, ePlay, ePause, eLose };
@@ -16,7 +22,7 @@ namespace state
 	class GameState : public Subject
 	{
 	public:
-		GameState() {};
+		GameState(GameContextRef gameContext) : m_gameContext(gameContext) {};
 		virtual ~GameState() override = default;
 		virtual std::optional<StateType> update() = 0;
 		virtual void render(SDL_Renderer* renderer) = 0;
@@ -29,6 +35,7 @@ namespace state
 	protected:
 		void setStateType(const StateType& type) { m_type = type; }
 		std::shared_ptr<GameObjects> m_gameObjects;
+		GameContextRef m_gameContext;
 	private:
 		StateType m_type;
 	};

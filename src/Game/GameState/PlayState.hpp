@@ -9,7 +9,7 @@ namespace state
 	class PlayState : public GameState
 	{
 	public:
-		PlayState()
+		PlayState(GameContextRef gameContext) : GameState(gameContext)
 		{
 			setStateType(StateType::ePlay);
 		};

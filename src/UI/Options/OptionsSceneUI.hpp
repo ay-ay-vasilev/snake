@@ -7,7 +7,7 @@ namespace ui
 class OptionsSceneUI : public SceneUI
 {
 public:
-	OptionsSceneUI() {}
+	OptionsSceneUI(GameContextRef gameContext, FontsMapRef fonts) : SceneUI(gameContext, fonts) {}
 	~OptionsSceneUI() override = default;
 	void init() override;
 	void handleInput(void* appstate, SDL_Event* event) override;
@@ -15,6 +15,7 @@ public:
 	void render(SDL_Renderer* renderer, int windowFlags) override;
 
 private:
+	std::pair<int, int> m_windowSize;
 	void getNotified(const ObserverMessage& message) override {} 
 };
 

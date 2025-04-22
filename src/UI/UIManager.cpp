@@ -6,7 +6,8 @@
 #include "backends/imgui_impl_sdlrenderer3.h"
 
 #include "SceneUI.hpp"
-#include "../Constants/Constants.hpp"
+#include "../Game/GameContext.hpp"
+#include "../Data/DataManager.hpp"
 
 void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 {
@@ -20,32 +21,28 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 	ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
 	ImGui_ImplSDLRenderer3_Init(renderer);
 
-	auto& dataManager = constants::DataManager::getInstance();
+	auto& dataManager = m_gameContext->getDataManager(); 
 
-	const auto windowWidth = dataManager.getConstant<int>("window_width");
-	const auto windowHeight = dataManager.getConstant<int>("window_height");
-	const auto gridWH = dataManager.getConstant<int>("grid_size");
-	const auto cellWH = dataManager.getConstant<int>("cell_size");
+	m_windowSize.first = dataManager->getConstant<int>("window_width");
+	m_windowSize.second = dataManager->getConstant<int>("window_height");
+	const auto gridWH = dataManager->getConstant<int>("grid_size");
+	const auto cellWH = dataManager->getConstant<int>("cell_size");
 
 	const auto gridWidth = gridWH * cellWH;
 	const auto gridHeight = gridWH * cellWH;
 	const std::pair<int, int> offset =
 		{
-			(windowWidth - gridWidth) / 2,
-			(windowHeight - gridHeight) / 2
+			(m_windowSize.first - gridWidth) / 2,
+			(m_windowSize.second - gridHeight) / 2
 		};
 	
-	m_sceneUIData = std::make_shared<SceneUIData>();
-	m_sceneUIData->m_offset = offset;
-	m_sceneUIData->m_windowSize = {windowWidth, windowHeight};
-
 	const auto fileName = "../res/fonts/romulus.ttf";
 	auto smallFont = io.Fonts->AddFontFromFileTTF(fileName, 20.0f);
 	auto regularFont = io.Fonts->AddFontFromFileTTF(fileName, 60.0f);
 	auto bigFont = io.Fonts->AddFontFromFileTTF(fileName, 120.0f);
-	m_sceneUIData->m_fonts["small_font"] = smallFont;
-	m_sceneUIData->m_fonts["regular_font"] = regularFont;
-	m_sceneUIData->m_fonts["big_font"] = bigFont;
+	m_fonts["small_font"] = smallFont;
+	m_fonts["regular_font"] = regularFont;
+	m_fonts["big_font"] = bigFont;
 	ImGui::GetIO().Fonts->Build();
 }
 
@@ -68,7 +65,7 @@ void ui::UIManager::preRender(SDL_Renderer* renderer)
 	ImGui::NewFrame();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(m_sceneUIData->m_windowSize.first, m_sceneUIData->m_windowSize.second), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(m_windowSize.first, m_windowSize.second), ImGuiCond_Always);
 
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
@@ -110,7 +107,6 @@ void ui::UIManager::shutdown()
 void ui::UIManager::setSceneUI(std::shared_ptr<ui::SceneUI> sceneUI)
 {
 	m_sceneUI = sceneUI;
-	m_sceneUI->setSceneUIData(m_sceneUIData);
 	m_sceneUI->setCommandCallback([this](UICommand command)
 							   {
 							   m_commandQueue.push(std::move(command));

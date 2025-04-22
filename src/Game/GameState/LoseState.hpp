@@ -9,7 +9,7 @@ namespace state
 	class LoseState : public GameState
 	{
 	public:
-		LoseState()
+		LoseState(GameContextRef gameContext) : GameState(gameContext)
 		{
 			setStateType(StateType::eLose);
 		};

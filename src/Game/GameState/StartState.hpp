@@ -9,7 +9,7 @@ namespace state
 	class StartState : public GameState
 	{
 	public:
-		StartState()
+		StartState(GameContextRef gameContext) : GameState(gameContext)
 		{
 			setStateType(StateType::eStart);
 		};

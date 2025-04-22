@@ -4,16 +4,29 @@
 #include "imgui.h"
 #include "backends/imgui_impl_sdl3.h"
 
-#include "../Constants/Constants.hpp"
+#include "../Game/GameContext.hpp"
+#include "../Data/DataManager.hpp"
 #include "../Scenes/Scene.hpp"
 
 void ui::GameplaySceneUI::init()
 {
-	auto& dataManager = constants::DataManager::getInstance();
+	auto& dataManager = m_gameContext->getDataManager();
+
+	const auto windowWidth = dataManager->getConstant<int>("window_width");
+	const auto windowHeight = dataManager->getConstant<int>("window_height");
+	const auto gridWH = dataManager->getConstant<int>("grid_size");
+	const auto cellWH = dataManager->getConstant<int>("cell_size");
+	const auto gridWidth = gridWH * cellWH;
+	const auto gridHeight = gridWH * cellWH;
+	m_offset =
+		{
+			(windowWidth - gridWidth) / 2,
+			(windowHeight - gridHeight) / 2
+		};
 	
-	const auto& scoreTextData = dataManager.getConstant<constants::TextData>("score_text");
-	const auto& gameStateTextData = dataManager.getConstant<constants::TextData>("game_state_text");
-	const auto& debugTextData = dataManager.getConstant<constants::TextData>("debug_text");
+	const auto& scoreTextData = dataManager->getConstant<data::TextData>("score_text");
+	const auto& gameStateTextData = dataManager->getConstant<data::TextData>("game_state_text");
+	const auto& debugTextData = dataManager->getConstant<data::TextData>("debug_text");
 
 	ui::initUIText(scoreTextData, m_scoreText);
 	ui::initUIText(gameStateTextData, m_gameStateText);
@@ -39,13 +52,13 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
 
-	ImGui::PushFont(m_sceneUIData->m_fonts["regular_font"]);
+	ImGui::PushFont(m_fonts["regular_font"]);
 	const auto scoreText = m_scoreText.text.c_str();
-	ImGui::SetCursorPosX(m_sceneUIData->m_offset.first);
+	ImGui::SetCursorPosX(m_offset.first);
 	ImGui::Text("%s", scoreText);
 
 	const auto gameStateText = m_gameStateText.text.c_str();
-	ImGui::SetCursorPosX(m_sceneUIData->m_offset.first);
+	ImGui::SetCursorPosX(m_offset.first);
 	ImGui::Text("%s", gameStateText);
 	ImGui::PopFont();
 

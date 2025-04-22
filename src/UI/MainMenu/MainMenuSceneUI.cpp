@@ -5,22 +5,23 @@
 #include "Version.hpp"
 
 #include "../../Scenes/Scene.hpp"
-#include "../../Constants/Constants.hpp"
+#include "../../Game/GameContext.hpp"
+#include "../../Data/DataManager.hpp"
 
 void ui::MainMenuSceneUI::init()
 {
 	m_title = "SNAKE";
 	m_version = "v" + std::string(PROJECT_VERSION);
 
-	auto& dataManager = constants::DataManager::getInstance();
+	auto& dataManager = m_gameContext->getDataManager();
 
-	const auto windowWidth = dataManager.getConstant<int>("window_width");
-	const auto windowHeight = dataManager.getConstant<int>("window_height");
+	m_windowSize.first = dataManager->getConstant<int>("window_width");
+	m_windowSize.second = dataManager->getConstant<int>("window_height");
 
 	m_buttons.emplace_back
 		(
 			MainMenuSceneUIButton(
-				ImVec2(windowWidth * 0.5f, windowHeight * 0.5f), ImVec2(500, 80),
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.5f), ImVec2(500, 80),
 				std::string("##startBtn"), std::string("Start"),
 				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Gameplay});}
 			)
@@ -28,7 +29,7 @@ void ui::MainMenuSceneUI::init()
 	m_buttons.emplace_back
 		(
 			MainMenuSceneUIButton(
-				ImVec2(windowWidth * 0.5f, windowHeight * 0.6f), ImVec2(500, 80),
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.6f), ImVec2(500, 80),
 				std::string("##optionsBtn"), std::string("Options"),
 				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Options});}
 			)
@@ -36,7 +37,7 @@ void ui::MainMenuSceneUI::init()
 	m_buttons.emplace_back
 		(
 			MainMenuSceneUIButton(
-				ImVec2(windowWidth * 0.5f, windowHeight * 0.7f), ImVec2(500, 80),
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.7f), ImVec2(500, 80),
 				std::string("##exitBtn"), std::string("Exit"),
 				[this](){m_commandCallback({eUICommandType::QuitGame, std::nullopt});}
 			)
@@ -60,10 +61,10 @@ void ui::MainMenuSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
 	
-	ImGui::PushFont(m_sceneUIData->m_fonts["big_font"]);
+	ImGui::PushFont(m_fonts["big_font"]);
 	auto titleTextWidth = ImGui::CalcTextSize(m_title.c_str()).x;
-	ImGui::SetCursorPosX((m_sceneUIData->m_windowSize.first - titleTextWidth) * 0.5f);
-	ImGui::SetCursorPosY(m_sceneUIData->m_windowSize.second * 0.2f);
+	ImGui::SetCursorPosX((m_windowSize.first - titleTextWidth) * 0.5f);
+	ImGui::SetCursorPosY(m_windowSize.second * 0.2f);
 	ImGui::Text("%s", m_title.c_str());
 	ImGui::PopFont();
 
@@ -75,11 +76,11 @@ void ui::MainMenuSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 
 void ui::MainMenuSceneUI::renderVersion()
 {
-	ImGui::PushFont(m_sceneUIData->m_fonts["small_font"]);
+	ImGui::PushFont(m_fonts["small_font"]);
 	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(140, 140, 140, 255));
 	auto titleTextSize = ImGui::CalcTextSize(m_version.c_str());
 	ImGui::SetCursorPosX(0);
-	ImGui::SetCursorPosY(m_sceneUIData->m_windowSize.second - titleTextSize.y);
+	ImGui::SetCursorPosY(m_windowSize.second - titleTextSize.y);
 	ImGui::Text("%s", m_version.c_str());
 	ImGui::PopStyleColor();
 	ImGui::PopFont();
@@ -102,9 +103,9 @@ void ui::MainMenuSceneUI::renderButtons()
 	}
 		m_buttons.at(m_selectedIndex).setIsSelected(true);
 
-	ImGui::PushFont(m_sceneUIData->m_fonts["regular_font"]);
+	ImGui::PushFont(m_fonts["regular_font"]);
 	
-	ImGui::SetCursorPosY(m_sceneUIData->m_windowSize.second * 0.5f);
+	ImGui::SetCursorPosY(m_windowSize.second * 0.5f);
 
 	for (auto& button : m_buttons)
 		button.renderButton();
