@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../SceneUI.hpp"
+#include "../../Options/OptionsManager.hpp"
 
 namespace ui
 {
@@ -15,7 +16,12 @@ public:
 	void render(SDL_Renderer* renderer, int windowFlags) override;
 
 private:
+	// Resolution
+	std::vector<options::Resolution> m_resolutions;
+	int m_selectedResolutionId;
+
 	std::pair<int, int> m_windowSize;
+
 	void getNotified(const ObserverMessage& message) override {} 
 };
 

@@ -20,6 +20,7 @@ set(SOURCE
 	src/main.cpp
 	src/Game/GameContext.cpp
 	src/Data/DataManager.cpp
+	src/Options/OptionsManager.cpp
 	src/UI/UIManager.cpp
 	src/UI/GameplaySceneUI.cpp
 	src/UI/MainMenu/MainMenuSceneUI.cpp
@@ -41,8 +42,9 @@ set(SOURCE
 )
 
 set(HEADERS
-	src/Game/GameContext.cpp
-	src/Data/DataManager.cpp
+	src/Game/GameContext.hpp
+	src/Data/DataManager.hpp
+	src/Options/OptionsManager.hpp
 	src/UI/UICommand.hpp
 	src/UI/UIManager.hpp
 	src/UI/GameplaySceneUI.hpp

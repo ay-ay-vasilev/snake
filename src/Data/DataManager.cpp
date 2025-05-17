@@ -5,14 +5,14 @@
 
 namespace data
 {
-void DataManager::LoadConstants()
+void DataManager::loadConstants()
 {
 	const auto fileName = "../res/data/constants.json";
 
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
-		std::cerr << "Game: Failed to open constants file: " << fileName << std::endl;
+		std::cerr << "DataManager: Failed to open constants file: " << fileName << std::endl;
 		return;
 	}
 

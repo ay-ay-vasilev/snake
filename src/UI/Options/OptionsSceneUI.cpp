@@ -8,12 +8,29 @@
 #include "../../Game/GameContext.hpp"
 #include "../../Data/DataManager.hpp"
 
+
 void ui::OptionsSceneUI::init()
 {
 	auto& dataManager = m_gameContext->getDataManager();
 
 	m_windowSize.first = dataManager->getConstant<int>("window_width");
 	m_windowSize.second = dataManager->getConstant<int>("window_height");
+
+	auto& optionsManager = m_gameContext->getOptionsManager();
+
+	m_resolutions = optionsManager->getResolutionPresets();
+	const auto selectedResolution = optionsManager->getCurrentResolution();
+	int index = 0;
+	for (const auto& resolution : m_resolutions)
+	{
+		if (resolution.name != selectedResolution.name)
+		{
+			++index;
+			continue;
+		}
+		m_selectedResolutionId = index;
+		break;
+	}
 }
 
 void ui::OptionsSceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -42,14 +59,19 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::PushFont(m_fonts["regular_font"]);
 	ImGui::Text("Resolution:");
 	ImGui::SameLine(800);
-	if (ImGui::TreeNode("Resolution"))
+	if (ImGui::TreeNode(m_resolutions.at(m_selectedResolutionId).name.c_str()))
 	{
 		ImGui::Indent(800);
 		ImGui::Indent();
-		static int selected = -1;
-		ImGui::Selectable("640x480", selected == 0);
-		ImGui::Selectable("1200x800", selected == 1);
-		ImGui::Selectable("1920x1080", selected == 2);
+		int index = 0;
+		for (const auto resolution : m_resolutions)
+		{
+			if (ImGui::Selectable(resolution.name.c_str(), m_selectedResolutionId == index))
+			{
+				m_selectedResolutionId = index;
+			}
+			++index;
+		}
 		ImGui::Unindent();
 		ImGui::Unindent();
 		ImGui::TreePop();

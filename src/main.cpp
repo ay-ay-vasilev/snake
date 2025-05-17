@@ -20,11 +20,9 @@ std::unique_ptr<Game> game;
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
 	gameContext = std::make_unique<context::GameContext>();
-
-	auto& dataManager = gameContext->getDataManager();
-
 	game = std::make_unique<Game>(gameContext);
 
+	auto& dataManager = gameContext->getDataManager();
 	const auto windowWidth = dataManager->getConstant<int>("window_width");
 	const auto windowHeight = dataManager->getConstant<int>("window_height");
 

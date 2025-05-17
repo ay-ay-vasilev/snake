@@ -15,7 +15,7 @@ namespace data
 	{
 	public:
 		DataManager() = default;
-		void LoadConstants();
+		void loadConstants();
 
 		template <typename T>
 		T getConstant(const std::string& key) { return std::any_cast<T>(get(key)); }

@@ -1,0 +1,24 @@
+{
+	"default" :
+	{
+		"resolution" : "1200x800"
+	},
+	"resolutions" :
+	[
+		{
+			"name" : "640x480",
+			"width" : 640, 
+			"height": 480
+		},
+		{
+			"name" : "1200x800",
+			"width" : 1200, 
+			"height": 800
+		},
+		{
+			"name" : "1920x1080",
+			"width" : 1920, 
+			"height": 1080
+		}
+	]
+}
