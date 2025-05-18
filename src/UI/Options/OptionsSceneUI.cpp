@@ -31,6 +31,33 @@ void ui::OptionsSceneUI::init()
 		m_selectedResolutionId = index;
 		break;
 	}
+
+	m_buttons.emplace_back
+		(
+			UIButton(
+				ImVec2(m_windowSize.first * 0.1f, m_windowSize.second * 0.9f), ImVec2(200, 80), ImVec2(0.f, 0.5f),
+				std::string("##cancelBtn"), std::string("Cancel"),
+				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});}
+			)
+		);
+	m_buttons.emplace_back
+		(
+			UIButton(
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.9f), ImVec2(200, 80), ImVec2(0.5f, 0.5f),
+				std::string("##resetBtn"), std::string("Reset"),
+				[this](){}
+			)
+		);
+	m_buttons.emplace_back
+		(
+			UIButton(
+				ImVec2(m_windowSize.first * 0.9f, m_windowSize.second * 0.9f), ImVec2(200, 80), ImVec2(1.f, 0.5f),
+				std::string("##saveBtn"), std::string("Save"),
+				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});}
+			)
+		);
+
+	m_buttons.back().setIsSelected(true);
 }
 
 void ui::OptionsSceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -78,5 +105,8 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	}
 	ImGui::PopFont();
 
+	renderButtons();
+
 	ImGui::End();
 }
+

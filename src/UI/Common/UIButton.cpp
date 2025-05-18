@@ -1,18 +1,19 @@
-#include "MainMenuSceneUIButton.hpp"
+#include "UIButton.hpp"
 
-ui::MainMenuSceneUIButton::MainMenuSceneUIButton(
+ui::UIButton::UIButton(
 		ImVec2 position,
 		ImVec2 size,
+		ImVec2 origin,
 		std::string buttonId,
 		std::string label,
 		std::function<void()> callback
-	) : m_buttonSize(size), m_buttonId(buttonId), m_label(label), m_callback(callback)
+	) : m_buttonSize(size), m_origin(origin), m_buttonId(buttonId), m_label(label), m_callback(callback)
 {
-	m_buttonPos = ImVec2( position.x - size.x * 0.5, position.y - size.y * 0.5 );
+	m_buttonPos = ImVec2( position.x - size.x * m_origin.x, position.y - size.y * m_origin.y);
 	m_textColor = IM_COL32(255, 255, 255, 255);
 }
 
-void ui::MainMenuSceneUIButton::renderButton()
+void ui::UIButton::renderButton()
 {
 	m_isHovered = false;
 
@@ -38,7 +39,7 @@ void ui::MainMenuSceneUIButton::renderButton()
 		m_textColor = IM_COL32(255, 255, 255, 255);
 }
 
-void ui::MainMenuSceneUIButton::renderText()
+void ui::UIButton::renderText()
 {
 	const auto textSize = ImGui::CalcTextSize(m_label.c_str());
 	m_textPos = ImVec2(
@@ -48,7 +49,7 @@ void ui::MainMenuSceneUIButton::renderText()
 	ImGui::GetWindowDrawList()->AddText(m_textPos, m_textColor, m_label.c_str());
 }
 
-void ui::MainMenuSceneUIButton::press()
+void ui::UIButton::press()
 {
 	m_textColor = IM_COL32(255, 100, 0, 255);
 }

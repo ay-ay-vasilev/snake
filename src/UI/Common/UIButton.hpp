@@ -6,12 +6,13 @@
 
 namespace ui
 {
-class MainMenuSceneUIButton
+class UIButton
 {
 public:
-	explicit MainMenuSceneUIButton(
+	explicit UIButton(
 		ImVec2 position,
 		ImVec2 size,
+		ImVec2 origin,
 		std::string buttonId,
 		std::string label,
 		std::function<void()> callback
@@ -26,9 +27,10 @@ public:
 	const bool isHovered() const { return m_isHovered; }
 	
 private:
-	ImVec2 m_buttonPos;
-	ImVec2 m_buttonSize;
-	ImVec2 m_textPos;
+	ImVec2 m_buttonPos{0.f, 0.f};
+	ImVec2 m_buttonSize{0.f, 0.f};
+	ImVec2 m_origin{0.f, 0.f};
+	ImVec2 m_textPos{0.f, 0.f};
 	ImU32 m_textColor;
 	std::string m_buttonId;
 	std::string m_label;

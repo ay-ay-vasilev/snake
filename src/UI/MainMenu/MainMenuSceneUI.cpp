@@ -20,24 +20,24 @@ void ui::MainMenuSceneUI::init()
 
 	m_buttons.emplace_back
 		(
-			MainMenuSceneUIButton(
-				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.5f), ImVec2(500, 80),
+			UIButton(
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.5f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
 				std::string("##startBtn"), std::string("Start"),
 				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Gameplay});}
 			)
 		);
 	m_buttons.emplace_back
 		(
-			MainMenuSceneUIButton(
-				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.6f), ImVec2(500, 80),
+			UIButton(
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.6f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
 				std::string("##optionsBtn"), std::string("Options"),
 				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Options});}
 			)
 		);
 	m_buttons.emplace_back
 		(
-			MainMenuSceneUIButton(
-				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.7f), ImVec2(500, 80),
+			UIButton(
+				ImVec2(m_windowSize.first * 0.5f, m_windowSize.second * 0.7f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
 				std::string("##exitBtn"), std::string("Exit"),
 				[this](){m_commandCallback({eUICommandType::QuitGame, std::nullopt});}
 			)
@@ -83,63 +83,5 @@ void ui::MainMenuSceneUI::renderVersion()
 	ImGui::SetCursorPosY(m_windowSize.second - titleTextSize.y);
 	ImGui::Text("%s", m_version.c_str());
 	ImGui::PopStyleColor();
-	ImGui::PopFont();
-}
-
-void ui::MainMenuSceneUI::renderButtons()
-{
-	if (m_buttons.empty())
-		return;
-
-	if (ImGui::IsKeyPressed(ImGuiKey_S) || ImGui::IsKeyPressed(ImGuiKey_DownArrow))
-		m_selectedIndex = (m_selectedIndex + 1) % m_buttons.size();
-
-	if (ImGui::IsKeyPressed(ImGuiKey_W) || ImGui::IsKeyPressed(ImGuiKey_UpArrow))
-		m_selectedIndex = (m_selectedIndex - 1 + m_buttons.size()) % m_buttons.size();
-
-	for (auto& button : m_buttons)
-	{
-		button.setIsSelected(false);
-	}
-		m_buttons.at(m_selectedIndex).setIsSelected(true);
-
-	ImGui::PushFont(m_fonts["regular_font"]);
-	
-	ImGui::SetCursorPosY(m_windowSize.second * 0.5f);
-
-	for (auto& button : m_buttons)
-		button.renderButton();
-
-	bool hoveredExists = false;
-	int i = 0;
-	for (auto& button : m_buttons)
-	{
-		if (button.isHovered())
-		{
-			hoveredExists = true;
-			m_selectedIndex = i;
-			break;
-		}
-		i++;
-	}
-
-	if (hoveredExists)
-	{
-		for (auto& button : m_buttons)
-		{
-			if (button.isHovered())
-				continue;
-			button.setIsSelected(false);
-		}
-	}
-
-	if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space) || ImGui::IsKeyDown(ImGuiKey_E))
-		m_buttons.at(m_selectedIndex).press();
-	if (ImGui::IsKeyReleased(ImGuiKey_Enter) || ImGui::IsKeyReleased(ImGuiKey_Space) || ImGui::IsKeyReleased(ImGuiKey_E))
-		m_buttons.at(m_selectedIndex).activate();
-
-	for (auto& button : m_buttons)
-		button.renderText();
-
 	ImGui::PopFont();
 }

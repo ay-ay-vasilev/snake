@@ -20,8 +20,6 @@ private:
 	std::vector<options::Resolution> m_resolutions;
 	int m_selectedResolutionId;
 
-	std::pair<int, int> m_windowSize;
-
 	void getNotified(const ObserverMessage& message) override {} 
 };
 

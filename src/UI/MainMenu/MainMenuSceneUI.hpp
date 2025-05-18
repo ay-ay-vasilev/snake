@@ -1,16 +1,13 @@
 #pragma once
 
 #include "../SceneUI.hpp"
-#include "MainMenuSceneUIButton.hpp"
-
-#include <vector>
 
 namespace ui
 {
 class MainMenuSceneUI : public SceneUI
 {
 public:
-	MainMenuSceneUI(GameContextRef gameContext, FontsMapRef fonts) : SceneUI(gameContext, fonts), m_selectedIndex(0) {}
+	MainMenuSceneUI(GameContextRef gameContext, FontsMapRef fonts) : SceneUI(gameContext, fonts) {}
 	~MainMenuSceneUI() override = default;
 	void init() override;
 	void handleInput(void* appstate, SDL_Event* event) override;
@@ -19,12 +16,8 @@ public:
 
 private:
 	void getNotified(const ObserverMessage& message) override {} 
-	void renderButtons();
 	void renderVersion();
 
-	std::pair<int, int> m_windowSize;
-	std::vector<MainMenuSceneUIButton> m_buttons;
-	int m_selectedIndex{0};
 	std::string m_title{};
 	std::string m_version{};
 };

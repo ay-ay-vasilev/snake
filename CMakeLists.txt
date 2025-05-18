@@ -24,7 +24,7 @@ set(SOURCE
 	src/UI/UIManager.cpp
 	src/UI/GameplaySceneUI.cpp
 	src/UI/MainMenu/MainMenuSceneUI.cpp
-	src/UI/MainMenu/MainMenuSceneUIButton.cpp
+	src/UI/Common/UIButton.cpp
 	src/UI/Options/OptionsSceneUI.cpp
 	src/UI/SceneUI.cpp
 	src/Scenes/GameplayScene.cpp
@@ -49,7 +49,7 @@ set(HEADERS
 	src/UI/UIManager.hpp
 	src/UI/GameplaySceneUI.hpp
 	src/UI/MainMenu/MainMenuSceneUI.hpp
-	src/UI/MainMenu/MainMenuSceneUIButton.hpp
+	src/UI/Common/UIButton.hpp
 	src/UI/Options/OptionsSceneUI.hpp
 	src/UI/SceneUI.hpp
 	src/Scenes/Scene.hpp
