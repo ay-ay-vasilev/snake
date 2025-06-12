@@ -21,6 +21,7 @@ public:
 
 	Resolution getCurrentResolution() const;
 	std::vector<Resolution> getResolutionPresets() const;
+	void setCurrentResolution(Resolution newResolution);
 
 private:
 	void loadOptionPresets();

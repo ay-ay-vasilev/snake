@@ -53,7 +53,13 @@ void ui::OptionsSceneUI::init()
 			UIButton(
 				ImVec2(m_windowSize.first * 0.9f, m_windowSize.second * 0.9f), ImVec2(200, 80), ImVec2(1.f, 0.5f),
 				std::string("##saveBtn"), std::string("Save"),
-				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});}
+				[this]()
+				{
+					auto& optionsManager = m_gameContext->getOptionsManager();
+					optionsManager->setCurrentResolution(m_resolutions.at(m_selectedResolutionId));
+					optionsManager->saveOptions();
+					m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
+				}
 			)
 		);
 

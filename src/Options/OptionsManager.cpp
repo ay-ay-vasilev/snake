@@ -70,6 +70,19 @@ void options::OptionsManager::loadUserOptions()
 
 void options::OptionsManager::saveOptions()
 {
+	const auto fileName = "../res/config/user_config.json";
+
+	std::ofstream file(fileName);
+	if (!file.is_open())
+	{
+		std::cerr << "OptionsManager: Failed to open: " << fileName << std::endl;
+		return;
+	}
+
+	nlohmann::json userOptionsJson;
+	userOptionsJson["resolution"] = m_currentResolution.name;
+
+	file << std::setw(4) << userOptionsJson << std::endl;
 }
 
 options::Resolution options::OptionsManager::getCurrentResolution() const
@@ -80,4 +93,9 @@ options::Resolution options::OptionsManager::getCurrentResolution() const
 std::vector<options::Resolution> options::OptionsManager::getResolutionPresets() const
 {
 	return m_resolutionPresets;
+}
+
+void options::OptionsManager::setCurrentResolution(options::Resolution newResolution)
+{
+	m_currentResolution = newResolution;
 }
