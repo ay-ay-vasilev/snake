@@ -49,7 +49,6 @@ public:
 	void setCommandCallback(std::function<void(UICommand)> callback);
 protected:
 	GameContextRef m_gameContext;
-	std::pair<int, int> m_windowSize{0, 0};
 	std::function<void(UICommand)> m_commandCallback;
 	FontsMapRef m_fonts;
 

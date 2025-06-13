@@ -8,6 +8,7 @@
 #include "SceneUI.hpp"
 #include "../Game/GameContext.hpp"
 #include "../Data/DataManager.hpp"
+#include "../Options/OptionsManager.hpp"
 
 void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 {
@@ -22,9 +23,9 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 	ImGui_ImplSDLRenderer3_Init(renderer);
 
 	auto& dataManager = m_gameContext->getDataManager(); 
+	auto& optionsManager = m_gameContext->getOptionsManager();
 
-	m_windowSize.first = dataManager->getConstant<int>("window_width");
-	m_windowSize.second = dataManager->getConstant<int>("window_height");
+	const auto resolution = optionsManager->getCurrentResolution();
 	const auto gridWH = dataManager->getConstant<int>("grid_size");
 	const auto cellWH = dataManager->getConstant<int>("cell_size");
 
@@ -32,8 +33,8 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 	const auto gridHeight = gridWH * cellWH;
 	const std::pair<int, int> offset =
 		{
-			(m_windowSize.first - gridWidth) / 2,
-			(m_windowSize.second - gridHeight) / 2
+			(resolution.width - gridWidth) / 2,
+			(resolution.height - gridHeight) / 2
 		};
 	
 	const auto fileName = "../res/fonts/romulus.ttf";
@@ -59,13 +60,15 @@ void ui::UIManager::update()
 
 void ui::UIManager::preRender(SDL_Renderer* renderer)
 {
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+
 	ImGui_ImplSDLRenderer3_NewFrame();
 	ImGui_ImplSDL3_NewFrame();
 
 	ImGui::NewFrame();
 
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(m_windowSize.first, m_windowSize.second), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(resolution.width, resolution.height), ImGuiCond_Always);
 
 	ImGuiWindowFlags window_flags = 0;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;

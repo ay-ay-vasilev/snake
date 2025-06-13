@@ -3,7 +3,9 @@
 #include <SDL3_image/SDL_image.h>
 #include "imgui.h"
 
+#include "../Game/GameContext.hpp"
 #include "../Data/DataManager.hpp"
+#include "../Options/OptionsManager.hpp"
 
 void ui::initUIText(const data::TextData& textData, ui::UIText& uiText)
 {
@@ -19,6 +21,8 @@ void ui::SceneUI::setCommandCallback(std::function<void(ui::UICommand)> callback
 
 void ui::SceneUI::renderButtons()
 {
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+
 	if (m_buttons.empty())
 		return;
 
@@ -36,7 +40,7 @@ void ui::SceneUI::renderButtons()
 
 	ImGui::PushFont(m_fonts["regular_font"]);
 	
-	ImGui::SetCursorPosY(m_windowSize.second * 0.5f);
+	ImGui::SetCursorPosY(resolution.height * 0.5f);
 
 	for (auto& button : m_buttons)
 		button.renderButton();

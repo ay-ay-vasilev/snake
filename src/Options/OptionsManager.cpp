@@ -1,9 +1,15 @@
 #include "OptionsManager.hpp"
 
+#include <SDL3/SDL.h>
 #include <nlohmann/json.hpp>
 
 #include <fstream>
 #include <iostream>
+
+void options::OptionsManager::setWindow(SDL_Window* window)
+{
+	m_window = window;
+}
 
 void options::OptionsManager::loadOptions()
 {
@@ -98,4 +104,15 @@ std::vector<options::Resolution> options::OptionsManager::getResolutionPresets()
 void options::OptionsManager::setCurrentResolution(options::Resolution newResolution)
 {
 	m_currentResolution = newResolution;
+}
+
+void options::OptionsManager::applyCurrentResolution()
+{
+	SDL_SetWindowSize(m_window, m_currentResolution.width, m_currentResolution.height);
+	centerWindow();
+}
+
+void options::OptionsManager::centerWindow()
+{
+	SDL_SetWindowPosition(m_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 }

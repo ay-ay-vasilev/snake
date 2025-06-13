@@ -6,14 +6,17 @@
 
 #include "../Game/GameContext.hpp"
 #include "../Data/DataManager.hpp"
+#include "../Options/OptionsManager.hpp"
 #include "../Scenes/Scene.hpp"
 
 void ui::GameplaySceneUI::init()
 {
+	auto& optionsManager = m_gameContext->getOptionsManager();
 	auto& dataManager = m_gameContext->getDataManager();
 
-	const auto windowWidth = dataManager->getConstant<int>("window_width");
-	const auto windowHeight = dataManager->getConstant<int>("window_height");
+	const auto resolution = optionsManager->getCurrentResolution();
+	const auto windowWidth = resolution.width;
+	const auto windowHeight = resolution.height;
 	const auto gridWH = dataManager->getConstant<int>("grid_size");
 	const auto cellWH = dataManager->getConstant<int>("cell_size");
 	const auto gridWidth = gridWH * cellWH;

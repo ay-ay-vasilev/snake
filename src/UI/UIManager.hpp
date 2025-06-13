@@ -45,7 +45,6 @@ public:
 private:
 	GameContextRef m_gameContext;
 
-	std::pair<int, int> m_windowSize; // todo move to OptionsManager?
 	std::shared_ptr<SceneUI> m_sceneUI;
 
 	std::queue<UICommand> m_commandQueue;

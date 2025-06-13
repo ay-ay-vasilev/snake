@@ -7,7 +7,7 @@
 
 #include "Game/Game.hpp"
 #include "Game/GameContext.hpp"
-#include "Data/DataManager.hpp"
+#include "Options/OptionsManager.hpp"
 #include "UI/UIManager.hpp"
 
 static SDL_Window* window = NULL;
@@ -22,9 +22,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 	gameContext = std::make_unique<context::GameContext>();
 	game = std::make_unique<Game>(gameContext);
 
-	auto& dataManager = gameContext->getDataManager();
-	const auto windowWidth = dataManager->getConstant<int>("window_width");
-	const auto windowHeight = dataManager->getConstant<int>("window_height");
+	auto& optionsManager = gameContext->getOptionsManager();
+	auto currentResolution = optionsManager->getCurrentResolution();
+	const auto windowWidth = currentResolution.width;
+	const auto windowHeight = currentResolution.height;
 
 	/* Create the window */
 	SDL_WindowFlags flags = 0;
@@ -34,6 +35,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 		SDL_Log("Couldn't create window and renderer: %s\n", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
+
+	optionsManager->setWindow(window);
 
 	game->init(window, renderer);
 	return SDL_APP_CONTINUE;

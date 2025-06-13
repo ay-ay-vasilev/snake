@@ -3,6 +3,13 @@
 #include "imgui.h"
 #include <functional>
 #include <string>
+#include <memory>
+
+namespace context
+{
+	class GameContext;
+}
+using GameContextRef = std::unique_ptr<context::GameContext>&;
 
 namespace ui
 {
@@ -10,7 +17,9 @@ class UIButton
 {
 public:
 	explicit UIButton(
-		ImVec2 position,
+		GameContextRef gameContext,
+		ImVec2 offset,
+		ImVec2 relativePosition,
 		ImVec2 size,
 		ImVec2 origin,
 		std::string buttonId,
@@ -27,7 +36,9 @@ public:
 	const bool isHovered() const { return m_isHovered; }
 	
 private:
-	ImVec2 m_buttonPos{0.f, 0.f};
+	GameContextRef m_gameContext;
+	ImVec2 m_buttonOffset{0.f, 0.f};
+	ImVec2 m_buttonRelativePos{0.f, 0.f};
 	ImVec2 m_buttonSize{0.f, 0.f};
 	ImVec2 m_origin{0.f, 0.f};
 	ImVec2 m_textPos{0.f, 0.f};
