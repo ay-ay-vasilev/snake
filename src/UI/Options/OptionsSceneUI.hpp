@@ -16,6 +16,8 @@ public:
 	void render(SDL_Renderer* renderer, int windowFlags) override;
 
 private:
+	void renderTitle();
+	void renderResolutionsOption();
 	// Resolution
 	std::vector<options::Resolution> m_resolutions;
 	int m_selectedResolutionId;

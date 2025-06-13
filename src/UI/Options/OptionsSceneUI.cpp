@@ -77,16 +77,37 @@ void ui::OptionsSceneUI::update()
 
 void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
-	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
+
+	renderTitle();
+
+	renderResolutionsOption();
+
+	renderButtons();
+
+	ImGui::End();
+}
+
+void ui::OptionsSceneUI::renderTitle()
+{
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	const std::string sceneTitle = "Options";
-	
+
 	ImGui::PushFont(m_fonts["big_font"]);
 	auto titleTextWidth = ImGui::CalcTextSize(sceneTitle.c_str()).x;
 	ImGui::SetCursorPosX((resolution.width- titleTextWidth) * 0.5f);
 	ImGui::SetCursorPosY(resolution.height * 0.1f);
 	ImGui::Text("%s", sceneTitle.c_str());
 	ImGui::PopFont();
+}
+
+void ui::OptionsSceneUI::renderResolutionsOption()
+{
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0, 0, 0, 0));
+	ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0, 0, 0, 0));
+	ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0, 0, 0, 0));
 
 	ImGui::SetCursorPosX(resolution.width * 0.1f);
 	ImGui::PushFont(m_fonts["regular_font"]);
@@ -99,10 +120,24 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 		int index = 0;
 		for (const auto resolution : m_resolutions)
 		{
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 			if (ImGui::Selectable(resolution.name.c_str(), m_selectedResolutionId == index))
 			{
 				m_selectedResolutionId = index;
 			}
+			ImGui::PopStyleColor(1);
+
+			ImVec2 itemMin = ImGui::GetItemRectMin();
+			ImVec2 itemMax = ImGui::GetItemRectMax();
+			ImVec2 textPos = ImVec2(itemMin.x, itemMin.y + ImGui::GetStyle().FramePadding.y);
+
+			ImU32 textColor = IM_COL32(255, 255, 255, 255); // Default
+			if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+				textColor = IM_COL32(255, 165, 0, 255); // Orange
+			else if (index == m_selectedResolutionId)
+				textColor = IM_COL32(255, 255, 0, 255); // Yellow
+
+			ImGui::GetWindowDrawList()->AddText(textPos, textColor, resolution.name.c_str());
 			++index;
 		}
 		ImGui::Unindent();
@@ -110,9 +145,5 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 		ImGui::TreePop();
 	}
 	ImGui::PopFont();
-
-	renderButtons();
-
-	ImGui::End();
+	ImGui::PopStyleColor(3);
 }
-
