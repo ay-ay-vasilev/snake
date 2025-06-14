@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <unordered_map>
 #include <string>
 
 struct SDL_Window;
@@ -21,9 +21,10 @@ public:
 	void setWindow(SDL_Window* window);
 	void loadOptions();
 	void saveOptions();
+	void resetOptions();
 
 	Resolution getCurrentResolution() const;
-	std::vector<Resolution> getResolutionPresets() const;
+	std::unordered_map<std::string, Resolution> getResolutionPresets() const;
 	void setCurrentResolution(Resolution newResolution);
 	void applyCurrentResolution();
 
@@ -34,8 +35,9 @@ private:
 	void centerWindow();
 
 
-	std::vector<Resolution> m_resolutionPresets;
+	std::unordered_map<std::string, Resolution> m_resolutionPresets;
 	Resolution m_currentResolution;
+	Resolution m_defaultResolution;
 	bool m_isFullscreen;
 	SDL_Window* m_window;
 

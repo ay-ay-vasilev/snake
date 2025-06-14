@@ -40,10 +40,16 @@ void options::OptionsManager::loadOptionPresets()
 			resolution.name = (resolutionData)["name"].get<std::string>();
 			resolution.width = (resolutionData)["width"].get<int>();
 			resolution.height = (resolutionData)["height"].get<int>();
-			m_resolutionPresets.emplace_back(resolution);
+			m_resolutionPresets[resolution.name] = resolution;
 		}
 	}
 
+	if (const auto& defaultOptionsData = optionPresetsJson.find("default"); defaultOptionsData != optionPresetsJson.end())
+	{
+		m_defaultResolution.name = (*defaultOptionsData)["resolution"].get<std::string>();
+		m_defaultResolution.width = m_resolutionPresets[m_defaultResolution.name].width;
+		m_defaultResolution.height = m_resolutionPresets[m_defaultResolution.name].height;
+	}
 }
 
 void options::OptionsManager::loadUserOptions()
@@ -63,14 +69,7 @@ void options::OptionsManager::loadUserOptions()
 	if (const auto& resolutionData = userOptionsJson.find("resolution"); resolutionData != userOptionsJson.end())
 	{
 		const auto& resolutionName = (*resolutionData).get<std::string>();
-		for (const auto& resolution : m_resolutionPresets)
-		{
-			if (resolution.name != resolutionName)
-				continue;
-
-			m_currentResolution = resolution;
-			break;
-		}
+		m_currentResolution = m_resolutionPresets[resolutionName];
 	}
 }
 
@@ -91,12 +90,17 @@ void options::OptionsManager::saveOptions()
 	file << std::setw(4) << userOptionsJson << std::endl;
 }
 
+void options::OptionsManager::resetOptions()
+{
+	m_currentResolution = m_defaultResolution;
+}
+
 options::Resolution options::OptionsManager::getCurrentResolution() const
 {
 	return m_currentResolution;
 }
 
-std::vector<options::Resolution> options::OptionsManager::getResolutionPresets() const
+std::unordered_map<std::string, options::Resolution> options::OptionsManager::getResolutionPresets() const
 {
 	return m_resolutionPresets;
 }

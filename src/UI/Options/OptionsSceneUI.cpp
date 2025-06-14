@@ -12,25 +12,14 @@ void ui::OptionsSceneUI::init()
 	auto& optionsManager = m_gameContext->getOptionsManager();
 
 	m_resolutions = optionsManager->getResolutionPresets();
-	const auto selectedResolution = optionsManager->getCurrentResolution();
-	int index = 0;
-	for (const auto& resolution : m_resolutions)
-	{
-		if (resolution.name != selectedResolution.name)
-		{
-			++index;
-			continue;
-		}
-		m_selectedResolutionId = index;
-		break;
-	}
+	m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 
 	m_buttons.emplace_back
 		(
 			UIButton(
 				m_gameContext, ImVec2(),
 				ImVec2(0.1f, 0.9f), ImVec2(200, 80), ImVec2(0.f, 0.5f),
-				std::string("##cancelBtn"), std::string("Cancel"),
+				std::string("##backBtn"), std::string("Back"),
 				[this]()
 				{
 					m_closeResolutionTree = true;
@@ -46,6 +35,11 @@ void ui::OptionsSceneUI::init()
 				std::string("##resetBtn"), std::string("Reset"),
 				[this]()
 				{
+					auto& optionsManager = m_gameContext->getOptionsManager();
+					optionsManager->resetOptions();
+					optionsManager->saveOptions();
+					optionsManager->applyCurrentResolution();
+					m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 					m_closeResolutionTree = true;
 				}
 			)
@@ -59,12 +53,11 @@ void ui::OptionsSceneUI::init()
 				[this]()
 				{
 					auto& optionsManager = m_gameContext->getOptionsManager();
-					const auto& currentResolution = m_resolutions.at(m_selectedResolutionId);
+					const auto& currentResolution = m_resolutions.at(m_selectedResolutionName);
 					optionsManager->setCurrentResolution(currentResolution);
 					optionsManager->applyCurrentResolution();
 					optionsManager->saveOptions();
 					m_closeResolutionTree = true;
-					m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
 				}
 			)
 		);
@@ -111,16 +104,16 @@ void ui::OptionsSceneUI::renderTitle()
 
 void ui::OptionsSceneUI::renderResolutionsOption()
 {
-	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
 
 	ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0, 0, 0, 0));
 	ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0, 0, 0, 0));
 
-	ImGui::SetCursorPosX(resolution.width * 0.1f);
+	ImGui::SetCursorPosX(window.width * 0.1f);
 	ImGui::PushFont(m_fonts["regular_font"]);
 	ImGui::Text("Resolution:");
-	ImGui::SameLine(resolution.width * 0.7f);
+	ImGui::SameLine(window.width * 0.7f);
 	renderResolutionsTreeNode();
 	ImGui::PopFont();
 	ImGui::PopStyleColor(3);
@@ -128,7 +121,7 @@ void ui::OptionsSceneUI::renderResolutionsOption()
 
 void ui::OptionsSceneUI::renderResolutionsTreeNode()
 {
-	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
 
 	if (m_closeResolutionTree)
 	{
@@ -136,17 +129,17 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 		m_closeResolutionTree = false;
 	}
 
-	if (ImGui::TreeNode(m_resolutions.at(m_selectedResolutionId).name.c_str()))
+	if (ImGui::TreeNode(m_selectedResolutionName.c_str()))
 	{
-		ImGui::Indent(resolution.width * 0.7f);
+		ImGui::Indent(window.width * 0.7f);
 		ImGui::Indent();
 		int index = 0;
 		for (const auto resolution : m_resolutions)
 		{
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
-			if (ImGui::Selectable(resolution.name.c_str(), m_selectedResolutionId == index))
+			if (ImGui::Selectable(resolution.first.c_str(), resolution.first == m_selectedResolutionName))
 			{
-				m_selectedResolutionId = index;
+				m_selectedResolutionName = resolution.first;
 				m_closeResolutionTree = true;
 			}
 			ImGui::PopStyleColor(1);
@@ -158,10 +151,10 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 			ImU32 textColor = IM_COL32(255, 255, 255, 255); // Default
 			if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
 				textColor = IM_COL32(255, 165, 0, 255); // Orange
-			else if (index == m_selectedResolutionId)
+			else if (resolution.first == m_selectedResolutionName)
 				textColor = IM_COL32(255, 255, 0, 255); // Yellow
 
-			ImGui::GetWindowDrawList()->AddText(textPos, textColor, resolution.name.c_str());
+			ImGui::GetWindowDrawList()->AddText(textPos, textColor, resolution.first.c_str());
 			++index;
 		}
 		ImGui::Unindent();

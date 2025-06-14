@@ -20,8 +20,8 @@ private:
 	void renderResolutionsOption();
 	void renderResolutionsTreeNode();
 	// Resolution
-	std::vector<options::Resolution> m_resolutions;
-	int m_selectedResolutionId;
+	std::unordered_map<std::string, options::Resolution> m_resolutions;
+	std::string m_selectedResolutionName;
 	bool m_closeResolutionTree;
 
 	void getNotified(const ObserverMessage& message) override {} 
