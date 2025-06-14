@@ -31,7 +31,11 @@ void ui::OptionsSceneUI::init()
 				m_gameContext, ImVec2(),
 				ImVec2(0.1f, 0.9f), ImVec2(200, 80), ImVec2(0.f, 0.5f),
 				std::string("##cancelBtn"), std::string("Cancel"),
-				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});}
+				[this]()
+				{
+					m_closeResolutionTree = true;
+					m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
+				}
 			)
 		);
 	m_buttons.emplace_back
@@ -40,7 +44,10 @@ void ui::OptionsSceneUI::init()
 				m_gameContext, ImVec2(),
 				ImVec2(0.5f, 0.9f), ImVec2(200, 80), ImVec2(0.5f, 0.5f),
 				std::string("##resetBtn"), std::string("Reset"),
-				[this](){}
+				[this]()
+				{
+					m_closeResolutionTree = true;
+				}
 			)
 		);
 	m_buttons.emplace_back
@@ -56,6 +63,7 @@ void ui::OptionsSceneUI::init()
 					optionsManager->setCurrentResolution(currentResolution);
 					optionsManager->applyCurrentResolution();
 					optionsManager->saveOptions();
+					m_closeResolutionTree = true;
 					m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
 				}
 			)
@@ -113,6 +121,21 @@ void ui::OptionsSceneUI::renderResolutionsOption()
 	ImGui::PushFont(m_fonts["regular_font"]);
 	ImGui::Text("Resolution:");
 	ImGui::SameLine(resolution.width * 0.7f);
+	renderResolutionsTreeNode();
+	ImGui::PopFont();
+	ImGui::PopStyleColor(3);
+}
+
+void ui::OptionsSceneUI::renderResolutionsTreeNode()
+{
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	if (m_closeResolutionTree)
+	{
+		ImGui::SetNextItemOpen(false, ImGuiCond_Always);
+		m_closeResolutionTree = false;
+	}
+
 	if (ImGui::TreeNode(m_resolutions.at(m_selectedResolutionId).name.c_str()))
 	{
 		ImGui::Indent(resolution.width * 0.7f);
@@ -124,6 +147,7 @@ void ui::OptionsSceneUI::renderResolutionsOption()
 			if (ImGui::Selectable(resolution.name.c_str(), m_selectedResolutionId == index))
 			{
 				m_selectedResolutionId = index;
+				m_closeResolutionTree = true;
 			}
 			ImGui::PopStyleColor(1);
 
@@ -144,6 +168,4 @@ void ui::OptionsSceneUI::renderResolutionsOption()
 		ImGui::Unindent();
 		ImGui::TreePop();
 	}
-	ImGui::PopFont();
-	ImGui::PopStyleColor(3);
 }

@@ -18,9 +18,11 @@ public:
 private:
 	void renderTitle();
 	void renderResolutionsOption();
+	void renderResolutionsTreeNode();
 	// Resolution
 	std::vector<options::Resolution> m_resolutions;
 	int m_selectedResolutionId;
+	bool m_closeResolutionTree;
 
 	void getNotified(const ObserverMessage& message) override {} 
 };
