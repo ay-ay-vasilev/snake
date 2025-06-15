@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <string>
+#include <optional>
 
 struct SDL_Window;
 
@@ -28,17 +29,20 @@ public:
 	void setCurrentResolution(Resolution newResolution);
 	void applyCurrentResolution();
 
+	bool getIsFullscreen() const;
+	void setIsFullscreen(bool value);
+
 private:
 	void loadOptionPresets();
 	void loadUserOptions();
 
 	void centerWindow();
 
-
+	std::optional<bool> m_isFullscreen;
+	bool m_defaultFullscreen;
 	std::unordered_map<std::string, Resolution> m_resolutionPresets;
 	Resolution m_currentResolution;
 	Resolution m_defaultResolution;
-	bool m_isFullscreen;
 	SDL_Window* m_window;
 
 	// snake customization options ? (color, starting size, starting direction ?)

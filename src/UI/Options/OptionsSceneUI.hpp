@@ -19,10 +19,14 @@ private:
 	void renderTitle();
 	void renderResolutionsOption();
 	void renderResolutionsTreeNode();
+
+	void renderFullscreenOption();
 	// Resolution
 	std::unordered_map<std::string, options::Resolution> m_resolutions;
 	std::string m_selectedResolutionName;
 	bool m_closeResolutionTree;
+
+	bool m_isFullscreen;
 
 	void getNotified(const ObserverMessage& message) override {} 
 };

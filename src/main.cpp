@@ -26,10 +26,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 	auto currentResolution = optionsManager->getCurrentResolution();
 	const auto windowWidth = currentResolution.width;
 	const auto windowHeight = currentResolution.height;
+	auto isFullscreen = optionsManager->getIsFullscreen();
 
 	/* Create the window */
 	SDL_WindowFlags flags = 0;
-	// flags |= SDL_WINDOW_FULLSCREEN;
+	if (isFullscreen) flags |= SDL_WINDOW_FULLSCREEN;
 	if (!SDL_CreateWindowAndRenderer("Snake Game", windowWidth, windowHeight, flags, &window, &renderer))
 	{
 		SDL_Log("Couldn't create window and renderer: %s\n", SDL_GetError());

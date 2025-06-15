@@ -13,6 +13,7 @@ void ui::OptionsSceneUI::init()
 
 	m_resolutions = optionsManager->getResolutionPresets();
 	m_selectedResolutionName = optionsManager->getCurrentResolution().name;
+	m_isFullscreen = optionsManager->getIsFullscreen();
 
 	m_buttons.emplace_back
 		(
@@ -40,6 +41,7 @@ void ui::OptionsSceneUI::init()
 					optionsManager->saveOptions();
 					optionsManager->applyCurrentResolution();
 					m_selectedResolutionName = optionsManager->getCurrentResolution().name;
+					m_isFullscreen = optionsManager->getIsFullscreen();
 					m_closeResolutionTree = true;
 				}
 			)
@@ -55,6 +57,7 @@ void ui::OptionsSceneUI::init()
 					auto& optionsManager = m_gameContext->getOptionsManager();
 					const auto& currentResolution = m_resolutions.at(m_selectedResolutionName);
 					optionsManager->setCurrentResolution(currentResolution);
+					optionsManager->setIsFullscreen(m_isFullscreen);
 					optionsManager->applyCurrentResolution();
 					optionsManager->saveOptions();
 					m_closeResolutionTree = true;
@@ -84,6 +87,8 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 
 	renderResolutionsOption();
 
+	renderFullscreenOption();
+
 	renderButtons();
 
 	ImGui::End();
@@ -97,7 +102,7 @@ void ui::OptionsSceneUI::renderTitle()
 	ImGui::PushFont(m_fonts["big_font"]);
 	auto titleTextWidth = ImGui::CalcTextSize(sceneTitle.c_str()).x;
 	ImGui::SetCursorPosX((resolution.width- titleTextWidth) * 0.5f);
-	ImGui::SetCursorPosY(resolution.height * 0.1f);
+	ImGui::SetCursorPosY(resolution.height * 0.02f);
 	ImGui::Text("%s", sceneTitle.c_str());
 	ImGui::PopFont();
 }
@@ -111,6 +116,7 @@ void ui::OptionsSceneUI::renderResolutionsOption()
 	ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0, 0, 0, 0));
 
 	ImGui::SetCursorPosX(window.width * 0.1f);
+	ImGui::SetCursorPosY(window.height * 0.2f);
 	ImGui::PushFont(m_fonts["regular_font"]);
 	ImGui::Text("Resolution:");
 	ImGui::SameLine(window.width * 0.7f);
@@ -161,4 +167,27 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 		ImGui::Unindent();
 		ImGui::TreePop();
 	}
+}
+
+void ui::OptionsSceneUI::renderFullscreenOption()
+{
+	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	ImGui::PushFont(m_fonts["regular_font"]);
+	ImGui::SetCursorPosX(window.width * 0.1f);
+	ImGui::SetCursorPosY(window.height * 0.3f);
+
+	ImGui::Text("Fullscreen");
+
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(50, 50, 50, 255));
+    ImGui::PushStyleColor(ImGuiCol_FrameBgHovered, IM_COL32(80, 80, 80, 255));
+    ImGui::PushStyleColor(ImGuiCol_FrameBgActive, IM_COL32(120, 120, 120, 255));
+	ImGui::PushStyleColor(ImGuiCol_CheckMark, IM_COL32(255, 215, 0, 255));
+
+	ImGui::SameLine();
+	ImGui::Indent(window.width * 0.7f);
+	ImGui::Checkbox("##FullscreenCheckbox", &m_isFullscreen);
+
+	ImGui::PopStyleColor(4);
+	ImGui::PopFont();
 }

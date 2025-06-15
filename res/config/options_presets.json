@@ -1,7 +1,8 @@
 {
 	"default" :
 	{
-		"resolution" : "1200x800"
+		"resolution" : "1200x800",
+		"fullscreen" : false
 	},
 	"resolutions" :
 	[

@@ -49,6 +49,10 @@ void options::OptionsManager::loadOptionPresets()
 		m_defaultResolution.name = (*defaultOptionsData)["resolution"].get<std::string>();
 		m_defaultResolution.width = m_resolutionPresets[m_defaultResolution.name].width;
 		m_defaultResolution.height = m_resolutionPresets[m_defaultResolution.name].height;
+
+		if (!m_isFullscreen)
+			m_isFullscreen = (*defaultOptionsData)["fullscreen"].get<bool>();
+		m_defaultFullscreen = m_isFullscreen.value();
 	}
 }
 
@@ -71,6 +75,10 @@ void options::OptionsManager::loadUserOptions()
 		const auto& resolutionName = (*resolutionData).get<std::string>();
 		m_currentResolution = m_resolutionPresets[resolutionName];
 	}
+	if (const auto& fullscreenData = userOptionsJson.find("fullscreen"); fullscreenData != userOptionsJson.end())
+	{
+		m_isFullscreen = (*fullscreenData).get<bool>();
+	}
 }
 
 void options::OptionsManager::saveOptions()
@@ -86,6 +94,7 @@ void options::OptionsManager::saveOptions()
 
 	nlohmann::json userOptionsJson;
 	userOptionsJson["resolution"] = m_currentResolution.name;
+	userOptionsJson["fullscreen"] = m_isFullscreen ? m_isFullscreen.value() : false;
 
 	file << std::setw(4) << userOptionsJson << std::endl;
 }
@@ -93,6 +102,7 @@ void options::OptionsManager::saveOptions()
 void options::OptionsManager::resetOptions()
 {
 	m_currentResolution = m_defaultResolution;
+	m_isFullscreen = m_defaultFullscreen;
 }
 
 options::Resolution options::OptionsManager::getCurrentResolution() const
@@ -110,9 +120,20 @@ void options::OptionsManager::setCurrentResolution(options::Resolution newResolu
 	m_currentResolution = newResolution;
 }
 
+bool options::OptionsManager::getIsFullscreen() const
+{
+	return m_isFullscreen ? m_isFullscreen.value() : false;
+}
+
+void options::OptionsManager::setIsFullscreen(bool value)
+{
+	m_isFullscreen = value;
+}
+
 void options::OptionsManager::applyCurrentResolution()
 {
 	SDL_SetWindowSize(m_window, m_currentResolution.width, m_currentResolution.height);
+	SDL_SetWindowFullscreen(m_window, m_isFullscreen ? m_isFullscreen.value() : false);
 	centerWindow();
 }
 
