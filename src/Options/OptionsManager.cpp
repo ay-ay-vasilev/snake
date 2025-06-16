@@ -132,8 +132,8 @@ void options::OptionsManager::setIsFullscreen(bool value)
 
 void options::OptionsManager::applyCurrentResolution()
 {
-	SDL_SetWindowSize(m_window, m_currentResolution.width, m_currentResolution.height);
 	SDL_SetWindowFullscreen(m_window, m_isFullscreen ? m_isFullscreen.value() : false);
+	SDL_SetWindowSize(m_window, m_currentResolution.width, m_currentResolution.height);
 	centerWindow();
 }
 
