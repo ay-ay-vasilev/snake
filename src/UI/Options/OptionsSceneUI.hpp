@@ -24,7 +24,8 @@ private:
 	// Resolution
 	std::unordered_map<std::string, options::Resolution> m_resolutions;
 	std::string m_selectedResolutionName;
-	bool m_closeResolutionTree;
+	bool m_shouldResolutionTreeClose;
+	bool m_isResolutionTreeHovered;
 
 	bool m_isFullscreen;
 

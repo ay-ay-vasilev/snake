@@ -23,7 +23,7 @@ void ui::OptionsSceneUI::init()
 				std::string("##backBtn"), std::string("Back"),
 				[this]()
 				{
-					m_closeResolutionTree = true;
+					m_shouldResolutionTreeClose = true;
 					m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
 				}
 			)
@@ -42,7 +42,7 @@ void ui::OptionsSceneUI::init()
 					optionsManager->applyCurrentResolution();
 					m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 					m_isFullscreen = optionsManager->getIsFullscreen();
-					m_closeResolutionTree = true;
+					m_shouldResolutionTreeClose = true;
 				}
 			)
 		);
@@ -60,7 +60,7 @@ void ui::OptionsSceneUI::init()
 					optionsManager->setIsFullscreen(m_isFullscreen);
 					optionsManager->applyCurrentResolution();
 					optionsManager->saveOptions();
-					m_closeResolutionTree = true;
+					m_shouldResolutionTreeClose = true;
 				}
 			)
 		);
@@ -129,14 +129,22 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 {
 	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
 
-	if (m_closeResolutionTree)
+	if (m_shouldResolutionTreeClose)
 	{
 		ImGui::SetNextItemOpen(false, ImGuiCond_Always);
-		m_closeResolutionTree = false;
+		m_shouldResolutionTreeClose = false;
 	}
+
+	if (m_isResolutionTreeHovered)
+	{
+		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 200, 0, 255));
+	}
+	else
+		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
 
 	if (ImGui::TreeNode(m_selectedResolutionName.c_str()))
 	{
+		m_isResolutionTreeHovered = ImGui::IsItemHovered();
 		ImGui::Indent(window.width * 0.7f);
 		ImGui::Indent();
 		int index = 0;
@@ -146,7 +154,7 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 			if (ImGui::Selectable(resolution.first.c_str(), resolution.first == m_selectedResolutionName))
 			{
 				m_selectedResolutionName = resolution.first;
-				m_closeResolutionTree = true;
+				m_shouldResolutionTreeClose = true;
 			}
 			ImGui::PopStyleColor(1);
 
@@ -167,6 +175,12 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 		ImGui::Unindent();
 		ImGui::TreePop();
 	}
+	else
+	{
+		m_isResolutionTreeHovered = ImGui::IsItemHovered();
+	}
+
+	ImGui::PopStyleColor(1);
 }
 
 void ui::OptionsSceneUI::renderFullscreenOption()
