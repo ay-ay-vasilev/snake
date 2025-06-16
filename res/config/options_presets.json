@@ -7,14 +7,14 @@
 	"resolutions" :
 	[
 		{
-			"name" : "640x480",
-			"width" : 640, 
-			"height": 480
-		},
-		{
 			"name" : "1200x800",
 			"width" : 1200, 
 			"height": 800
+		},
+		{
+			"name" : "1440x900",
+			"width" : 1440, 
+			"height": 900
 		},
 		{
 			"name" : "1920x1080",
