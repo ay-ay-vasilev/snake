@@ -19,15 +19,18 @@ private:
 	void renderTitle();
 	void renderResolutionsOption();
 	void renderResolutionsTreeNode();
-
 	void renderFullscreenOption();
+	void renderSnakeColorOptions();
 	// Resolution
 	std::unordered_map<std::string, options::Resolution> m_resolutions;
 	std::string m_selectedResolutionName;
 	bool m_shouldResolutionTreeClose;
 	bool m_isResolutionTreeHovered;
-
+	// Fullscreen
 	bool m_isFullscreen;
+	// Snake colors
+	ImVec4 m_snake1Color;
+	ImVec4 m_snake2Color;
 
 	void getNotified(const ObserverMessage& message) override {} 
 };

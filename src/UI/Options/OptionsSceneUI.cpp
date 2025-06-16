@@ -82,12 +82,17 @@ void ui::OptionsSceneUI::update()
 void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
+	
+	ImGui::GetWindowDrawList()->ChannelsSplit(2);
+	ImGui::GetWindowDrawList()->ChannelsSetCurrent(1);
 
 	renderTitle();
-
 	renderResolutionsOption();
-
 	renderFullscreenOption();
+
+	ImGui::GetWindowDrawList()->ChannelsSetCurrent(0);
+	renderSnakeColorOptions();
+	ImGui::GetWindowDrawList()->ChannelsMerge();
 
 	renderButtons();
 
@@ -150,6 +155,15 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 		int index = 0;
 		for (const auto resolution : m_resolutions)
 		{
+			ImVec2 posMin = ImGui::GetCursorScreenPos();
+			ImVec2 itemSize = ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetFrameHeight());
+			ImVec2 posMax = ImVec2(posMin.x + itemSize.x, posMin.y + itemSize.y);
+			posMin.x -= 5;
+			posMax.x += 5;
+
+			ImU32 bgColor = IM_COL32(0, 0, 0, 255);
+			ImGui::GetWindowDrawList()->AddRectFilled(posMin, posMax, bgColor);
+
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 			if (ImGui::Selectable(resolution.first.c_str(), resolution.first == m_selectedResolutionName))
 			{
@@ -203,5 +217,34 @@ void ui::OptionsSceneUI::renderFullscreenOption()
 	ImGui::Checkbox("##FullscreenCheckbox", &m_isFullscreen);
 
 	ImGui::PopStyleColor(4);
+	ImGui::PopFont();
+}
+
+void ui::OptionsSceneUI::renderSnakeColorOptions()
+{
+	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	ImGui::PushFont(m_fonts["regular_font"]);
+	ImGui::SetCursorPosX(window.width * 0.1f);
+	ImGui::SetCursorPosY(window.height * 0.4f);
+	ImGui::Text("Player 1 snake color");
+	ImGui::PopFont();
+
+	ImGui::PushFont(m_fonts["smallish_font"]);
+	ImGui::SetCursorPosX(window.width * 0.72f);
+	ImGui::SetCursorPosY(window.height * 0.41f);
+	ImGui::ColorEdit4("##Player1SnakeColor", &m_snake1Color.x, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::PopFont();
+	
+	ImGui::PushFont(m_fonts["regular_font"]);
+	ImGui::SetCursorPosX(window.width * 0.1f);
+	ImGui::SetCursorPosY(window.height * 0.5f);
+	ImGui::Text("Player 2 snake color");
+	ImGui::PopFont();
+
+	ImGui::PushFont(m_fonts["smallish_font"]);
+	ImGui::SetCursorPosX(window.width * 0.72f);
+	ImGui::SetCursorPosY(window.height * 0.51f);
+	ImGui::ColorEdit4("Player 2 Snake Color", &m_snake2Color.x, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 	ImGui::PopFont();
 }
