@@ -15,6 +15,11 @@ struct Resolution
 	int height;
 };
 
+struct Color
+{
+	int r{0}, g{0}, b{0}, a{0};
+};
+
 class OptionsManager
 {
 public:
@@ -40,9 +45,16 @@ private:
 
 	std::optional<bool> m_isFullscreen;
 	bool m_defaultFullscreen;
+
 	std::unordered_map<std::string, Resolution> m_resolutionPresets;
 	Resolution m_currentResolution;
 	Resolution m_defaultResolution;
+
+	Color m_snake1Color;
+	Color m_snake2Color;
+	Color m_defaultSnake1Color;
+	Color m_defaultSnake2Color;
+
 	SDL_Window* m_window;
 
 	// snake customization options ? (color, starting size, starting direction ?)

@@ -6,6 +6,29 @@
 #include <fstream>
 #include <iostream>
 
+static options::Color getColorFromJson(const nlohmann::json& json)
+{
+	std::cout << json["r"].get<int>() << std::endl;
+	std::cout << json["g"].get<int>() << std::endl;
+	std::cout << json["b"].get<int>() << std::endl;
+	std::cout << json["a"].get<int>() << std::endl;
+	return
+		{
+			json["r"].get<int>(),
+			json["g"].get<int>(),
+			json["b"].get<int>(),
+			json["a"].get<int>()
+		};
+}
+
+static void saveColorToJson(const options::Color& color, nlohmann::json& json)
+{
+	json["r"] = color.r;
+	json["g"] = color.g;
+	json["b"] = color.b;
+	json["a"] = color.a;
+}
+
 void options::OptionsManager::setWindow(SDL_Window* window)
 {
 	m_window = window;
@@ -53,6 +76,9 @@ void options::OptionsManager::loadOptionPresets()
 		if (!m_isFullscreen)
 			m_isFullscreen = (*defaultOptionsData)["fullscreen"].get<bool>();
 		m_defaultFullscreen = m_isFullscreen.value();
+
+		m_defaultSnake1Color = getColorFromJson((*defaultOptionsData)["snake_1_color"]);
+		m_defaultSnake2Color = getColorFromJson((*defaultOptionsData)["snake_2_color"]);
 	}
 }
 
@@ -79,6 +105,14 @@ void options::OptionsManager::loadUserOptions()
 	{
 		m_isFullscreen = (*fullscreenData).get<bool>();
 	}
+	if (const auto& snake1ColorData = userOptionsJson.find("snake_1_color"); snake1ColorData != userOptionsJson.end())
+	{
+		m_snake1Color = getColorFromJson(*snake1ColorData);
+	}
+	if (const auto& snake2ColorData = userOptionsJson.find("snake_2_color"); snake2ColorData != userOptionsJson.end())
+	{
+		m_snake2Color = getColorFromJson(*snake2ColorData);
+	}
 }
 
 void options::OptionsManager::saveOptions()
@@ -96,6 +130,9 @@ void options::OptionsManager::saveOptions()
 	userOptionsJson["resolution"] = m_currentResolution.name;
 	userOptionsJson["fullscreen"] = m_isFullscreen ? m_isFullscreen.value() : false;
 
+	saveColorToJson(m_snake1Color, userOptionsJson["snake_1_color"]);
+	saveColorToJson(m_snake2Color, userOptionsJson["snake_2_color"]);
+
 	file << std::setw(4) << userOptionsJson << std::endl;
 }
 
@@ -103,6 +140,8 @@ void options::OptionsManager::resetOptions()
 {
 	m_currentResolution = m_defaultResolution;
 	m_isFullscreen = m_defaultFullscreen;
+	m_snake1Color = m_defaultSnake1Color;
+	m_snake2Color = m_defaultSnake2Color;
 }
 
 options::Resolution options::OptionsManager::getCurrentResolution() const

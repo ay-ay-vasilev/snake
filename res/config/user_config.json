@@ -1,4 +1,16 @@
 {
     "fullscreen": false,
-    "resolution": "1200x800"
+    "resolution": "1200x800",
+    "snake_1_color": {
+        "a": 255,
+        "b": 0,
+        "g": 255,
+        "r": 0
+    },
+    "snake_2_color": {
+        "a": 255,
+        "b": 255,
+        "g": 0,
+        "r": 0
+    }
 }
