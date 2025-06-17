@@ -7,6 +7,28 @@
 #include "../../Scenes/Scene.hpp"
 #include "../../Game/GameContext.hpp"
 
+static ImVec4 getImVec4FromColor(options::Color color)
+{
+	return
+	{
+		(color.r / 255.f),
+		(color.g / 255.f),
+		(color.b / 255.f),
+		(color.a / 255.f),
+	};
+}
+
+static options::Color getColorFromImVec4(ImVec4 color)
+{
+	return
+	{
+		static_cast<int>(color.x * 255.f),
+		static_cast<int>(color.y * 255.f),
+		static_cast<int>(color.z * 255.f),
+		static_cast<int>(color.w * 255.f)
+	};
+}
+
 void ui::OptionsSceneUI::init()
 {
 	auto& optionsManager = m_gameContext->getOptionsManager();
@@ -14,6 +36,11 @@ void ui::OptionsSceneUI::init()
 	m_resolutions = optionsManager->getResolutionPresets();
 	m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 	m_isFullscreen = optionsManager->getIsFullscreen();
+
+	const auto& snake1Color = optionsManager->getSnake1Color();
+	m_snake1Color = getImVec4FromColor(snake1Color);
+	const auto& snake2Color = optionsManager->getSnake2Color();
+	m_snake2Color = getImVec4FromColor(snake2Color);
 
 	m_buttons.emplace_back
 		(
@@ -43,6 +70,8 @@ void ui::OptionsSceneUI::init()
 					m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 					m_isFullscreen = optionsManager->getIsFullscreen();
 					m_shouldResolutionTreeClose = true;
+					m_snake1Color = getImVec4FromColor(optionsManager->getSnake1Color());
+					m_snake2Color = getImVec4FromColor(optionsManager->getSnake2Color());
 				}
 			)
 		);
@@ -59,6 +88,8 @@ void ui::OptionsSceneUI::init()
 					optionsManager->setCurrentResolution(currentResolution);
 					optionsManager->setIsFullscreen(m_isFullscreen);
 					optionsManager->applyCurrentResolution();
+					optionsManager->setSnake1Color(getColorFromImVec4(m_snake1Color));
+					optionsManager->setSnake2Color(getColorFromImVec4(m_snake2Color));
 					optionsManager->saveOptions();
 					m_shouldResolutionTreeClose = true;
 				}
@@ -233,7 +264,7 @@ void ui::OptionsSceneUI::renderSnakeColorOptions()
 	ImGui::PushFont(m_fonts["smallish_font"]);
 	ImGui::SetCursorPosX(window.width * 0.72f);
 	ImGui::SetCursorPosY(window.height * 0.41f);
-	ImGui::ColorEdit4("##Player1SnakeColor", &m_snake1Color.x, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::ColorEdit4("##Player1SnakeColor", (float*)&m_snake1Color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 	ImGui::PopFont();
 	
 	ImGui::PushFont(m_fonts["regular_font"]);
@@ -245,6 +276,6 @@ void ui::OptionsSceneUI::renderSnakeColorOptions()
 	ImGui::PushFont(m_fonts["smallish_font"]);
 	ImGui::SetCursorPosX(window.width * 0.72f);
 	ImGui::SetCursorPosY(window.height * 0.51f);
-	ImGui::ColorEdit4("Player 2 Snake Color", &m_snake2Color.x, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::ColorEdit4("Player 2 Snake Color", (float*)&m_snake2Color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 	ImGui::PopFont();
 }

@@ -8,10 +8,6 @@
 
 static options::Color getColorFromJson(const nlohmann::json& json)
 {
-	std::cout << json["r"].get<int>() << std::endl;
-	std::cout << json["g"].get<int>() << std::endl;
-	std::cout << json["b"].get<int>() << std::endl;
-	std::cout << json["a"].get<int>() << std::endl;
 	return
 		{
 			json["r"].get<int>(),
@@ -167,6 +163,26 @@ bool options::OptionsManager::getIsFullscreen() const
 void options::OptionsManager::setIsFullscreen(bool value)
 {
 	m_isFullscreen = value;
+}
+
+options::Color options::OptionsManager::getSnake1Color() const
+{
+	return m_snake1Color;
+}
+
+void options::OptionsManager::setSnake1Color(options::Color color)
+{
+	m_snake1Color = color;
+}
+
+options::Color options::OptionsManager::getSnake2Color() const
+{
+	return m_snake2Color;
+}
+
+void options::OptionsManager::setSnake2Color(options::Color color)
+{
+	m_snake2Color = color;
 }
 
 void options::OptionsManager::applyCurrentResolution()

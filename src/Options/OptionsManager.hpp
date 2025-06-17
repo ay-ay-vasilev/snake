@@ -37,6 +37,11 @@ public:
 	bool getIsFullscreen() const;
 	void setIsFullscreen(bool value);
 
+	Color getSnake1Color() const;
+	void setSnake1Color(Color color);
+	Color getSnake2Color() const;
+	void setSnake2Color(Color color);
+
 private:
 	void loadOptionPresets();
 	void loadUserOptions();
