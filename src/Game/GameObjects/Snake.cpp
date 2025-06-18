@@ -1,5 +1,7 @@
 #include "Snake.hpp"
 
+#include "../GameContext.hpp"
+
 #include <SDL3_image/SDL_image.h>
 #include <assert.h>
 #include <algorithm>
@@ -14,8 +16,6 @@ bool isDirectionValid(Snake::eDirection newDirection, Snake::eDirection curDirec
 
 	return false;
 }
-
-Snake::Snake() {}
 
 void Snake::init(std::deque<std::pair<int, int>> initPartPositions, std::pair<size_t, size_t> size, std::pair<int, int> offset)
 {
@@ -32,6 +32,16 @@ void Snake::update()
 
 void Snake::render(SDL_Renderer* renderer)
 {
+	const auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& snakeColor = optionsManager->getSnake1Color();
+	const options::Color snakePartColor =
+		{
+			snakeColor.r / 2,
+			snakeColor.g / 2,
+			snakeColor.b / 2,
+			snakeColor.a
+		};
+
 	for (auto part = m_partPositions.rbegin(); part < m_partPositions.rend(); ++part)
 	{
 		SDL_FRect rect;
@@ -42,7 +52,10 @@ void Snake::render(SDL_Renderer* renderer)
 		rect.w = m_size.first;
 		rect.h = m_size.second;
 
-		SDL_SetRenderDrawColor(renderer, 0, *part != m_partPositions.front() ? 100 : 255, 0, SDL_ALPHA_OPAQUE);
+		if (*part != m_partPositions.front())
+			SDL_SetRenderDrawColor(renderer, snakePartColor.r, snakePartColor.g, snakePartColor.b, SDL_ALPHA_OPAQUE);
+		else
+			SDL_SetRenderDrawColor(renderer, snakeColor.r, snakeColor.g, snakeColor.b, SDL_ALPHA_OPAQUE);
 		SDL_RenderFillRect(renderer, &rect);
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);

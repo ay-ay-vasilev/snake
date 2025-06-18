@@ -3,13 +3,20 @@
 #include <deque>
 #include <queue>
 #include <optional>
+#include <memory>
+
+namespace context
+{
+	class GameContext;
+}
+using GameContextRef = std::unique_ptr<context::GameContext>&;
 
 struct SDL_Renderer;
 
 class Snake
 {
 public:
-	Snake();
+	Snake(GameContextRef gameContext) : m_gameContext(gameContext) {}
 
 	enum class eDirection
 	{
@@ -35,6 +42,8 @@ public:
 	inline const std::deque<std::pair<int, int>>& getPartPositions() const { return m_partPositions; }
 
 private:
+	GameContextRef m_gameContext;
+
 	void move();
 	std::optional<eDirection> getDirectionFromQueue();
 	std::optional<eDirection> getInitialDirection() const;

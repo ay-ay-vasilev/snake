@@ -16,7 +16,7 @@ void scene::GameplayScene::init()
 	m_states[state::StateType::ePause] = std::make_shared<state::PauseState>(m_gameContext);
 	m_states[state::StateType::eLose]  = std::make_shared<state::LoseState>(m_gameContext);
 
-	auto gameObjects = std::make_shared<GameObjects>();
+	auto gameObjects = std::make_shared<GameObjects>(m_gameContext);
 	gameObjects->init();
 
 	for (auto& state : m_states)

@@ -12,7 +12,7 @@ void GameObjects::reset()
 void GameObjects::init()
 {
 	m_grid = std::make_unique<Grid>();
-	m_snake = std::make_unique<Snake>();
+	m_snake = std::make_unique<Snake>(m_gameContext);
 	m_food = std::make_unique<Food>();
 }
 
