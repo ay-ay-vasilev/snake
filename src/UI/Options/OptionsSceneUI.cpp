@@ -42,6 +42,9 @@ void ui::OptionsSceneUI::init()
 	const auto& snake2Color = optionsManager->getSnake2Color();
 	m_snake2Color = getImVec4FromColor(snake2Color);
 
+	m_selectedGameSpeed = optionsManager->getGameSpeedStr();
+	m_gameSpeedPresets = optionsManager->getGameSpeedPresetsStr();
+
 	m_buttons.emplace_back
 		(
 			UIButton(
@@ -51,6 +54,7 @@ void ui::OptionsSceneUI::init()
 				[this]()
 				{
 					m_shouldResolutionTreeClose = true;
+					m_shouldGameSpeedTreeClose = true;
 					m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
 				}
 			)
@@ -70,8 +74,10 @@ void ui::OptionsSceneUI::init()
 					m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 					m_isFullscreen = optionsManager->getIsFullscreen();
 					m_shouldResolutionTreeClose = true;
+					m_shouldGameSpeedTreeClose = true;
 					m_snake1Color = getImVec4FromColor(optionsManager->getSnake1Color());
 					m_snake2Color = getImVec4FromColor(optionsManager->getSnake2Color());
+					m_selectedGameSpeed = optionsManager->getGameSpeedStr();
 				}
 			)
 		);
@@ -90,8 +96,10 @@ void ui::OptionsSceneUI::init()
 					optionsManager->applyCurrentResolution();
 					optionsManager->setSnake1Color(getColorFromImVec4(m_snake1Color));
 					optionsManager->setSnake2Color(getColorFromImVec4(m_snake2Color));
+					optionsManager->setGameSpeed(m_selectedGameSpeed);
 					optionsManager->saveOptions();
 					m_shouldResolutionTreeClose = true;
+					m_shouldGameSpeedTreeClose = true;
 				}
 			)
 		);
@@ -118,14 +126,14 @@ void ui::OptionsSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::GetWindowDrawList()->ChannelsSetCurrent(1);
 
 	renderTitle();
-	renderResolutionsOption();
+	renderResolutionsOptions();
 	renderFullscreenOption();
+	renderGameSpeedOptions();
 
 	ImGui::GetWindowDrawList()->ChannelsSetCurrent(0);
 	renderSnakeColorOptions();
-	ImGui::GetWindowDrawList()->ChannelsMerge();
-
 	renderButtons();
+	ImGui::GetWindowDrawList()->ChannelsMerge();
 
 	ImGui::End();
 }
@@ -143,7 +151,7 @@ void ui::OptionsSceneUI::renderTitle()
 	ImGui::PopFont();
 }
 
-void ui::OptionsSceneUI::renderResolutionsOption()
+void ui::OptionsSceneUI::renderResolutionsOptions()
 {
 	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
 
@@ -278,4 +286,89 @@ void ui::OptionsSceneUI::renderSnakeColorOptions()
 	ImGui::SetCursorPosY(window.height * 0.51f);
 	ImGui::ColorEdit4("Player 2 Snake Color", (float*)&m_snake2Color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 	ImGui::PopFont();
+}
+
+void ui::OptionsSceneUI::renderGameSpeedOptions()
+{
+	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(0, 0, 0, 0));
+	ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0, 0, 0, 0));
+	ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(0, 0, 0, 0));
+
+	ImGui::SetCursorPosX(window.width * 0.1f);
+	ImGui::SetCursorPosY(window.height * 0.6f);
+	ImGui::PushFont(m_fonts["regular_font"]);
+	ImGui::Text("Game speed:");
+	ImGui::SameLine(window.width * 0.7f);
+	renderGameSpeedTreeNode();
+	ImGui::PopFont();
+	ImGui::PopStyleColor(3);
+}
+
+void ui::OptionsSceneUI::renderGameSpeedTreeNode()
+{
+	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	if (m_shouldGameSpeedTreeClose)
+	{
+		ImGui::SetNextItemOpen(false, ImGuiCond_Always);
+		m_shouldGameSpeedTreeClose = false;
+	}
+
+	if (m_isGameSpeedTreeHovered)
+	{
+		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 200, 0, 255));
+	}
+	else
+		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+
+	if (ImGui::TreeNode(m_selectedGameSpeed.c_str()))
+	{
+		m_isGameSpeedTreeHovered = ImGui::IsItemHovered();
+		ImGui::Indent();
+		ImGui::Indent();
+		int index = 0;
+		for (const auto& gameSpeed : m_gameSpeedPresets)
+		{
+			ImVec2 posMin = ImGui::GetCursorScreenPos();
+			ImVec2 itemSize = ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetFrameHeight());
+			ImVec2 posMax = ImVec2(posMin.x + itemSize.x, posMin.y + itemSize.y);
+			posMin.x -= 5;
+			posMax.x += 5;
+
+			ImU32 bgColor = IM_COL32(0, 0, 0, 255);
+			ImGui::GetWindowDrawList()->AddRectFilled(posMin, posMax, bgColor);
+
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
+			if (ImGui::Selectable(gameSpeed.c_str(), gameSpeed == m_selectedGameSpeed))
+			{
+				m_selectedGameSpeed = gameSpeed;
+				m_shouldGameSpeedTreeClose = true;
+			}
+			ImGui::PopStyleColor(1);
+
+			ImVec2 itemMin = ImGui::GetItemRectMin();
+			ImVec2 itemMax = ImGui::GetItemRectMax();
+			ImVec2 textPos = ImVec2(itemMin.x, itemMin.y + ImGui::GetStyle().FramePadding.y);
+
+			ImU32 textColor = IM_COL32(255, 255, 255, 255); // Default
+			if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup))
+				textColor = IM_COL32(255, 165, 0, 255); // Orange
+			else if (gameSpeed == m_selectedGameSpeed)
+				textColor = IM_COL32(255, 255, 0, 255); // Yellow
+
+			ImGui::GetWindowDrawList()->AddText(textPos, textColor, gameSpeed.c_str());
+			++index;
+		}
+		ImGui::Unindent();
+		ImGui::Unindent();
+		ImGui::TreePop();
+	}
+	else
+	{
+		m_isGameSpeedTreeHovered = ImGui::IsItemHovered();
+	}
+
+	ImGui::PopStyleColor(1);
 }

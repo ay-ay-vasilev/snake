@@ -1,5 +1,6 @@
 {
     "fullscreen": false,
+    "game_speed": "Fast",
     "resolution": "1200x800",
     "snake_1_color": {
         "a": 255,

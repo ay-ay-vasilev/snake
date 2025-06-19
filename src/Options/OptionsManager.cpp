@@ -63,6 +63,17 @@ void options::OptionsManager::loadOptionPresets()
 		}
 	}
 
+	if (const auto& gameSpeedsData = optionPresetsJson.find("game_speeds"); gameSpeedsData != optionPresetsJson.end())
+	{
+		for (const auto& gameSpeedData : *gameSpeedsData)
+		{
+			GameSpeed gameSpeed;
+			gameSpeed.name = (gameSpeedData)["name"].get<std::string>();
+			gameSpeed.frameStep = (gameSpeedData)["frame_step"].get<int>();
+			m_gameSpeedPresets[gameSpeed.name] = gameSpeed;
+		}
+	}
+
 	if (const auto& defaultOptionsData = optionPresetsJson.find("default"); defaultOptionsData != optionPresetsJson.end())
 	{
 		m_defaultResolution.name = (*defaultOptionsData)["resolution"].get<std::string>();
@@ -75,6 +86,10 @@ void options::OptionsManager::loadOptionPresets()
 
 		m_defaultSnake1Color = getColorFromJson((*defaultOptionsData)["snake_1_color"]);
 		m_defaultSnake2Color = getColorFromJson((*defaultOptionsData)["snake_2_color"]);
+
+		m_defaultGameSpeed = m_gameSpeedPresets.at((*defaultOptionsData)["game_speed"].get<std::string>());
+		if (m_gameSpeed.name.empty())
+			m_gameSpeed = m_defaultGameSpeed;
 	}
 }
 
@@ -109,6 +124,10 @@ void options::OptionsManager::loadUserOptions()
 	{
 		m_snake2Color = getColorFromJson(*snake2ColorData);
 	}
+	if (const auto& gameSpeedData = userOptionsJson.find("game_speed"); gameSpeedData != userOptionsJson.end())
+	{
+		m_gameSpeed = m_gameSpeedPresets.at((*gameSpeedData).get<std::string>());
+	}
 }
 
 void options::OptionsManager::saveOptions()
@@ -129,6 +148,8 @@ void options::OptionsManager::saveOptions()
 	saveColorToJson(m_snake1Color, userOptionsJson["snake_1_color"]);
 	saveColorToJson(m_snake2Color, userOptionsJson["snake_2_color"]);
 
+	userOptionsJson["game_speed"] = m_gameSpeed.name;
+
 	file << std::setw(4) << userOptionsJson << std::endl;
 }
 
@@ -138,6 +159,7 @@ void options::OptionsManager::resetOptions()
 	m_isFullscreen = m_defaultFullscreen;
 	m_snake1Color = m_defaultSnake1Color;
 	m_snake2Color = m_defaultSnake2Color;
+	m_gameSpeed = m_defaultGameSpeed;
 }
 
 options::Resolution options::OptionsManager::getCurrentResolution() const
@@ -195,4 +217,39 @@ void options::OptionsManager::applyCurrentResolution()
 void options::OptionsManager::centerWindow()
 {
 	SDL_SetWindowPosition(m_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+}
+
+std::unordered_map<std::string, options::GameSpeed> options::OptionsManager::getGameSpeedPresets() const
+{
+	return m_gameSpeedPresets;
+}
+
+std::vector<std::string> options::OptionsManager::getGameSpeedPresetsStr() const
+{
+	std::vector<std::string> result;
+	for (const auto& gameSpeed : m_gameSpeedPresets)
+	{
+		result.emplace_back(gameSpeed.first);
+	}
+	return result;
+}
+
+options::GameSpeed options::OptionsManager::getGameSpeed() const
+{
+	return m_gameSpeed;
+}
+
+std::string options::OptionsManager::getGameSpeedStr() const
+{
+	return m_gameSpeed.name;
+}
+
+void options::OptionsManager::setGameSpeed(options::GameSpeed gameSpeed)
+{
+	m_gameSpeed = gameSpeed;
+}
+
+void options::OptionsManager::setGameSpeed(std::string gameSpeed)
+{
+	m_gameSpeed = m_gameSpeedPresets.at(gameSpeed);
 }

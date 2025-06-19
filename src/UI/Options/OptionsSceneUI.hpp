@@ -17,10 +17,12 @@ public:
 
 private:
 	void renderTitle();
-	void renderResolutionsOption();
+	void renderResolutionsOptions();
 	void renderResolutionsTreeNode();
 	void renderFullscreenOption();
 	void renderSnakeColorOptions();
+	void renderGameSpeedOptions();
+	void renderGameSpeedTreeNode();
 	// Resolution
 	std::unordered_map<std::string, options::Resolution> m_resolutions;
 	std::string m_selectedResolutionName;
@@ -31,6 +33,11 @@ private:
 	// Snake colors
 	ImVec4 m_snake1Color;
 	ImVec4 m_snake2Color;
+	// Game speed
+	std::vector<std::string> m_gameSpeedPresets;
+	std::string m_selectedGameSpeed;
+	bool m_shouldGameSpeedTreeClose;
+	bool m_isGameSpeedTreeHovered;
 
 	void getNotified(const ObserverMessage& message) override {} 
 };

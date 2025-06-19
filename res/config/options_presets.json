@@ -4,7 +4,8 @@
 		"resolution" : "1200x800",
 		"fullscreen" : false,
 		"snake_1_color" : {"r":0, "g": 255, "b": 0, "a": 255},
-		"snake_2_color" : {"r":0, "g": 0, "b": 255, "a": 255}
+		"snake_2_color" : {"r":0, "g": 0, "b": 255, "a": 255},
+		"game_speed" : "Medium"
 	},
 	"resolutions" :
 	[
@@ -22,6 +23,21 @@
 			"name" : "1920x1080",
 			"width" : 1920, 
 			"height": 1080
+		}
+	],
+	"game_speeds" :
+	[
+		{
+			"name" : "Slow",
+			"frame_step" : 80
+		},
+		{
+			"name" : "Medium",
+			"frame_step" : 65
+		},
+		{
+			"name" : "Fast",
+			"frame_step" : 50
 		}
 	]
 }
