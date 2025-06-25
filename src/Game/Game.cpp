@@ -6,6 +6,7 @@
 #include "../Scenes/GameplayScene.hpp"
 #include "../Scenes/MainMenuScene.hpp"
 #include "../Scenes/OptionsScene.hpp"
+#include "../Scenes/HighscoresScene.hpp"
 
 #include "GameContext.hpp"
 #include "../UI/UIManager.hpp"
@@ -20,6 +21,7 @@ void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 	m_scenes[scene::eSceneType::Gameplay] = std::make_shared<scene::GameplayScene>(m_gameContext);
 	m_scenes[scene::eSceneType::MainMenu]  = std::make_shared<scene::MainMenuScene>(m_gameContext);
 	m_scenes[scene::eSceneType::Options] = std::make_shared<scene::OptionsScene>(m_gameContext);
+	m_scenes[scene::eSceneType::Highscores] = std::make_shared<scene::HighscoresScene>(m_gameContext);
 	
 	for (auto& scene : m_scenes)
 		scene.second->init();

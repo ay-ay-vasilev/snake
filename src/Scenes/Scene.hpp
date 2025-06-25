@@ -3,7 +3,6 @@
 #include <SDL3/SDL.h>
 #include <optional>
 #include <memory>
-//#include <iostream>
 
 class SDL_Renderer;
 
@@ -24,16 +23,14 @@ enum class eSceneType
 {
 	MainMenu,
 	Options,
-	Gameplay
+	Gameplay,
+	Highscores
 };
 
 class Scene
 {
 public:
-	Scene(GameContextRef gameContext) : m_gameContext(gameContext) 
-	{
-		// std::cout << "Scene created!\n";	
-	};
+	Scene(GameContextRef gameContext) : m_gameContext(gameContext) {};
 	virtual ~Scene() = default;
 	virtual void init() = 0;
 	virtual void update() = 0;

@@ -1,4 +1,4 @@
-#include "MainMenuSceneUI.hpp"
+#include "HighscoresSceneUI.hpp"
 
 #include <SDL3_image/SDL_image.h>
 #include "imgui.h"
@@ -7,10 +7,9 @@
 #include "../../Scenes/Scene.hpp"
 #include "../../Game/GameContext.hpp"
 
-void ui::MainMenuSceneUI::init()
+void ui::HighscoresSceneUI::init()
 {
-	m_title = "SNAKE";
-	m_version = "v" + std::string(PROJECT_VERSION);
+	m_title = "Highscores";
 
 	auto& optionsManager = m_gameContext->getOptionsManager();
 
@@ -43,31 +42,22 @@ void ui::MainMenuSceneUI::init()
 				[this](){m_commandCallback({eUICommandType::QuitGame, std::nullopt});}
 			)
 		);
-	m_buttons.emplace_back
-		(
-			UIButton(
-				m_gameContext, ImVec2(),
-				ImVec2(0.5f, 0.8f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
-				std::string("##highscoresBtn"), std::string("Highscores"),
-				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Highscores});}
-			)
-		);
 
 	m_buttons.front().setIsSelected(true);
 }
 
-void ui::MainMenuSceneUI::handleInput(void* appstate, SDL_Event* event)
+void ui::HighscoresSceneUI::handleInput(void* appstate, SDL_Event* event)
 {
 	if (event->key.type == SDL_EVENT_KEY_UP && event->key.key == SDLK_ESCAPE)
 		m_commandCallback({eUICommandType::QuitGame, std::nullopt});
 }
 
-void ui::MainMenuSceneUI::update()
+void ui::HighscoresSceneUI::update()
 {
 
 }
 
-void ui::MainMenuSceneUI::render(SDL_Renderer* renderer, int windowFlags)
+void ui::HighscoresSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 
@@ -80,22 +70,7 @@ void ui::MainMenuSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::Text("%s", m_title.c_str());
 	ImGui::PopFont();
 
-	renderVersion();
 	renderButtons();
 
 	ImGui::End();
-}
-
-void ui::MainMenuSceneUI::renderVersion()
-{
-	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
-	
-	ImGui::PushFont(m_fonts["small_font"]);
-	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(140, 140, 140, 255));
-	auto titleTextSize = ImGui::CalcTextSize(m_version.c_str());
-	ImGui::SetCursorPosX(0);
-	ImGui::SetCursorPosY(resolution.height - titleTextSize.y);
-	ImGui::Text("%s", m_version.c_str());
-	ImGui::PopStyleColor();
-	ImGui::PopFont();
 }
