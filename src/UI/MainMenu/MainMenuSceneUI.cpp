@@ -39,8 +39,8 @@ void ui::MainMenuSceneUI::init()
 			UIButton(
 				m_gameContext, ImVec2(),
 				ImVec2(0.5f, 0.7f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
-				std::string("##exitBtn"), std::string("Exit"),
-				[this](){m_commandCallback({eUICommandType::QuitGame, std::nullopt});}
+				std::string("##highscoresBtn"), std::string("Highscores"),
+				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Highscores});}
 			)
 		);
 	m_buttons.emplace_back
@@ -48,8 +48,8 @@ void ui::MainMenuSceneUI::init()
 			UIButton(
 				m_gameContext, ImVec2(),
 				ImVec2(0.5f, 0.8f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
-				std::string("##highscoresBtn"), std::string("Highscores"),
-				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::Highscores});}
+				std::string("##exitBtn"), std::string("Exit"),
+				[this](){m_commandCallback({eUICommandType::QuitGame, std::nullopt});}
 			)
 		);
 
