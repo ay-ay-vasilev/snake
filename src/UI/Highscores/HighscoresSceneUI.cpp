@@ -43,18 +43,52 @@ void ui::HighscoresSceneUI::update()
 
 void ui::HighscoresSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
+	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
+
+	renderTitle();
+	renderHighscoresTable();
+
+	renderButtons();
+
+	ImGui::End();
+}
+
+void ui::HighscoresSceneUI::renderTitle()
+{
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 
-	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
-	
 	ImGui::PushFont(m_fonts["big_font"]);
 	auto titleTextWidth = ImGui::CalcTextSize(m_title.c_str()).x;
 	ImGui::SetCursorPosX((resolution.width - titleTextWidth) * 0.5f);
 	ImGui::SetCursorPosY(resolution.height * 0.02f);
 	ImGui::Text("%s", m_title.c_str());
 	ImGui::PopFont();
+}
 
-	renderButtons();
+void ui::HighscoresSceneUI::renderHighscoresTable()
+{
+	static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
 
-	ImGui::End();
+	if (ImGui::BeginTable("table1", 2, flags))
+	{
+		if (true)
+		{
+			ImGui::TableSetupColumn("Username");
+			ImGui::TableSetupColumn("Score");
+			ImGui::TableHeadersRow();
+		}
+
+		for (int row = 0; row < 5; row++)
+		{
+			ImGui::TableNextRow();
+			for (int column = 0; column < 2; column++)
+			{
+				ImGui::TableSetColumnIndex(column);
+				char buf[32];
+				sprintf(buf, "Hello %d,%d", column, row);
+				ImGui::TextUnformatted(buf);
+			}
+		}
+		ImGui::EndTable();
+	}
 }

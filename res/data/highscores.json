@@ -1,0 +1,13 @@
+{
+	"records" :
+	[
+		{
+			"name" : "player1",
+			"score" : 10
+		},
+		{
+			"name" : "player2",
+			"score" : 9
+		}
+	]
+}

@@ -14,6 +14,9 @@ public:
 	void update() override;
 	void render(SDL_Renderer* renderer, int windowFlags) override;
 
+	void renderTitle();
+	void renderHighscoresTable();
+
 private:
 	void getNotified(const ObserverMessage& message) override {} 
 

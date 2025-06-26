@@ -84,9 +84,9 @@ void ui::UIManager::preRender(SDL_Renderer* renderer)
 
 	m_sceneUI->render(renderer, window_flags);
 
-	//ImGui::Begin("Test", NULL, static_cast<ImGuiWindowFlags>(window_flags)); // game screen window
-	//ImGui::ShowDemoWindow();
-	//ImGui::End();
+	ImGui::Begin("Test", NULL, static_cast<ImGuiWindowFlags>(window_flags)); // game screen window
+	ImGui::ShowDemoWindow();
+	ImGui::End();
 
 	// Rendering
 	ImGui::Render();
