@@ -18,7 +18,7 @@ void ui::HighscoresSceneUI::init()
 		(
 			UIButton(
 				m_gameContext, ImVec2(),
-				ImVec2(0.1f, 0.9f), ImVec2(200, 80), ImVec2(0.f, 0.5f),
+				ImVec2(0.5f, 0.9f), ImVec2(200, 80), ImVec2(0.5f, 0.5f),
 				std::string("##backBtn"), std::string("Back"),
 				[this]()
 				{
@@ -67,28 +67,47 @@ void ui::HighscoresSceneUI::renderTitle()
 
 void ui::HighscoresSceneUI::renderHighscoresTable()
 {
-	static ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+
+	ImGui::SetCursorPosY(resolution.height * 0.3f);
+	static ImGuiTableFlags flags = ImGuiTableFlags_Borders & !ImGuiTableFlags_BordersInnerH & !ImGuiTableFlags_Sortable;
 
 	if (ImGui::BeginTable("table1", 2, flags))
 	{
-		if (true)
-		{
-			ImGui::TableSetupColumn("Username");
-			ImGui::TableSetupColumn("Score");
-			ImGui::TableHeadersRow();
-		}
+		ImGui::PushFont(m_fonts["regular_font"]);
 
+		ImGui::TableNextRow();
+
+		ImGui::TableSetColumnIndex(0);
+		renderCenteredTableText("Name");
+		ImGui::TableSetColumnIndex(1);
+		renderCenteredTableText("Score");
+		ImGui::PopFont();
+
+		ImGui::NewLine();
+
+		ImGui::PushFont(m_fonts["smallish_font"]);
 		for (int row = 0; row < 5; row++)
 		{
 			ImGui::TableNextRow();
 			for (int column = 0; column < 2; column++)
 			{
 				ImGui::TableSetColumnIndex(column);
-				char buf[32];
-				sprintf(buf, "Hello %d,%d", column, row);
-				ImGui::TextUnformatted(buf);
+				std::string text = "Hello " + std::to_string(column) + " " + std::to_string(row);
+				renderCenteredTableText(text);
 			}
 		}
+		ImGui::PopFont();
 		ImGui::EndTable();
 	}
+}
+
+void ui::HighscoresSceneUI::renderCenteredTableText(const std::string& text)
+{
+	int columnWidth = ImGui::GetColumnWidth();
+	int textWidth = ImGui::CalcTextSize(text.c_str()).x;
+	float offset = (columnWidth - textWidth) * 0.5f;
+
+	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
+	ImGui::Text("%s", text.c_str());
 }

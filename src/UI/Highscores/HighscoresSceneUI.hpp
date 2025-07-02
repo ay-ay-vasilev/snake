@@ -17,6 +17,8 @@ public:
 	void renderTitle();
 	void renderHighscoresTable();
 
+	void renderCenteredTableText(const std::string& text);
+
 private:
 	void getNotified(const ObserverMessage& message) override {} 
 
