@@ -21,6 +21,7 @@ set(SOURCE
 	src/Game/GameContext.cpp
 	src/Data/DataManager.cpp
 	src/Options/OptionsManager.cpp
+	src/Highscores/HighscoreManager.cpp
 	src/UI/UIManager.cpp
 	src/UI/GameplaySceneUI.cpp
 	src/UI/MainMenu/MainMenuSceneUI.cpp
@@ -47,6 +48,7 @@ set(HEADERS
 	src/Game/GameContext.hpp
 	src/Data/DataManager.hpp
 	src/Options/OptionsManager.hpp
+	src/Highscores/HighscoreManager.hpp
 	src/UI/UICommand.hpp
 	src/UI/UIManager.hpp
 	src/UI/GameplaySceneUI.hpp

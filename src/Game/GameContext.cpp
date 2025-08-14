@@ -23,3 +23,10 @@ std::unique_ptr<options::OptionsManager>& context::GameContext::getOptionsManage
 
 	return m_optionsManager;
 }
+
+std::unique_ptr<score::HighscoreManager>& context::GameContext::getHighscoreManager()
+{
+	assert(m_highscoreManager && "HighscoreManager does not exist!");
+
+	return m_highscoreManager;
+}

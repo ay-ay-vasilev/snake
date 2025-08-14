@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-static options::Color getColorFromJson(const nlohmann::json& json)
+options::Color getColorFromJson(const nlohmann::json& json)
 {
 	return
 		{
