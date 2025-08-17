@@ -23,6 +23,5 @@ private:
 	void getNotified(const ObserverMessage& message) override {} 
 
 	std::string m_title{};
-	std::unordered_map<std::string, int> m_highscores{};
 };
 }

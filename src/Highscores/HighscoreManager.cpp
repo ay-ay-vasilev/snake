@@ -2,6 +2,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 
@@ -24,9 +25,12 @@ void score::HighscoreManager::loadHighscores()
 	{
 		for (const auto& recordData : *recordsData)
 		{
-			highscores[recordData["name"].get<std::string>()] = recordData["score"].get<int>();
+			const auto name = recordData["name"].get<std::string>();
+			const auto score = recordData["score"].get<int>();
+			m_highscores.emplace_back(name, score);
 		}
 	}
+	sortHighscores();
 }
 
 void score::HighscoreManager::saveHighscores()
@@ -41,11 +45,11 @@ void score::HighscoreManager::saveHighscores()
 	}
 
 	nlohmann::json highscoresJson;
-	for (const auto& record : highscores)
+	for (const auto& record : m_highscores)
 	{
 		nlohmann::json recordJson;
-		recordJson["name"] = record.first;
-		recordJson["score"] = record.second;
+		recordJson["name"] = record.name;
+		recordJson["score"] = record.score;
 		highscoresJson["records"].push_back(recordJson);
 	}
 
@@ -54,10 +58,17 @@ void score::HighscoreManager::saveHighscores()
 
 void score::HighscoreManager::addHighscore(std::string name, int score)
 {
-	highscores[name] = score;
+	m_highscores.emplace_back(name, score);
+	sortHighscores();
 }
 
-std::unordered_map<std::string, int> score::HighscoreManager::getHighscores() const
+std::vector<score::ScoreRecord> score::HighscoreManager::getHighscores() const
 {
-	return highscores;
+	return m_highscores;
+}
+
+void score::HighscoreManager::sortHighscores()
+{
+	std::sort(m_highscores.begin(), m_highscores.end(),
+		   [](auto& a, auto& b) {return a.score > b.score; });
 }

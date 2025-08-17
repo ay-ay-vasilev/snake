@@ -29,8 +29,6 @@ void ui::HighscoresSceneUI::init()
 
 	m_buttons.front().setIsSelected(true);
 
-	auto& highscoreManager = m_gameContext->getHighscoreManager();
-	m_highscores = highscoreManager->getHighscores();
 }
 
 void ui::HighscoresSceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -71,6 +69,7 @@ void ui::HighscoresSceneUI::renderTitle()
 void ui::HighscoresSceneUI::renderHighscoresTable()
 {
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& highscores = m_gameContext->getHighscoreManager()->getHighscores();
 
 	ImGui::SetCursorPosY(resolution.height * 0.3f);
 	static ImGuiTableFlags flags = ImGuiTableFlags_Borders & !ImGuiTableFlags_BordersInnerH & !ImGuiTableFlags_Sortable;
@@ -90,13 +89,13 @@ void ui::HighscoresSceneUI::renderHighscoresTable()
 		ImGui::NewLine();
 
 		ImGui::PushFont(m_fonts["smallish_font"]);
-		for (const auto& record : m_highscores)
+		for (const auto& record : highscores)
 		{
 			ImGui::TableNextRow();
 			ImGui::TableSetColumnIndex(0);
-			renderCenteredTableText(record.first);
+			renderCenteredTableText(record.name);
 			ImGui::TableSetColumnIndex(1);
-			renderCenteredTableText(std::to_string(record.second));
+			renderCenteredTableText(std::to_string(record.score));
 		}
 		ImGui::PopFont();
 		ImGui::EndTable();

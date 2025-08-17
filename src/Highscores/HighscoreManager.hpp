@@ -1,9 +1,14 @@
 #pragma once
-#include <unordered_map>
+#include <vector>
 #include <string>
 
 namespace score
 {
+struct ScoreRecord {
+	std::string name;
+	int score;
+};
+
 class HighscoreManager
 {
 public:
@@ -13,8 +18,9 @@ public:
 	void saveHighscores();
 
 	void addHighscore(std::string name, int score);
-	std::unordered_map<std::string, int> getHighscores() const;
+	std::vector<ScoreRecord> getHighscores() const;
 private:
-	std::unordered_map<std::string, int> highscores;
+	void sortHighscores();
+	std::vector<ScoreRecord> m_highscores;
 };
 }
