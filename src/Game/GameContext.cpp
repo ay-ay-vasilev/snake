@@ -6,8 +6,10 @@ context::GameContext::GameContext()
 {
 	m_dataManager = std::make_unique<data::DataManager>();
 	m_optionsManager = std::make_unique<options::OptionsManager>();
+	m_highscoreManager = std::make_unique<score::HighscoreManager>();
 	m_dataManager->loadConstants();
 	m_optionsManager->loadOptions();
+	m_highscoreManager->loadHighscores();
 }
 
 std::unique_ptr<data::DataManager>& context::GameContext::getDataManager()

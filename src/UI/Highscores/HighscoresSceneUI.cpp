@@ -28,6 +28,9 @@ void ui::HighscoresSceneUI::init()
 		);
 
 	m_buttons.front().setIsSelected(true);
+
+	auto& highscoreManager = m_gameContext->getHighscoreManager();
+	m_highscores = highscoreManager->getHighscores();
 }
 
 void ui::HighscoresSceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -87,15 +90,13 @@ void ui::HighscoresSceneUI::renderHighscoresTable()
 		ImGui::NewLine();
 
 		ImGui::PushFont(m_fonts["smallish_font"]);
-		for (int row = 0; row < 5; row++)
+		for (const auto& record : m_highscores)
 		{
 			ImGui::TableNextRow();
-			for (int column = 0; column < 2; column++)
-			{
-				ImGui::TableSetColumnIndex(column);
-				std::string text = "Hello " + std::to_string(column) + " " + std::to_string(row);
-				renderCenteredTableText(text);
-			}
+			ImGui::TableSetColumnIndex(0);
+			renderCenteredTableText(record.first);
+			ImGui::TableSetColumnIndex(1);
+			renderCenteredTableText(std::to_string(record.second));
 		}
 		ImGui::PopFont();
 		ImGui::EndTable();
