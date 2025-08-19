@@ -20,6 +20,8 @@ namespace ui
 		void addScore(int value);
 		void clearScore();
 
+		void renderPause();
+
 		UIText m_scoreText{};
 		int m_score{0};
 		std::pair<int, int> m_offset{};

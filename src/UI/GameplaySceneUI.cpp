@@ -59,25 +59,7 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 
 	if (m_isPaused)
 	{
-		const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
-		ImDrawList* draw_list = ImGui::GetForegroundDrawList();
-
-		draw_list->AddRectFilled(
-			ImVec2(0, 0),
-			{ static_cast<float>(resolution.width), static_cast<float>(resolution.height) },
-			IM_COL32(0, 0, 0, 128)
-		);
-
-		const std::string pauseStr = "PAUSE";
-		ImGui::PushFont(m_fonts["big_font"]);
-		auto titleTextWidth = ImGui::CalcTextSize(pauseStr.c_str()).x;
-		auto titleTextHeight = ImGui::CalcTextSize(pauseStr.c_str()).y;
-		ImVec2 textPos = ImVec2(
-			(resolution.width - titleTextWidth) * 0.5f,
-			(resolution.height - titleTextHeight) * 0.5f
-		);
-		draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), pauseStr.c_str());
-		ImGui::PopFont();
+		renderPause();
 	}
 
 	ImGui::End();
@@ -91,6 +73,29 @@ void ui::GameplaySceneUI::addScore(int value)
 void ui::GameplaySceneUI::clearScore()
 {
 	m_score = 0;
+}
+
+void ui::GameplaySceneUI::renderPause()
+{
+	const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	ImDrawList* draw_list = ImGui::GetForegroundDrawList();
+
+	draw_list->AddRectFilled(
+		ImVec2(0, 0),
+		{ static_cast<float>(resolution.width), static_cast<float>(resolution.height) },
+		IM_COL32(0, 0, 0, 128)
+	);
+
+	ImGui::PushFont(m_fonts["big_font"]);
+	const std::string pauseStr = "PAUSE";
+	auto titleTextWidth = ImGui::CalcTextSize(pauseStr.c_str()).x;
+	auto titleTextHeight = ImGui::CalcTextSize(pauseStr.c_str()).y;
+	ImVec2 textPos = ImVec2(
+		(resolution.width - titleTextWidth) * 0.5f,
+		(resolution.height - titleTextHeight) * 0.5f
+	);
+	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), pauseStr.c_str());
+	ImGui::PopFont();
 }
 
 void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
