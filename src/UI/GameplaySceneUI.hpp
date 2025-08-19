@@ -17,15 +17,13 @@ namespace ui
 	private:
 		void getNotified(const ObserverMessage& message) override;
 
-		void setGameStateText(const std::string_view& text);
-		void setDebugText(const std::string_view& text);
 		void addScore(int value);
 		void clearScore();
 
 		UIText m_scoreText{};
-		UIText m_gameStateText{};
-		UIText m_debugText{};
 		int m_score{0};
 		std::pair<int, int> m_offset{};
+
+		bool m_isPaused{};
 	};
 }

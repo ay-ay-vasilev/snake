@@ -32,12 +32,8 @@ void ui::GameplaySceneUI::init()
 	const auto& debugTextData = dataManager->getConstant<data::TextData>("debug_text");
 
 	ui::initUIText(scoreTextData, m_scoreText);
-	ui::initUIText(gameStateTextData, m_gameStateText);
-	ui::initUIText(debugTextData, m_debugText);
 
 	m_scoreText.text = "Score: " + std::to_string(m_score);
-	m_gameStateText.text = "START";
-	m_debugText.text = "DEBUG";
 }
 
 void ui::GameplaySceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -59,11 +55,30 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	const auto scoreText = m_scoreText.text.c_str();
 	ImGui::SetCursorPosX(m_offset.first);
 	ImGui::Text("%s", scoreText);
-
-	const auto gameStateText = m_gameStateText.text.c_str();
-	ImGui::SetCursorPosX(m_offset.first);
-	ImGui::Text("%s", gameStateText);
 	ImGui::PopFont();
+
+	if (m_isPaused)
+	{
+		const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+		ImDrawList* draw_list = ImGui::GetForegroundDrawList();
+
+		draw_list->AddRectFilled(
+			ImVec2(0, 0),
+			{ static_cast<float>(resolution.width), static_cast<float>(resolution.height) },
+			IM_COL32(0, 0, 0, 128)
+		);
+
+		const std::string pauseStr = "PAUSE";
+		ImGui::PushFont(m_fonts["big_font"]);
+		auto titleTextWidth = ImGui::CalcTextSize(pauseStr.c_str()).x;
+		auto titleTextHeight = ImGui::CalcTextSize(pauseStr.c_str()).y;
+		ImVec2 textPos = ImVec2(
+			(resolution.width - titleTextWidth) * 0.5f,
+			(resolution.height - titleTextHeight) * 0.5f
+		);
+		draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), pauseStr.c_str());
+		ImGui::PopFont();
+	}
 
 	ImGui::End();
 }
@@ -78,18 +93,9 @@ void ui::GameplaySceneUI::clearScore()
 	m_score = 0;
 }
 
-void ui::GameplaySceneUI::setGameStateText(const std::string_view& text)
-{
-	m_gameStateText.text = text;
-}
-
-void ui::GameplaySceneUI::setDebugText(const std::string_view& text)
-{
-	m_debugText.text = text;
-}
-
 void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 {
+	std::string messageStr;
 	switch (message.m_type)
 	{
 	case ObserverMessageType::eAddScore:
@@ -99,7 +105,15 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 		clearScore();
 		break;
 	case ObserverMessageType::eGameState:
-		m_gameStateText.text = std::any_cast<std::string>(message.m_value);
+		messageStr = std::any_cast<std::string>(message.m_value);
+		if (messageStr == "PAUSED")
+		{
+			m_isPaused = true;
+		}
+		else
+		{
+			m_isPaused = false;
+		}
 		break;
 	default:
 		break;
