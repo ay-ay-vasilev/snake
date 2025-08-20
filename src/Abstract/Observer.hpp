@@ -7,7 +7,8 @@ enum class ObserverMessageType
 	eNone,
 	eAddScore,
 	eClearScore,
-	eGameState
+	eGameState,
+	eChangeScene
 };
 
 struct ObserverMessage

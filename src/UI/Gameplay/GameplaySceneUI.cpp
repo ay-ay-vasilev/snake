@@ -152,6 +152,13 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 			m_isPaused = false;
 		}
 		break;
+	case ObserverMessageType::eChangeScene:
+		messageStr = std::any_cast<std::string>(message.m_value);
+		if (messageStr == "SaveHighscore")
+		{
+			m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::SaveHighscore});
+		}
+		break;
 	default:
 		break;
 	}

@@ -28,11 +28,13 @@ set(SOURCE
 	src/UI/Common/UIButton.cpp
 	src/UI/Options/OptionsSceneUI.cpp
 	src/UI/Highscores/HighscoresSceneUI.cpp
+	src/UI/SaveHighscore/SaveHighscoreSceneUI.cpp
 	src/UI/SceneUI.cpp
 	src/Scenes/GameplayScene.cpp
 	src/Scenes/MainMenuScene.cpp
 	src/Scenes/OptionsScene.cpp
 	src/Scenes/HighscoresScene.cpp
+	src/Scenes/SaveHighscoreScene.cpp
 	src/Game/GameState/LoseState.cpp
 	src/Game/GameState/PauseState.cpp
 	src/Game/GameState/PlayState.cpp
@@ -56,12 +58,14 @@ set(HEADERS
 	src/UI/Common/UIButton.hpp
 	src/UI/Options/OptionsSceneUI.hpp
 	src/UI/Highscores/HighscoresSceneUI.hpp
+	src/UI/SaveHighscore/SaveHighscoreSceneUI.hpp
 	src/UI/SceneUI.hpp
 	src/Scenes/Scene.hpp
 	src/Scenes/GameplayScene.hpp
 	src/Scenes/MainMenuScene.hpp
 	src/Scenes/OptionsScene.hpp
 	src/Scenes/HighscoresScene.hpp
+	src/Scenes/SaveHighscoreScene.hpp
 	src/Game/GameState/GameState.hpp
 	src/Game/GameState/LoseState.hpp
 	src/Game/GameState/PauseState.hpp

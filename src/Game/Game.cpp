@@ -7,6 +7,7 @@
 #include "../Scenes/MainMenuScene.hpp"
 #include "../Scenes/OptionsScene.hpp"
 #include "../Scenes/HighscoresScene.hpp"
+#include "../Scenes/SaveHighscoreScene.hpp"
 
 #include "GameContext.hpp"
 #include "../UI/UIManager.hpp"
@@ -22,6 +23,7 @@ void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 	m_scenes[scene::eSceneType::MainMenu]  = std::make_shared<scene::MainMenuScene>(m_gameContext);
 	m_scenes[scene::eSceneType::Options] = std::make_shared<scene::OptionsScene>(m_gameContext);
 	m_scenes[scene::eSceneType::Highscores] = std::make_shared<scene::HighscoresScene>(m_gameContext);
+	m_scenes[scene::eSceneType::SaveHighscore] = std::make_shared<scene::SaveHighscoreScene>(m_gameContext);
 	
 	for (auto& scene : m_scenes)
 		scene.second->init();

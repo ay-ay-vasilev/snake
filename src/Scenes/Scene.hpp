@@ -24,7 +24,8 @@ enum class eSceneType
 	MainMenu,
 	Options,
 	Gameplay,
-	Highscores
+	Highscores,
+	SaveHighscore
 };
 
 class Scene

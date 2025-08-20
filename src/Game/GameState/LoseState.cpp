@@ -21,6 +21,9 @@ std::optional<state::StateType> state::LoseState::handleInput(void* appstate, SD
 		case SDLK_R:
 			return state::StateType::eStart;
 			break;
+		case SDLK_SPACE:
+			createMessage(ObserverMessageType::eChangeScene, std::string("SaveHighscore"));
+			break;
 		}
 	}
 
