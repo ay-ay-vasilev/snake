@@ -23,7 +23,7 @@ set(SOURCE
 	src/Options/OptionsManager.cpp
 	src/Highscores/HighscoreManager.cpp
 	src/UI/UIManager.cpp
-	src/UI/GameplaySceneUI.cpp
+	src/UI/Gameplay/GameplaySceneUI.cpp
 	src/UI/MainMenu/MainMenuSceneUI.cpp
 	src/UI/Common/UIButton.cpp
 	src/UI/Options/OptionsSceneUI.cpp
@@ -51,7 +51,7 @@ set(HEADERS
 	src/Highscores/HighscoreManager.hpp
 	src/UI/UICommand.hpp
 	src/UI/UIManager.hpp
-	src/UI/GameplaySceneUI.hpp
+	src/UI/Gameplay/GameplaySceneUI.hpp
 	src/UI/MainMenu/MainMenuSceneUI.hpp
 	src/UI/Common/UIButton.hpp
 	src/UI/Options/OptionsSceneUI.hpp

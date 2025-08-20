@@ -7,7 +7,7 @@
 #include "../Game/GameState/PauseState.hpp"
 #include "../Game/GameState/LoseState.hpp"
 #include "../UI/UIManager.hpp"
-#include "../UI/GameplaySceneUI.hpp"
+#include "../UI/Gameplay/GameplaySceneUI.hpp"
 
 void scene::GameplayScene::init()
 {

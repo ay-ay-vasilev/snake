@@ -4,10 +4,10 @@
 #include "imgui.h"
 #include "backends/imgui_impl_sdl3.h"
 
-#include "../Game/GameContext.hpp"
-#include "../Data/DataManager.hpp"
-#include "../Options/OptionsManager.hpp"
-#include "../Scenes/Scene.hpp"
+#include "../../Game/GameContext.hpp"
+#include "../../Data/DataManager.hpp"
+#include "../../Options/OptionsManager.hpp"
+#include "../../Scenes/Scene.hpp"
 
 void ui::GameplaySceneUI::init()
 {

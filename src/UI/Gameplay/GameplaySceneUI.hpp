@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SceneUI.hpp"
+#include "../SceneUI.hpp"
 
 namespace ui
 {
