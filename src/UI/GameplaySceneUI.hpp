@@ -21,11 +21,13 @@ namespace ui
 		void clearScore();
 
 		void renderPause();
+		void renderLose();
 
 		UIText m_scoreText{};
 		int m_score{0};
 		std::pair<int, int> m_offset{};
 
 		bool m_isPaused{};
+		bool m_isLose{};
 	};
 }

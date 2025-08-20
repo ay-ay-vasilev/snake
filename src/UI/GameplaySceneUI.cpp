@@ -61,6 +61,10 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	{
 		renderPause();
 	}
+	if (m_isLose)
+	{
+		renderLose();
+	}
 
 	ImGui::End();
 }
@@ -87,14 +91,37 @@ void ui::GameplaySceneUI::renderPause()
 	);
 
 	ImGui::PushFont(m_fonts["big_font"]);
-	const std::string pauseStr = "PAUSE";
-	auto titleTextWidth = ImGui::CalcTextSize(pauseStr.c_str()).x;
-	auto titleTextHeight = ImGui::CalcTextSize(pauseStr.c_str()).y;
+	const std::string titleStr = "PAUSE";
+	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
 	ImVec2 textPos = ImVec2(
 		(resolution.width - titleTextWidth) * 0.5f,
 		(resolution.height - titleTextHeight) * 0.5f
 	);
-	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), pauseStr.c_str());
+	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
+	ImGui::PopFont();
+}
+
+void ui::GameplaySceneUI::renderLose()
+{
+	const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	ImDrawList* draw_list = ImGui::GetForegroundDrawList();
+
+	draw_list->AddRectFilled(
+		ImVec2(0, 0),
+		{ static_cast<float>(resolution.width), static_cast<float>(resolution.height) },
+		IM_COL32(0, 0, 0, 128)
+	);
+
+	ImGui::PushFont(m_fonts["big_font"]);
+	const std::string titleStr = "You died!";
+	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	ImVec2 textPos = ImVec2(
+		(resolution.width - titleTextWidth) * 0.5f,
+		(resolution.height - titleTextHeight) * 0.5f
+	);
+	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
 	ImGui::PopFont();
 }
 
@@ -115,8 +142,13 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 		{
 			m_isPaused = true;
 		}
+		else if (messageStr == "LOSE")
+		{
+			m_isLose = true;
+		}
 		else
 		{
+			m_isLose = false;
 			m_isPaused = false;
 		}
 		break;
