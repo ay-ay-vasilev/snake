@@ -17,7 +17,7 @@ void ui::SaveHighscoreSceneUI::init()
 			UIButton(
 				m_gameContext, ImVec2(),
 				ImVec2(0.5f, 0.8f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
-				std::string("##exitBtn"), std::string("Exit"),
+				std::string("##confirmBtn"), std::string("Confirm"),
 				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});}
 			)
 		);
@@ -41,6 +41,19 @@ void ui::SaveHighscoreSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
+
+	ImGui::PushFont(m_fonts["regular_font"]);
+	const std::string titleStr = "Enter your name:";
+	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	ImVec2 textPos = ImVec2(
+		(resolution.width - titleTextWidth) * 0.5f,
+		(resolution.height - titleTextHeight) * 0.2f
+	);
+	ImGui::SetCursorPosX(textPos.x);
+	ImGui::SetCursorPosY(textPos.y);
+	ImGui::Text("%s", titleStr.c_str());
+	ImGui::PopFont();
 
 	renderButtons();
 
