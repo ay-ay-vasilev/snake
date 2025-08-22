@@ -5,6 +5,7 @@
 
 #include "../../Scenes/Scene.hpp"
 #include "../../Game/GameContext.hpp"
+#include "../../Highscores/HighscoreManager.hpp"
 
 void ui::SaveHighscoreSceneUI::init()
 {
@@ -38,9 +39,19 @@ void ui::SaveHighscoreSceneUI::update()
 
 void ui::SaveHighscoreSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
-	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
+
+	renderTitle();
+	renderScore();
+	renderButtons();
+
+	ImGui::End();
+}
+
+void ui::SaveHighscoreSceneUI::renderTitle()
+{
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 
 	ImGui::PushFont(m_fonts["regular_font"]);
 	const std::string titleStr = "Enter your name:";
@@ -54,8 +65,23 @@ void ui::SaveHighscoreSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::SetCursorPosY(textPos.y);
 	ImGui::Text("%s", titleStr.c_str());
 	ImGui::PopFont();
+}
 
-	renderButtons();
+void ui::SaveHighscoreSceneUI::renderScore()
+{
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& highscoreManager = m_gameContext->getHighscoreManager();
 
-	ImGui::End();
+	ImGui::PushFont(m_fonts["regular_font"]);
+	const std::string scoreStr = "Your score: " + std::to_string(highscoreManager->getCurrentScore());
+	auto scoreStrWidth = ImGui::CalcTextSize(scoreStr.c_str()).x;
+	auto scoreStrHeight = ImGui::CalcTextSize(scoreStr.c_str()).y;
+	ImVec2 textPos = ImVec2(
+		(resolution.width - scoreStrWidth) * 0.5f,
+		(resolution.height - scoreStrHeight) * 0.5f
+	);
+	ImGui::SetCursorPosX(textPos.x);
+	ImGui::SetCursorPosY(textPos.y);
+	ImGui::Text("%s", scoreStr.c_str());
+	ImGui::PopFont();
 }

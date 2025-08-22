@@ -7,6 +7,7 @@
 #include "../../Game/GameContext.hpp"
 #include "../../Data/DataManager.hpp"
 #include "../../Options/OptionsManager.hpp"
+#include "../../Highscores/HighscoreManager.hpp"
 #include "../../Scenes/Scene.hpp"
 
 void ui::GameplaySceneUI::init()
@@ -144,6 +145,8 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 		}
 		else if (messageStr == "LOSE")
 		{
+			const auto& highscoreManager = m_gameContext->getHighscoreManager();
+			highscoreManager->setCurrentScore(m_score);
 			m_isLose = true;
 		}
 		else

@@ -72,3 +72,13 @@ void score::HighscoreManager::sortHighscores()
 	std::sort(m_highscores.begin(), m_highscores.end(),
 		   [](auto& a, auto& b) {return a.score > b.score; });
 }
+
+const int score::HighscoreManager::getCurrentScore() const
+{
+	return m_currentScore;
+}
+
+void score::HighscoreManager::setCurrentScore(int value)
+{
+	m_currentScore = value;
+}

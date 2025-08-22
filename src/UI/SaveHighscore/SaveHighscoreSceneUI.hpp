@@ -15,6 +15,9 @@ public:
 	void render(SDL_Renderer* renderer, int windowFlags) override;
 
 private:
+	void renderTitle();
+	void renderScore();
+
 	void getNotified(const ObserverMessage& message) override {}
 };
 }
