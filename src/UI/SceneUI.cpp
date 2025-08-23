@@ -68,13 +68,21 @@ void ui::SceneUI::renderButtons()
 		}
 	}
 
-	if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space) || ImGui::IsKeyDown(ImGuiKey_E))
-		m_buttons.at(m_selectedIndex).press();
-	if (ImGui::IsKeyReleased(ImGuiKey_Enter) || ImGui::IsKeyReleased(ImGuiKey_Space) || ImGui::IsKeyReleased(ImGuiKey_E))
-		m_buttons.at(m_selectedIndex).activate();
+	handleKeyboardPresses();
 
 	for (auto& button : m_buttons)
 		button.renderText();
 
 	ImGui::PopFont();
+}
+
+void ui::SceneUI::handleKeyboardPresses()
+{
+	if (m_selectionBusy)
+		return;
+
+	if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space) || ImGui::IsKeyDown(ImGuiKey_E))
+		m_buttons.at(m_selectedIndex).press();
+	if (ImGui::IsKeyReleased(ImGuiKey_Enter) || ImGui::IsKeyReleased(ImGuiKey_Space) || ImGui::IsKeyReleased(ImGuiKey_E))
+		m_buttons.at(m_selectedIndex).activate();
 }

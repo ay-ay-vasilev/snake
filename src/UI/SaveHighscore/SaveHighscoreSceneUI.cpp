@@ -24,6 +24,8 @@ void ui::SaveHighscoreSceneUI::init()
 		);
 
 	m_buttons.front().setIsSelected(true);
+	m_selectionBusy = true;
+	playerName = "";
 }
 
 void ui::SaveHighscoreSceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -39,14 +41,41 @@ void ui::SaveHighscoreSceneUI::update()
 
 void ui::SaveHighscoreSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 {
-
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
 
 	renderTitle();
 	renderScore();
+	renderPlayerNameInput();
 	renderButtons();
 
 	ImGui::End();
+}
+
+void ui::SaveHighscoreSceneUI::renderPlayerNameInput()
+{
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	char buf[7] = {};
+	std::strncpy(buf, playerName.c_str(), 6);
+
+	ImGui::PushFont(m_fonts["big_font"]);
+	ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(0, 0, 0, 255));
+	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+	const std::string testName = "WWWWWW";
+	const auto textWidth = ImGui::CalcTextSize(testName.c_str()).x;
+	const auto textHeight = ImGui::CalcTextSize(testName.c_str()).y;
+	ImGui::SetNextItemWidth(textWidth);
+	ImVec2 inputPos = ImVec2(
+		(resolution.width - ImGui::CalcTextSize(buf).x) * 0.5f,
+		(resolution.height - textHeight) * 0.3f
+	);
+	ImGui::SetCursorPosX(inputPos.x);
+	ImGui::SetCursorPosY(inputPos.y);
+	ImGui::SetKeyboardFocusHere();
+	ImGui::InputText("##playerNameInput", buf, IM_ARRAYSIZE(buf), ImGuiInputTextFlags_CharsUppercase | ImGuiInputTextFlags_CharsNoBlank);
+	ImGui::PopStyleColor(2);
+	ImGui::PopFont();
+
+	playerName.assign(buf);
 }
 
 void ui::SaveHighscoreSceneUI::renderTitle()
@@ -55,11 +84,11 @@ void ui::SaveHighscoreSceneUI::renderTitle()
 
 	ImGui::PushFont(m_fonts["regular_font"]);
 	const std::string titleStr = "Enter your name:";
-	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
-	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	const auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	const auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
 	ImVec2 textPos = ImVec2(
 		(resolution.width - titleTextWidth) * 0.5f,
-		(resolution.height - titleTextHeight) * 0.2f
+		(resolution.height - titleTextHeight) * 0.15f
 	);
 	ImGui::SetCursorPosX(textPos.x);
 	ImGui::SetCursorPosY(textPos.y);
