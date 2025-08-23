@@ -55,13 +55,13 @@ void ui::SaveHighscoreSceneUI::renderPlayerNameInput()
 {
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	char buf[7] = {};
-	std::strncpy(buf, playerName.c_str(), 6);
+	snprintf(buf, sizeof(buf), "%s", playerName.c_str());
 
 	ImGui::PushFont(m_fonts["big_font"]);
 	ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(0, 0, 0, 255));
 	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
 	const std::string testName = "WWWWWW";
-	const auto textWidth = ImGui::CalcTextSize(testName.c_str()).x;
+	const auto textWidth = ImGui::CalcTextSize(testName.c_str()).x * 1.1f;
 	const auto textHeight = ImGui::CalcTextSize(testName.c_str()).y;
 	ImGui::SetNextItemWidth(textWidth);
 	ImVec2 inputPos = ImVec2(

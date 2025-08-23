@@ -37,7 +37,7 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 			(resolution.height - gridHeight) / 2
 		};
 	
-	const auto fileName = "../res/fonts/romulus.ttf";
+	const auto fileName = "../res/fonts/monogram.ttf";
 	auto smallFont = io.Fonts->AddFontFromFileTTF(fileName, 20.0f);
 	auto smallishFont = io.Fonts->AddFontFromFileTTF(fileName, 40.0f);
 	auto regularFont = io.Fonts->AddFontFromFileTTF(fileName, 60.0f);
