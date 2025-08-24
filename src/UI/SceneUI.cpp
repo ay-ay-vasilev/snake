@@ -36,7 +36,7 @@ void ui::SceneUI::renderButtons()
 	{
 		button.setIsSelected(false);
 	}
-		m_buttons.at(m_selectedIndex).setIsSelected(true);
+	m_buttons.at(m_selectedIndex).setIsSelected(true);
 
 	ImGui::PushFont(m_fonts["regular_font"]);
 	
@@ -79,7 +79,14 @@ void ui::SceneUI::renderButtons()
 void ui::SceneUI::handleKeyboardPresses()
 {
 	if (m_selectionBusy)
+	{
+		if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space))
+		{
+			m_selectionBusy = false;
+			return;
+		}
 		return;
+	}
 
 	if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space) || ImGui::IsKeyDown(ImGuiKey_E))
 		m_buttons.at(m_selectedIndex).press();

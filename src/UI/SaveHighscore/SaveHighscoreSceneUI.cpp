@@ -25,7 +25,8 @@ void ui::SaveHighscoreSceneUI::init()
 
 	m_buttons.front().setIsSelected(true);
 	m_selectionBusy = true;
-	playerName = "";
+	m_playerName = "";
+	m_isWindowAppearing = true;
 }
 
 void ui::SaveHighscoreSceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -55,7 +56,13 @@ void ui::SaveHighscoreSceneUI::renderPlayerNameInput()
 {
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	char buf[7] = {};
-	snprintf(buf, sizeof(buf), "%s", playerName.c_str());
+	snprintf(buf, sizeof(buf), "%s", m_playerName.c_str());
+
+	if (m_isWindowAppearing)
+	{
+		ImGui::SetKeyboardFocusHere();
+		m_isWindowAppearing = false;
+	}
 
 	ImGui::PushFont(m_fonts["big_font"]);
 	ImGui::PushStyleColor(ImGuiCol_FrameBg, IM_COL32(0, 0, 0, 255));
@@ -70,12 +77,11 @@ void ui::SaveHighscoreSceneUI::renderPlayerNameInput()
 	);
 	ImGui::SetCursorPosX(inputPos.x);
 	ImGui::SetCursorPosY(inputPos.y);
-	ImGui::SetKeyboardFocusHere();
 	ImGui::InputText("##playerNameInput", buf, IM_ARRAYSIZE(buf), ImGuiInputTextFlags_CharsUppercase | ImGuiInputTextFlags_CharsNoBlank);
 	ImGui::PopStyleColor(2);
 	ImGui::PopFont();
 
-	playerName.assign(buf);
+	m_playerName.assign(buf);
 }
 
 void ui::SaveHighscoreSceneUI::renderTitle()

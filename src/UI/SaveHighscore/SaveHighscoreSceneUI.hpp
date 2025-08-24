@@ -21,6 +21,7 @@ private:
 
 	void getNotified(const ObserverMessage& message) override {}
 
-	std::string playerName;
+	std::string m_playerName;
+	bool m_isWindowAppearing;
 };
 }
