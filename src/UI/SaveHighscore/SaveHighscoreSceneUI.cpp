@@ -73,7 +73,7 @@ void ui::SaveHighscoreSceneUI::renderPlayerNameInput()
 	ImGui::SetNextItemWidth(textWidth);
 	ImVec2 inputPos = ImVec2(
 		(resolution.width - ImGui::CalcTextSize(buf).x) * 0.5f,
-		(resolution.height - textHeight) * 0.3f
+		(resolution.height - textHeight) * 0.55f
 	);
 	ImGui::SetCursorPosX(inputPos.x);
 	ImGui::SetCursorPosY(inputPos.y);
@@ -94,7 +94,7 @@ void ui::SaveHighscoreSceneUI::renderTitle()
 	const auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
 	ImVec2 textPos = ImVec2(
 		(resolution.width - titleTextWidth) * 0.5f,
-		(resolution.height - titleTextHeight) * 0.15f
+		(resolution.height - titleTextHeight) * 0.4f
 	);
 	ImGui::SetCursorPosX(textPos.x);
 	ImGui::SetCursorPosY(textPos.y);
@@ -107,13 +107,13 @@ void ui::SaveHighscoreSceneUI::renderScore()
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	const auto& highscoreManager = m_gameContext->getHighscoreManager();
 
-	ImGui::PushFont(m_fonts["regular_font"]);
+	ImGui::PushFont(m_fonts["big_font"]);
 	const std::string scoreStr = "Your score: " + std::to_string(highscoreManager->getCurrentScore());
 	auto scoreStrWidth = ImGui::CalcTextSize(scoreStr.c_str()).x;
 	auto scoreStrHeight = ImGui::CalcTextSize(scoreStr.c_str()).y;
 	ImVec2 textPos = ImVec2(
 		(resolution.width - scoreStrWidth) * 0.5f,
-		(resolution.height - scoreStrHeight) * 0.5f
+		(resolution.height - scoreStrHeight) * 0.15f
 	);
 	ImGui::SetCursorPosX(textPos.x);
 	ImGui::SetCursorPosY(textPos.y);
