@@ -19,12 +19,12 @@ void ui::SaveHighscoreSceneUI::init()
 				m_gameContext, ImVec2(),
 				ImVec2(0.5f, 0.8f), ImVec2(500, 80), ImVec2(0.5f, 0.5f),
 				std::string("##confirmBtn"), std::string("Confirm"),
-				[this](){m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});}
+				[this](){ handleConfirmBtn(); }
 			)
 		);
 
 	m_buttons.front().setIsSelected(true);
-	m_selectionBusy = true;
+	m_isSelectionBusy= true;
 	m_playerName = "";
 	m_isWindowAppearing = true;
 }
@@ -119,4 +119,12 @@ void ui::SaveHighscoreSceneUI::renderScore()
 	ImGui::SetCursorPosY(textPos.y);
 	ImGui::Text("%s", scoreStr.c_str());
 	ImGui::PopFont();
+}
+
+void ui::SaveHighscoreSceneUI::handleConfirmBtn()
+{
+	const auto& highscoreManager = m_gameContext->getHighscoreManager();
+	highscoreManager->addHighscore(m_playerName, highscoreManager->getCurrentScore());
+	highscoreManager->saveHighscores();
+	m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
 }

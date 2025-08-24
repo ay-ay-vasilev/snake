@@ -19,6 +19,8 @@ private:
 	void renderTitle();
 	void renderScore();
 
+	void handleConfirmBtn();
+
 	void getNotified(const ObserverMessage& message) override {}
 
 	std::string m_playerName;

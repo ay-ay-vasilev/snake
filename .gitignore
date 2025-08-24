@@ -1,3 +1,5 @@
+res/data/highscores.json
+
 build.*
 .vscode
 libs/SDL

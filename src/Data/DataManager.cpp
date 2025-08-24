@@ -19,13 +19,7 @@ void DataManager::loadConstants()
 	nlohmann::json constantsJson;
 	file >> constantsJson;
 
-	setFromJson<int>(constantsJson, "window_width");
-	setFromJson<int>(constantsJson, "window_height");
-	setFromJson<int>(constantsJson, "frame_step");
 	setFromJson<int>(constantsJson, "cell_size");
-	setFromJson<int>(constantsJson, "grid_size");
-
-	setFromJson<int>(constantsJson, "grid_size");
 	setFromJson<int>(constantsJson, "grid_size");
 
 	setFromJson(constantsJson, "score_text");

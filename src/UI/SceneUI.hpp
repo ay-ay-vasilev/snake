@@ -55,7 +55,7 @@ protected:
 	void renderButtons();
 	std::vector<UIButton> m_buttons;
 	int m_selectedIndex{0};
-	bool m_selectionBusy{false};
+	bool m_isSelectionBusy{false};
 private:
 	void handleKeyboardPresses();
 };

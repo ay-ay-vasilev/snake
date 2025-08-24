@@ -78,11 +78,11 @@ void ui::SceneUI::renderButtons()
 
 void ui::SceneUI::handleKeyboardPresses()
 {
-	if (m_selectionBusy)
+	if (m_isSelectionBusy)
 	{
 		if (ImGui::IsKeyDown(ImGuiKey_Enter) || ImGui::IsKeyDown(ImGuiKey_Space))
 		{
-			m_selectionBusy = false;
+			m_isSelectionBusy = false;
 			return;
 		}
 		return;
