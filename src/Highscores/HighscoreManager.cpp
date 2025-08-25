@@ -6,6 +6,11 @@
 #include <fstream>
 #include <iostream>
 
+namespace score::defaults
+{
+	constexpr int highscoreMaxSize = 10;
+}
+
 void score::HighscoreManager::loadHighscores()
 {
 	const auto fileName = "../res/data/highscores.json";
@@ -60,6 +65,8 @@ void score::HighscoreManager::addHighscore(std::string name, int score)
 {
 	m_highscores.emplace_back(name, score);
 	sortHighscores();
+	if (m_highscores.size() > score::defaults::highscoreMaxSize)
+		m_highscores.pop_back();
 }
 
 std::vector<score::ScoreRecord> score::HighscoreManager::getHighscores() const
@@ -81,4 +88,15 @@ const int score::HighscoreManager::getCurrentScore() const
 void score::HighscoreManager::setCurrentScore(int value)
 {
 	m_currentScore = value;
+}
+
+bool score::HighscoreManager::isNewHighscore() const
+{
+	if (m_highscores.size() < score::defaults::highscoreMaxSize)
+		return true;
+	
+	if (m_highscores.back().score < m_currentScore)
+		return true;
+
+	return false;
 }

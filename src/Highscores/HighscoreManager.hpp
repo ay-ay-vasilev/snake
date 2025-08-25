@@ -22,6 +22,8 @@ public:
 
 	const int getCurrentScore() const;
 	void setCurrentScore(int value);
+
+	bool isNewHighscore() const;
 private:
 	void sortHighscores();
 	std::vector<ScoreRecord> m_highscores;

@@ -71,7 +71,7 @@ void ui::HighscoresSceneUI::renderHighscoresTable()
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	const auto& highscores = m_gameContext->getHighscoreManager()->getHighscores();
 
-	ImGui::SetCursorPosY(resolution.height * 0.3f);
+	ImGui::SetCursorPosY(resolution.height * 0.2f);
 	static ImGuiTableFlags flags = ImGuiTableFlags_Borders & !ImGuiTableFlags_BordersInnerH & !ImGuiTableFlags_Sortable;
 
 	if (ImGui::BeginTable("table1", 2, flags))

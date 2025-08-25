@@ -21,7 +21,9 @@ namespace ui
 		void clearScore();
 
 		void renderPause();
+
 		void renderLose();
+		void renderNewScore();
 
 		UIText m_scoreText{};
 		int m_score{0};
@@ -29,5 +31,6 @@ namespace ui
 
 		bool m_isPaused{};
 		bool m_isLose{};
+		bool m_isNewScore{};
 	};
 }

@@ -35,6 +35,9 @@ void ui::GameplaySceneUI::init()
 	ui::initUIText(scoreTextData, m_scoreText);
 
 	m_scoreText.text = "Score: " + std::to_string(m_score);
+	m_isLose = false;
+	m_isNewScore = false;
+	m_isPaused = false;
 }
 
 void ui::GameplaySceneUI::handleInput(void* appstate, SDL_Event* event)
@@ -65,6 +68,10 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	if (m_isLose)
 	{
 		renderLose();
+	}
+	if (m_isNewScore)
+	{
+		renderNewScore();
 	}
 
 	ImGui::End();
@@ -126,6 +133,29 @@ void ui::GameplaySceneUI::renderLose()
 	ImGui::PopFont();
 }
 
+void ui::GameplaySceneUI::renderNewScore()
+{
+	const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	ImDrawList* draw_list = ImGui::GetForegroundDrawList();
+
+	draw_list->AddRectFilled(
+		ImVec2(0, 0),
+		{ static_cast<float>(resolution.width), static_cast<float>(resolution.height) },
+		IM_COL32(0, 0, 0, 128)
+	);
+
+	ImGui::PushFont(m_fonts["big_font"]);
+	const std::string titleStr = "New score!";
+	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	ImVec2 textPos = ImVec2(
+		(resolution.width - titleTextWidth) * 0.5f,
+		(resolution.height - titleTextHeight) * 0.5f
+	);
+	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
+	ImGui::PopFont();
+}
+
 void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 {
 	std::string messageStr;
@@ -147,7 +177,11 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 		{
 			const auto& highscoreManager = m_gameContext->getHighscoreManager();
 			highscoreManager->setCurrentScore(m_score);
-			m_isLose = true;
+
+			if (highscoreManager->isNewHighscore())
+				m_isNewScore = true;
+			else
+				m_isLose = true;
 		}
 		else
 		{
@@ -159,7 +193,13 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 		messageStr = std::any_cast<std::string>(message.m_value);
 		if (messageStr == "SaveHighscore")
 		{
-			m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::SaveHighscore});
+			if (m_isNewScore)
+				m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::SaveHighscore});
+			else if (m_isLose)
+				m_commandCallback({eUICommandType::ChangeScene, scene::eSceneType::MainMenu});
+			m_isLose = false;
+			m_isNewScore = false;
+			m_isPaused = false;
 		}
 		break;
 	default:
