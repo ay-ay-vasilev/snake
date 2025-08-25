@@ -43,7 +43,6 @@ void options::OptionsManager::loadOptionPresets()
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
-		std::cerr << "OptionsManager: Failed to open options presets file: " << fileName << std::endl;
 		return;
 	}
 
@@ -100,7 +99,6 @@ void options::OptionsManager::loadUserOptions()
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
-		std::cerr << "OptionsManager: Failed to open user config file: " << fileName << std::endl;
 		return;
 	}
 
@@ -137,7 +135,6 @@ void options::OptionsManager::saveOptions()
 	std::ofstream file(fileName);
 	if (!file.is_open())
 	{
-		std::cerr << "OptionsManager: Failed to open: " << fileName << std::endl;
 		return;
 	}
 

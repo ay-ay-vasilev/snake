@@ -4,15 +4,7 @@
 #include "imgui.h"
 
 #include "../Game/GameContext.hpp"
-#include "../Data/DataManager.hpp"
 #include "../Options/OptionsManager.hpp"
-
-void ui::initUIText(const data::TextData& textData, ui::UIText& uiText)
-{
-	uiText.x = textData.x;
-	uiText.y = textData.y;
-	uiText.scale = textData.scale;
-}
 
 void ui::SceneUI::setCommandCallback(std::function<void(ui::UICommand)> callback)
 {

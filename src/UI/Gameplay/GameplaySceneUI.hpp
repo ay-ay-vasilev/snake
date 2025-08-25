@@ -25,7 +25,7 @@ namespace ui
 		void renderLose();
 		void renderNewScore();
 
-		UIText m_scoreText{};
+		std::string m_scoreText{};
 		int m_score{0};
 		std::pair<int, int> m_offset{};
 

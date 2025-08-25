@@ -21,9 +21,5 @@ void DataManager::loadConstants()
 
 	setFromJson<int>(constantsJson, "cell_size");
 	setFromJson<int>(constantsJson, "grid_size");
-
-	setFromJson(constantsJson, "score_text");
-	setFromJson(constantsJson, "game_state_text");
-	setFromJson(constantsJson, "debug_text");
 }
 }

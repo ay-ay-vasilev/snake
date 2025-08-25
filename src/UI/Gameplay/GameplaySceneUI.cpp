@@ -28,13 +28,7 @@ void ui::GameplaySceneUI::init()
 			(windowHeight - gridHeight) / 2
 		};
 	
-	const auto& scoreTextData = dataManager->getConstant<data::TextData>("score_text");
-	const auto& gameStateTextData = dataManager->getConstant<data::TextData>("game_state_text");
-	const auto& debugTextData = dataManager->getConstant<data::TextData>("debug_text");
-
-	ui::initUIText(scoreTextData, m_scoreText);
-
-	m_scoreText.text = "Score: " + std::to_string(m_score);
+	m_scoreText= "Score: " + std::to_string(m_score);
 	m_isLose = false;
 	m_isNewScore = false;
 	m_isPaused = false;
@@ -48,7 +42,7 @@ void ui::GameplaySceneUI::handleInput(void* appstate, SDL_Event* event)
 
 void ui::GameplaySceneUI::update()
 {
-	m_scoreText.text = "Score: " + std::to_string(m_score);
+	m_scoreText = "Score: " + std::to_string(m_score);
 }
 
 void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
@@ -56,9 +50,8 @@ void ui::GameplaySceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
 
 	ImGui::PushFont(m_fonts["regular_font"]);
-	const auto scoreText = m_scoreText.text.c_str();
 	ImGui::SetCursorPosX(m_offset.first);
-	ImGui::Text("%s", scoreText);
+	ImGui::Text("%s", m_scoreText.c_str());
 	ImGui::PopFont();
 
 	if (m_isPaused)

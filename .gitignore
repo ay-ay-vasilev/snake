@@ -1,4 +1,5 @@
 res/data/highscores.json
+res/config/user_config.json
 
 build.*
 .vscode

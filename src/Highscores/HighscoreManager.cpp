@@ -18,7 +18,6 @@ void score::HighscoreManager::loadHighscores()
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
-		std::cerr << "HighscoreManager: Failed to open" << fileName << std::endl;
 		return;
 	}
 
@@ -45,7 +44,6 @@ void score::HighscoreManager::saveHighscores()
 	std::ofstream file(fileName);
 	if (!file.is_open())
 	{
-		std::cerr << "HighscoreManager: Failed to open: " << fileName << std::endl;
 		return;
 	}
 

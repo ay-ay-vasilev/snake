@@ -26,16 +26,6 @@ using FontsMapRef = std::unordered_map<std::string, ImFont*>&;
 
 namespace ui
 {
-struct UIText // todo: utilize better
-{
-	int x;
-	int y;
-	double scale;
-	std::string text;
-};
-
-void initUIText(const data::TextData& textData, ui::UIText& uiText);
-
 class SceneUI : public IObserver 
 {
 public:
