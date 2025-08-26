@@ -7,8 +7,6 @@
 
 #include "SceneUI.hpp"
 #include "../Game/GameContext.hpp"
-#include "../Data/DataManager.hpp"
-#include "../Options/OptionsManager.hpp"
 
 void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 {

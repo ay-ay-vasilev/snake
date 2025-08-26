@@ -7,7 +7,6 @@
 
 #include "Game/Game.hpp"
 #include "Game/GameContext.hpp"
-#include "Options/OptionsManager.hpp"
 #include "UI/UIManager.hpp"
 
 static SDL_Window* window = NULL;

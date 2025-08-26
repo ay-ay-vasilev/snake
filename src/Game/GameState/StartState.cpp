@@ -1,7 +1,6 @@
 #include "StartState.hpp"
 #include "../GameObjects/GameObjects.hpp"
 #include "../GameContext.hpp"
-#include "../../Data/DataManager.hpp"
 
 std::optional<state::StateType> state::StartState::update()
 {

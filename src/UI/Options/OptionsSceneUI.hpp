@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../SceneUI.hpp"
-#include "../../Options/OptionsManager.hpp"
 
 namespace ui
 {
@@ -24,7 +23,6 @@ private:
 	void renderGameSpeedOptions();
 	void renderGameSpeedTreeNode();
 	// Resolution
-	std::unordered_map<std::string, options::Resolution> m_resolutions;
 	std::string m_selectedResolutionName;
 	bool m_shouldResolutionTreeClose;
 	bool m_isResolutionTreeHovered;

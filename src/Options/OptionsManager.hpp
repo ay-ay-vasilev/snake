@@ -37,7 +37,7 @@ public:
 	void resetOptions();
 
 	Resolution getCurrentResolution() const;
-	std::unordered_map<std::string, Resolution> getResolutionPresets() const;
+	const std::unordered_map<std::string, Resolution>& getResolutionPresets() const;
 	void setCurrentResolution(Resolution newResolution);
 	void applyCurrentResolution();
 

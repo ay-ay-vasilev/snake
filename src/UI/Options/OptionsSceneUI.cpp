@@ -33,7 +33,6 @@ void ui::OptionsSceneUI::init()
 {
 	auto& optionsManager = m_gameContext->getOptionsManager();
 
-	m_resolutions = optionsManager->getResolutionPresets();
 	m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 	m_isFullscreen = optionsManager->getIsFullscreen();
 
@@ -90,7 +89,8 @@ void ui::OptionsSceneUI::init()
 				[this]()
 				{
 					auto& optionsManager = m_gameContext->getOptionsManager();
-					const auto& currentResolution = m_resolutions.at(m_selectedResolutionName);
+					const auto& resolutions = optionsManager->getResolutionPresets();
+					const auto& currentResolution = resolutions.at(m_selectedResolutionName);
 					optionsManager->setCurrentResolution(currentResolution);
 					optionsManager->setIsFullscreen(m_isFullscreen);
 					optionsManager->applyCurrentResolution();
@@ -171,7 +171,9 @@ void ui::OptionsSceneUI::renderResolutionsOptions()
 
 void ui::OptionsSceneUI::renderResolutionsTreeNode()
 {
-	const auto& window = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& window = optionsManager->getCurrentResolution();
+	const auto& resolutions = optionsManager->getResolutionPresets();
 
 	if (m_shouldResolutionTreeClose)
 	{
@@ -192,7 +194,7 @@ void ui::OptionsSceneUI::renderResolutionsTreeNode()
 		ImGui::Indent(window.width * 0.7f);
 		ImGui::Indent();
 		int index = 0;
-		for (const auto resolution : m_resolutions)
+		for (const auto resolution : resolutions)
 		{
 			ImVec2 posMin = ImGui::GetCursorScreenPos();
 			ImVec2 itemSize = ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetFrameHeight());

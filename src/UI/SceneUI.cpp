@@ -4,7 +4,6 @@
 #include "imgui.h"
 
 #include "../Game/GameContext.hpp"
-#include "../Options/OptionsManager.hpp"
 
 void ui::SceneUI::setCommandCallback(std::function<void(ui::UICommand)> callback)
 {

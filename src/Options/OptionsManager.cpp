@@ -164,7 +164,7 @@ options::Resolution options::OptionsManager::getCurrentResolution() const
 	return m_currentResolution;
 }
 
-std::unordered_map<std::string, options::Resolution> options::OptionsManager::getResolutionPresets() const
+const std::unordered_map<std::string, options::Resolution>& options::OptionsManager::getResolutionPresets() const
 {
 	return m_resolutionPresets;
 }

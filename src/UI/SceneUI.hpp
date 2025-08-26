@@ -16,6 +16,12 @@ class GameContext;
 }
 using GameContextRef = std::unique_ptr<context::GameContext>&;
 
+namespace options
+{
+class OptionsManager;
+struct Resolution;
+}
+
 namespace data
 {
 struct TextData;
