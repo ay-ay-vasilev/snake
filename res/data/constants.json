@@ -1,5 +1,5 @@
 {
-	"nickname_length" : 10,
+	"nickname_length" : 8,
 	"grid_size" : 30,
 	"cell_size" : 16
 }
