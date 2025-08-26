@@ -1,7 +1,4 @@
 #include "PauseState.hpp"
-#include "../GameObjects/GameObjects.hpp"
-#include "PlayState.hpp"
-#include "StartState.hpp"
 
 std::optional<state::StateType> state::PauseState::update()
 {

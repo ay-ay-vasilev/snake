@@ -1,6 +1,4 @@
 #include "LoseState.hpp"
-#include "../GameObjects/GameObjects.hpp"
-#include "StartState.hpp"
 
 std::optional<state::StateType> state::LoseState::update()
 {

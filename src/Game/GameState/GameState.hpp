@@ -4,9 +4,9 @@
 #include <memory>
 #include <optional>
 #include "../../Abstract/Subject.hpp"
+#include "../GameObjects/GameObjects.hpp"
 
 class SDL_Renderer;
-class GameObjects;
 class Grid;
 
 namespace context
