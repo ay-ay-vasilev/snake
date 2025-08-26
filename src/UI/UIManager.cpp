@@ -20,12 +20,12 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 	ImGui_ImplSDL3_InitForSDLRenderer(window, renderer);
 	ImGui_ImplSDLRenderer3_Init(renderer);
 
-	auto& dataManager = m_gameContext->getDataManager(); 
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& dataManager = m_gameContext->getDataManager(); 
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 
-	const auto resolution = optionsManager->getCurrentResolution();
-	const auto gridWH = dataManager->getConstant<int>("grid_size");
-	const auto cellWH = dataManager->getConstant<int>("cell_size");
+	const auto& resolution = optionsManager->getCurrentResolution();
+	const auto& gridWH = dataManager->getConstant<int>("grid_size");
+	const auto& cellWH = dataManager->getConstant<int>("cell_size");
 
 	const auto gridWidth = gridWH * cellWH;
 	const auto gridHeight = gridWH * cellWH;
@@ -35,11 +35,11 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 			(resolution.height - gridHeight) / 2
 		};
 	
-	const auto fileName = "../res/fonts/monogram.ttf";
-	auto smallFont = io.Fonts->AddFontFromFileTTF(fileName, 20.0f);
-	auto smallishFont = io.Fonts->AddFontFromFileTTF(fileName, 40.0f);
-	auto regularFont = io.Fonts->AddFontFromFileTTF(fileName, 60.0f);
-	auto bigFont = io.Fonts->AddFontFromFileTTF(fileName, 120.0f);
+	const auto& fileName = "../res/fonts/monogram.ttf";
+	const auto& smallFont = io.Fonts->AddFontFromFileTTF(fileName, 20.0f);
+	const auto& smallishFont = io.Fonts->AddFontFromFileTTF(fileName, 40.0f);
+	const auto& regularFont = io.Fonts->AddFontFromFileTTF(fileName, 60.0f);
+	const auto& bigFont = io.Fonts->AddFontFromFileTTF(fileName, 120.0f);
 	m_fonts["small_font"] = smallFont;
 	m_fonts["smallish_font"] = smallishFont;
 	m_fonts["regular_font"] = regularFont;

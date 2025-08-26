@@ -12,9 +12,9 @@ void ui::MainMenuSceneUI::init()
 	m_title = "SNAKE";
 	m_version = "v" + std::string(PROJECT_VERSION);
 
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 
-	const auto resolution = optionsManager->getCurrentResolution();
+	const auto& resolution = optionsManager->getCurrentResolution();
 
 	m_buttons.emplace_back
 		(
@@ -74,7 +74,7 @@ void ui::MainMenuSceneUI::render(SDL_Renderer* renderer, int windowFlags)
 	ImGui::Begin("Snake", NULL, static_cast<ImGuiWindowFlags>(windowFlags)); // game screen window
 	
 	ImGui::PushFont(m_fonts["big_font"]);
-	auto titleTextWidth = ImGui::CalcTextSize(m_title.c_str()).x;
+	const auto& titleTextWidth = ImGui::CalcTextSize(m_title.c_str()).x;
 	ImGui::SetCursorPosX((resolution.width - titleTextWidth) * 0.5f);
 	ImGui::SetCursorPosY(resolution.height * 0.2f);
 	ImGui::Text("%s", m_title.c_str());
@@ -92,7 +92,7 @@ void ui::MainMenuSceneUI::renderVersion()
 	
 	ImGui::PushFont(m_fonts["small_font"]);
 	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(140, 140, 140, 255));
-	auto titleTextSize = ImGui::CalcTextSize(m_version.c_str());
+	const auto& titleTextSize = ImGui::CalcTextSize(m_version.c_str());
 	ImGui::SetCursorPosX(0);
 	ImGui::SetCursorPosY(resolution.height - titleTextSize.y);
 	ImGui::Text("%s", m_version.c_str());

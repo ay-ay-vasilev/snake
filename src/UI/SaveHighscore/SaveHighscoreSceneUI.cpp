@@ -9,8 +9,8 @@
 
 void ui::SaveHighscoreSceneUI::init()
 {
-	auto& optionsManager = m_gameContext->getOptionsManager();
-	auto& dataManager = m_gameContext->getDataManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& dataManager = m_gameContext->getDataManager();
 
 	const auto resolution = optionsManager->getCurrentResolution();
 
@@ -78,7 +78,7 @@ void ui::SaveHighscoreSceneUI::renderPlayerNameInput()
 	const auto textWidth = ImGui::CalcTextSize(testName.c_str()).x * 1.1f;
 	const auto textHeight = ImGui::CalcTextSize(testName.c_str()).y;
 	ImGui::SetNextItemWidth(textWidth);
-	ImVec2 inputPos = ImVec2(
+	const ImVec2 inputPos = ImVec2(
 		(resolution.width - ImGui::CalcTextSize(m_playerName.c_str()).x) * 0.5f,
 		(resolution.height - textHeight) * 0.55f
 	);
@@ -120,9 +120,9 @@ void ui::SaveHighscoreSceneUI::renderScore()
 
 	ImGui::PushFont(m_fonts["big_font"]);
 	const std::string scoreStr = "Your score: " + std::to_string(highscoreManager->getCurrentScore());
-	auto scoreStrWidth = ImGui::CalcTextSize(scoreStr.c_str()).x;
-	auto scoreStrHeight = ImGui::CalcTextSize(scoreStr.c_str()).y;
-	ImVec2 textPos = ImVec2(
+	const auto& scoreStrWidth = ImGui::CalcTextSize(scoreStr.c_str()).x;
+	const auto& scoreStrHeight = ImGui::CalcTextSize(scoreStr.c_str()).y;
+	const ImVec2& textPos = ImVec2(
 		(resolution.width - scoreStrWidth) * 0.5f,
 		(resolution.height - scoreStrHeight) * 0.15f
 	);
@@ -142,7 +142,7 @@ void ui::SaveHighscoreSceneUI::handleConfirmBtn()
 
 int ui::SaveHighscoreSceneUI::limitNameCallback(ImGuiInputTextCallbackData* data)
 {
-	auto* self = static_cast<SaveHighscoreSceneUI*>(data->UserData);
+	const auto* self = static_cast<SaveHighscoreSceneUI*>(data->UserData);
 
 	const int& maxLength = self->getPlayerNameLength();
 

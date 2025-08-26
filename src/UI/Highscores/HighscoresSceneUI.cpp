@@ -10,7 +10,7 @@ void ui::HighscoresSceneUI::init()
 {
 	m_title = "Highscores";
 
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 
 	const auto resolution = optionsManager->getCurrentResolution();
 
@@ -59,7 +59,7 @@ void ui::HighscoresSceneUI::renderTitle()
 	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 
 	ImGui::PushFont(m_fonts["big_font"]);
-	auto titleTextWidth = ImGui::CalcTextSize(m_title.c_str()).x;
+	const auto titleTextWidth = ImGui::CalcTextSize(m_title.c_str()).x;
 	ImGui::SetCursorPosX((resolution.width - titleTextWidth) * 0.5f);
 	ImGui::SetCursorPosY(resolution.height * 0.02f);
 	ImGui::Text("%s", m_title.c_str());
@@ -104,9 +104,9 @@ void ui::HighscoresSceneUI::renderHighscoresTable()
 
 void ui::HighscoresSceneUI::renderCenteredTableText(const std::string& text)
 {
-	int columnWidth = ImGui::GetColumnWidth();
-	int textWidth = ImGui::CalcTextSize(text.c_str()).x;
-	float offset = (columnWidth - textWidth) * 0.5f;
+	const int columnWidth = ImGui::GetColumnWidth();
+	const int textWidth = ImGui::CalcTextSize(text.c_str()).x;
+	const float offset = (columnWidth - textWidth) * 0.5f;
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + offset);
 	ImGui::Text("%s", text.c_str());

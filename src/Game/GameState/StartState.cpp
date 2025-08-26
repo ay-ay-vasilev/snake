@@ -34,14 +34,14 @@ void state::StartState::render(SDL_Renderer* renderer)
 
 void state::StartState::onEnter()
 {
-	auto& dataManager = m_gameContext->getDataManager();
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& dataManager = m_gameContext->getDataManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 
-	const auto resolution = optionsManager->getCurrentResolution();
-	const auto windowWidth = resolution.width;
-	const auto windowHeight = resolution.height;
-	const auto gridWH = dataManager->getConstant<int>("grid_size");
-	const auto cellWH = dataManager->getConstant<int>("cell_size");
+	const auto& resolution = optionsManager->getCurrentResolution();
+	const auto& windowWidth = resolution.width;
+	const auto& windowHeight = resolution.height;
+	const auto& gridWH = dataManager->getConstant<int>("grid_size");
+	const auto& cellWH = dataManager->getConstant<int>("cell_size");
 
 	const auto gridWidth = gridWH * cellWH;
 	const auto gridHeight = gridWH * cellWH;

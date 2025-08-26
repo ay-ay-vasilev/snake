@@ -21,11 +21,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 	gameContext = std::make_unique<context::GameContext>();
 	game = std::make_unique<Game>(gameContext);
 
-	auto& optionsManager = gameContext->getOptionsManager();
-	auto currentResolution = optionsManager->getCurrentResolution();
+	const auto& optionsManager = gameContext->getOptionsManager();
+	const auto currentResolution = optionsManager->getCurrentResolution();
 	const auto windowWidth = currentResolution.width;
 	const auto windowHeight = currentResolution.height;
-	auto isFullscreen = optionsManager->getIsFullscreen();
+	const auto isFullscreen = optionsManager->getIsFullscreen();
 
 	/* Create the window */
 	SDL_WindowFlags flags = 0;

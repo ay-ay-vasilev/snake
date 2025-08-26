@@ -9,14 +9,15 @@
 
 void ui::GameplaySceneUI::init()
 {
-	auto& optionsManager = m_gameContext->getOptionsManager();
-	auto& dataManager = m_gameContext->getDataManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& dataManager = m_gameContext->getDataManager();
 
-	const auto resolution = optionsManager->getCurrentResolution();
-	const auto windowWidth = resolution.width;
-	const auto windowHeight = resolution.height;
-	const auto gridWH = dataManager->getConstant<int>("grid_size");
-	const auto cellWH = dataManager->getConstant<int>("cell_size");
+	const auto& resolution = optionsManager->getCurrentResolution();
+	const auto& windowWidth = resolution.width;
+	const auto& windowHeight = resolution.height;
+	const auto& gridWH = dataManager->getConstant<int>("grid_size");
+	const auto& cellWH = dataManager->getConstant<int>("cell_size");
+
 	const auto gridWidth = gridWH * cellWH;
 	const auto gridHeight = gridWH * cellWH;
 	m_offset =
@@ -79,7 +80,7 @@ void ui::GameplaySceneUI::clearScore()
 
 void ui::GameplaySceneUI::renderPause()
 {
-	const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	ImDrawList* draw_list = ImGui::GetForegroundDrawList();
 
 	draw_list->AddRectFilled(
@@ -90,9 +91,9 @@ void ui::GameplaySceneUI::renderPause()
 
 	ImGui::PushFont(m_fonts["big_font"]);
 	const std::string titleStr = "PAUSE";
-	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
-	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
-	ImVec2 textPos = ImVec2(
+	const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	const ImVec2 textPos = ImVec2(
 		(resolution.width - titleTextWidth) * 0.5f,
 		(resolution.height - titleTextHeight) * 0.5f
 	);
@@ -102,7 +103,7 @@ void ui::GameplaySceneUI::renderPause()
 
 void ui::GameplaySceneUI::renderLose()
 {
-	const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	ImDrawList* draw_list = ImGui::GetForegroundDrawList();
 
 	draw_list->AddRectFilled(
@@ -113,9 +114,9 @@ void ui::GameplaySceneUI::renderLose()
 
 	ImGui::PushFont(m_fonts["big_font"]);
 	const std::string titleStr = "You died!";
-	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
-	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
-	ImVec2 textPos = ImVec2(
+	const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	const ImVec2 textPos = ImVec2(
 		(resolution.width - titleTextWidth) * 0.5f,
 		(resolution.height - titleTextHeight) * 0.5f
 	);
@@ -125,7 +126,7 @@ void ui::GameplaySceneUI::renderLose()
 
 void ui::GameplaySceneUI::renderNewScore()
 {
-	const auto resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
+	const auto& resolution = m_gameContext->getOptionsManager()->getCurrentResolution();
 	ImDrawList* draw_list = ImGui::GetForegroundDrawList();
 
 	draw_list->AddRectFilled(
@@ -136,9 +137,9 @@ void ui::GameplaySceneUI::renderNewScore()
 
 	ImGui::PushFont(m_fonts["big_font"]);
 	const std::string titleStr = "New score!";
-	auto titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
-	auto titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
-	ImVec2 textPos = ImVec2(
+	const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+	const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+	const ImVec2 textPos = ImVec2(
 		(resolution.width - titleTextWidth) * 0.5f,
 		(resolution.height - titleTextHeight) * 0.5f
 	);
@@ -165,7 +166,7 @@ void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
 		}
 		else if (messageStr == "LOSE")
 		{
-			const auto& highscoreManager = m_gameContext->getHighscoreManager();
+			auto& highscoreManager = m_gameContext->getHighscoreManager();
 			highscoreManager->setCurrentScore(m_score);
 
 			if (highscoreManager->isNewHighscore())

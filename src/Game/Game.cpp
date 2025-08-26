@@ -28,7 +28,7 @@ void Game::init(SDL_Window* window, SDL_Renderer* renderer)
 	for (auto& scene : m_scenes)
 		scene.second->init();
 
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 	m_frameStep = optionsManager->getGameSpeed().frameStep;
 
 	changeScene(scene::eSceneType::MainMenu);
@@ -53,7 +53,7 @@ SDL_AppResult Game::gameLoop(void* appstate, SDL_Renderer* renderer)
 {
 	const auto now = SDL_GetTicks();
 
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 	m_frameStep = optionsManager->getGameSpeed().frameStep;
 
 	while((now - m_lastStep) >= m_frameStep)
@@ -78,7 +78,7 @@ std::optional<SDL_AppResult> Game::update()
 	m_uiManager->update();
 	m_currentScene->update();
 
-	if (auto command = m_uiManager->pollCommand())
+	if (const auto& command = m_uiManager->pollCommand())
 	{
 		if (command->type == ui::eUICommandType::ChangeScene)
 		{

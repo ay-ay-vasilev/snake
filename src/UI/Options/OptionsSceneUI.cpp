@@ -31,7 +31,7 @@ static options::Color getColorFromImVec4(ImVec4 color)
 
 void ui::OptionsSceneUI::init()
 {
-	auto& optionsManager = m_gameContext->getOptionsManager();
+	const auto& optionsManager = m_gameContext->getOptionsManager();
 
 	m_selectedResolutionName = optionsManager->getCurrentResolution().name;
 	m_isFullscreen = optionsManager->getIsFullscreen();
