@@ -17,6 +17,7 @@ file(GLOB IMGUI_GLOB
 	${IMGUI_PATH}/imstb_truetype.h
 	${IMGUI_PATH}/imgui_tables.cpp
 	${IMGUI_PATH}/imgui_widgets.cpp
+	${IMGUI_PATH}/misc/cpp/imgui_stdlib.cpp
 
 	# specific bindings...
 	${IMGUI_PATH}/backends/imgui_impl_sdl3.h

@@ -14,6 +14,8 @@ public:
 	void update() override;
 	void render(SDL_Renderer* renderer, int windowFlags) override;
 
+	const int& getPlayerNameLength() const;
+
 private:
 	void renderPlayerNameInput();
 	void renderTitle();
@@ -23,6 +25,9 @@ private:
 
 	void getNotified(const ObserverMessage& message) override {}
 
+	static int limitNameCallback(ImGuiInputTextCallbackData* data);
+
+	int m_playerNameLength;
 	std::string m_playerName;
 	bool m_isWindowAppearing;
 };

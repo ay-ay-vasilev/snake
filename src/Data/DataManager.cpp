@@ -21,5 +21,6 @@ void DataManager::loadConstants()
 
 	setFromJson<int>(constantsJson, "cell_size");
 	setFromJson<int>(constantsJson, "grid_size");
+	setFromJson<int>(constantsJson, "nickname_length");
 }
 }
