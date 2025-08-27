@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <vector>
 #include <string>
 
@@ -26,6 +27,8 @@ public:
 	bool isNewHighscore() const;
 private:
 	void sortHighscores();
+	uint32_t computeChecksum();
+
 	std::vector<ScoreRecord> m_highscores;
 	int m_currentScore{0};
 };
