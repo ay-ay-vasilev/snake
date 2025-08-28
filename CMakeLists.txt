@@ -83,6 +83,8 @@ add_executable(snake_app
 	${HEADERS}
 )
 
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src FILES ${SOURCE} ${HEADERS})
+
 include(cmake/PostBuild.cmake)
 
 target_link_libraries(snake_app
