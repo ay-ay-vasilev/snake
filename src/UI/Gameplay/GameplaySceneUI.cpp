@@ -112,16 +112,39 @@ void ui::GameplaySceneUI::renderLose()
 		IM_COL32(0, 0, 0, 128)
 	);
 
-	ImGui::PushFont(m_fonts["big_font"]);
-	const std::string titleStr = "You died!";
-	const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
-	const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
-	const ImVec2 textPos = ImVec2(
-		(resolution.width - titleTextWidth) * 0.5f,
-		(resolution.height - titleTextHeight) * 0.5f
-	);
-	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
-	ImGui::PopFont();
+	{
+		ImGui::PushFont(m_fonts["big_font"]);
+		const std::string titleStr = "You died!";
+		const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+		const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+		const ImVec2 textPos = ImVec2(
+			(resolution.width - titleTextWidth) * 0.5f,
+			(resolution.height - titleTextHeight) * 0.5f
+		);
+		draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
+		ImGui::PopFont();
+	}
+	{
+		ImGui::PushFont(m_fonts["regular_font"]);
+		const std::string str1 = "Press 'R' to restart.";
+		const auto& width1 = ImGui::CalcTextSize(str1.c_str()).x;
+		const auto& height1 = ImGui::CalcTextSize(str1.c_str()).y;
+		const ImVec2 pos1 = ImVec2(
+			(resolution.width - width1) * 0.5f,
+			(resolution.height - height1) * 0.75f
+		);
+		draw_list->AddText(pos1, IM_COL32(255, 255, 255, 255), str1.c_str());
+
+		const std::string str2 = "'Space' or 'Esc' to exit.";
+		const auto& width2 = ImGui::CalcTextSize(str2.c_str()).x;
+		const auto& height2 = ImGui::CalcTextSize(str2.c_str()).y;
+		const ImVec2 pos2 = ImVec2(
+			(resolution.width - width2) * 0.5f,
+			(resolution.height - height2) * 0.85f
+		);
+		draw_list->AddText(pos2, IM_COL32(255, 255, 255, 255), str2.c_str());
+		ImGui::PopFont();
+	}
 }
 
 void ui::GameplaySceneUI::renderNewScore()
@@ -135,16 +158,48 @@ void ui::GameplaySceneUI::renderNewScore()
 		IM_COL32(0, 0, 0, 128)
 	);
 
-	ImGui::PushFont(m_fonts["big_font"]);
-	const std::string titleStr = "New score!";
-	const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
-	const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
-	const ImVec2 textPos = ImVec2(
-		(resolution.width - titleTextWidth) * 0.5f,
-		(resolution.height - titleTextHeight) * 0.5f
-	);
-	draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
-	ImGui::PopFont();
+	{
+		ImGui::PushFont(m_fonts["big_font"]);
+		const std::string titleStr = "New score!";
+		const auto& titleTextWidth = ImGui::CalcTextSize(titleStr.c_str()).x;
+		const auto& titleTextHeight = ImGui::CalcTextSize(titleStr.c_str()).y;
+		const ImVec2 textPos = ImVec2(
+			(resolution.width - titleTextWidth) * 0.5f,
+			(resolution.height - titleTextHeight) * 0.3f
+		);
+		draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), titleStr.c_str());
+		ImGui::PopFont();
+	}
+	{
+		ImGui::PushFont(m_fonts["regular_font"]);
+		const std::string str1 = "'Space' to add the new score.";
+		const auto& width1 = ImGui::CalcTextSize(str1.c_str()).x;
+		const auto& height1 = ImGui::CalcTextSize(str1.c_str()).y;
+		const ImVec2 pos1 = ImVec2(
+			(resolution.width - width1) * 0.5f,
+			(resolution.height - height1) * 0.65f
+		);
+		draw_list->AddText(pos1, IM_COL32(255, 255, 255, 255), str1.c_str());
+
+		const std::string str2 = "Press 'R' to restart.";
+		const auto& width2 = ImGui::CalcTextSize(str2.c_str()).x;
+		const auto& height2 = ImGui::CalcTextSize(str2.c_str()).y;
+		const ImVec2 pos2 = ImVec2(
+			(resolution.width - width2) * 0.5f,
+			(resolution.height - height2) * 0.75f
+		);
+		draw_list->AddText(pos2, IM_COL32(255, 255, 255, 255), str2.c_str());
+
+		const std::string str3 = "'Esc' to exit.";
+		const auto& width3 = ImGui::CalcTextSize(str3.c_str()).x;
+		const auto& height3 = ImGui::CalcTextSize(str3.c_str()).y;
+		const ImVec2 pos3 = ImVec2(
+			(resolution.width - width3) * 0.5f,
+			(resolution.height - height3) * 0.85f
+		);
+		draw_list->AddText(pos3, IM_COL32(255, 255, 255, 255), str3.c_str());
+		ImGui::PopFont();
+	}
 }
 
 void ui::GameplaySceneUI::getNotified(const ObserverMessage& message)
