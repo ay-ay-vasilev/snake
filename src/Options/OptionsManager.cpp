@@ -79,16 +79,12 @@ void options::OptionsManager::loadOptionPresets()
 		m_defaultResolution.width = m_resolutionPresets[m_defaultResolution.name].width;
 		m_defaultResolution.height = m_resolutionPresets[m_defaultResolution.name].height;
 
-		if (!m_isFullscreen)
-			m_isFullscreen = (*defaultOptionsData)["fullscreen"].get<bool>();
-		m_defaultFullscreen = m_isFullscreen.value();
+		m_defaultFullscreen = (*defaultOptionsData)["fullscreen"].get<bool>();
 
 		m_defaultSnake1Color = getColorFromJson((*defaultOptionsData)["snake_1_color"]);
 		m_defaultSnake2Color = getColorFromJson((*defaultOptionsData)["snake_2_color"]);
 
 		m_defaultGameSpeed = m_gameSpeedPresets.at((*defaultOptionsData)["game_speed"].get<std::string>());
-		if (m_gameSpeed.name.empty())
-			m_gameSpeed = m_defaultGameSpeed;
 	}
 }
 
@@ -99,6 +95,7 @@ void options::OptionsManager::loadUserOptions()
 	std::ifstream file(fileName);
 	if (!file.is_open())
 	{
+		applyDefaultOptions();
 		return;
 	}
 
@@ -126,6 +123,16 @@ void options::OptionsManager::loadUserOptions()
 	{
 		m_gameSpeed = m_gameSpeedPresets.at((*gameSpeedData).get<std::string>());
 	}
+}
+
+void options::OptionsManager::applyDefaultOptions()
+{
+		m_currentResolution = m_defaultResolution;
+		m_isFullscreen = m_defaultFullscreen;
+		m_snake1Color = m_defaultSnake1Color;
+		m_snake2Color = m_defaultSnake2Color;
+		if (m_gameSpeed.name.empty())
+			m_gameSpeed = m_defaultGameSpeed;
 }
 
 void options::OptionsManager::saveOptions()

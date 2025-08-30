@@ -59,6 +59,7 @@ public:
 private:
 	void loadOptionPresets();
 	void loadUserOptions();
+	void applyDefaultOptions();
 
 	void centerWindow();
 
