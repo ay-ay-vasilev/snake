@@ -2,12 +2,14 @@
 
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 namespace data
 {
 void DataManager::loadConstants()
 {
-	const auto fileName = "../res/data/constants.json";
+	std::filesystem::path resDir = RES_DIR;
+	const auto fileName = resDir / "data/constants.json";
 
 	std::ifstream file(fileName);
 	if (!file.is_open())

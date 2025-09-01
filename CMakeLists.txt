@@ -100,3 +100,7 @@ target_include_directories(snake_app
 	PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 	PUBLIC imgui
 )
+
+target_compile_definitions(snake_app PRIVATE
+	RES_DIR="${CMAKE_SOURCE_DIR}/res"
+)

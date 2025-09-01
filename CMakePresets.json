@@ -1,0 +1,99 @@
+{
+	"version" : 2,
+	"cmakeMinimumRequired" : {
+		"major": 3,
+		"minor": 20,
+		"patch": 0
+	},
+
+	"configurePresets" : [
+		{
+			"name": "base",
+			"hidden": true,
+			"binaryDir": "${sourceDir}/build/${presetName}",
+			"cacheVariables": {
+				"CMAKE_EXPORT_COMPILE_COMMANDS" : "YES"
+			}
+		},
+
+		{
+			"name": "gcc-mingw-debug",
+			"inherits": "base",
+			"generator": "MinGW Makefiles",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "gcc-mingw-release",
+			"inherits": "base",
+			"generator": "MinGW Makefiles",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		},
+		{
+			"name": "gcc-debug",
+			"inherits": "base",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "gcc-release",
+			"inherits": "base",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		},
+		{
+			"name": "clang-debug",
+			"inherits": "base",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_C_COMPILER": "clang"
+			}
+		},
+		{
+			"name": "clang-release",
+			"inherits": "base",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_CXX_COMPILER": "clang++",
+				"CMAKE_C_COMPILER": "clang"
+			}
+		},
+		{
+			"name": "msvc-debug",
+			"inherits": "base",
+			"generator": "Visual Studio 17 2022",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "msvc-release",
+			"inherits": "base",
+			"generator": "Visual Studio 17 2022",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		}
+	],
+
+	"buildPresets": [
+		{ "name": "gcc-mingw-debug", "configurePreset": "gcc-mingw-debug" },
+		{ "name": "gcc-mingw-release", "configurePreset": "gcc-mingw-release" },
+		{ "name": "gcc-debug", "configurePreset": "gcc-debug" },
+		{ "name": "gcc-release", "configurePreset": "gcc-release" },
+		{ "name": "clang-debug", "configurePreset": "clang-debug" },
+		{ "name": "clang-release", "configurePreset": "clang-release" },
+		{ "name": "msvc-debug", "configurePreset": "msvc-debug" },
+		{ "name": "msvc-release", "configurePreset": "msvc-release" }
+	]
+}

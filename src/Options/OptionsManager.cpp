@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 options::Color getColorFromJson(const nlohmann::json& json)
 {
@@ -38,7 +39,8 @@ void options::OptionsManager::loadOptions()
 
 void options::OptionsManager::loadOptionPresets()
 {
-	const auto fileName = "../res/config/options_presets.json";
+	std::filesystem::path resDir = RES_DIR;
+	const auto fileName = resDir / "config/options_presets.json";
 
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -90,7 +92,8 @@ void options::OptionsManager::loadOptionPresets()
 
 void options::OptionsManager::loadUserOptions()
 {
-	const auto fileName = "../res/config/user_config.json";
+	std::filesystem::path resDir = RES_DIR;
+	const auto fileName = resDir / "config/user_config.json";
 
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -137,7 +140,8 @@ void options::OptionsManager::applyDefaultOptions()
 
 void options::OptionsManager::saveOptions()
 {
-	const auto fileName = "../res/config/user_config.json";
+	std::filesystem::path resDir = RES_DIR;
+	const auto fileName = resDir / "config/user_config.json";
 
 	std::ofstream file(fileName);
 	if (!file.is_open())

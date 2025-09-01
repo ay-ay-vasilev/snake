@@ -2,6 +2,7 @@ res/data/highscores.*
 res/config/user_config.json
 
 build.*
+build/
 .vscode
 libs/SDL
 libs/SDL_image

@@ -6,11 +6,13 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <filesystem>
 
 namespace score::defaults
 {
 	constexpr int maxHighscoreCount = 10;
-	const std::string highscoreFileName = "../res/data/highscores.dat";
+	std::filesystem::path resDir = RES_DIR;
+	const std::string highscoreFileName = resDir / "data/highscores.dat";
 }
 
 void score::HighscoreManager::loadHighscores()
