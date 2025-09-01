@@ -38,11 +38,11 @@ void ui::UIManager::init(SDL_Window* window, SDL_Renderer* renderer)
 		};
 	
 	std::filesystem::path resDir = RES_DIR;
-	const std::string fileName = resDir / "fonts/monogram.ttf";
-	const auto& smallFont = io.Fonts->AddFontFromFileTTF(fileName.c_str(), 20.0f);
-	const auto& smallishFont = io.Fonts->AddFontFromFileTTF(fileName.c_str(), 40.0f);
-	const auto& regularFont = io.Fonts->AddFontFromFileTTF(fileName.c_str(), 60.0f);
-	const auto& bigFont = io.Fonts->AddFontFromFileTTF(fileName.c_str(), 120.0f);
+	const auto fileName = resDir / "fonts/monogram.ttf";
+	const auto& smallFont = io.Fonts->AddFontFromFileTTF(fileName.string().c_str(), 20.0f);
+	const auto& smallishFont = io.Fonts->AddFontFromFileTTF(fileName.string().c_str(), 40.0f);
+	const auto& regularFont = io.Fonts->AddFontFromFileTTF(fileName.string().c_str(), 60.0f);
+	const auto& bigFont = io.Fonts->AddFontFromFileTTF(fileName.string().c_str(), 120.0f);
 	m_fonts["small_font"] = smallFont;
 	m_fonts["smallish_font"] = smallishFont;
 	m_fonts["regular_font"] = regularFont;
