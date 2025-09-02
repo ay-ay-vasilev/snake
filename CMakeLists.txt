@@ -84,6 +84,7 @@ add_executable(snake_app
 )
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src FILES ${SOURCE} ${HEADERS})
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT snake_app)
 
 include(cmake/PostBuild.cmake)
 
