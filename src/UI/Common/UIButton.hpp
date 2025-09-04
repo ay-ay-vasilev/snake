@@ -34,6 +34,7 @@ public:
 	void setIsSelected(bool value) { m_isSelected = value; if (!value) m_textColor = IM_COL32(255, 255, 255, 255); }
 	const bool isSelected() const { return m_isSelected; }
 	const bool isHovered() const { return m_isHovered; }
+	const std::string getButtonId() const { return m_buttonId; }
 	
 private:
 	GameContextRef m_gameContext;

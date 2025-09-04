@@ -7,7 +7,6 @@ namespace ui
 	enum class eUICommandType
 	{
 		ChangeScene,
-		ChangeState, // ???
 		QuitGame
 	};
 

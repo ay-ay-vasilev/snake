@@ -44,15 +44,23 @@ public:
 	virtual void render(SDL_Renderer* renderer, int windowFlags) = 0;
 	void setCommandCallback(std::function<void(UICommand)> callback);
 protected:
+	void renderButtons();
+
 	GameContextRef m_gameContext;
 	std::function<void(UICommand)> m_commandCallback;
 	FontsMapRef m_fonts;
 
-	void renderButtons();
 	std::vector<UIButton> m_buttons;
 	int m_selectedIndex{0};
 	bool m_isSelectionBusy{false};
 private:
-	void handleKeyboardPresses();
+	void handleInput();
+
+	enum class eInputSource
+	{
+		Keyboard,
+		Mouse
+	};
+	eInputSource m_lastInput {eInputSource::Keyboard};
 };
 }

@@ -17,6 +17,21 @@ void ui::SceneUI::renderButtons()
 	if (m_buttons.empty())
 		return;
 
+	ImGuiIO& io = ImGui::GetIO();
+
+	if (ImGui::IsKeyPressed(ImGuiKey_UpArrow) ||
+		ImGui::IsKeyPressed(ImGuiKey_DownArrow) ||
+		ImGui::IsKeyPressed(ImGuiKey_W) ||
+		ImGui::IsKeyPressed(ImGuiKey_S))
+	{
+		m_lastInput = eInputSource::Keyboard;
+	}
+
+	if (io.MouseDelta.x != 0.0f || io.MouseDelta.y != 0.0f || ImGui::IsMouseClicked(0))
+	{
+		m_lastInput = eInputSource::Mouse;
+	}
+
 	if (ImGui::IsKeyPressed(ImGuiKey_S) || ImGui::IsKeyPressed(ImGuiKey_DownArrow))
 		m_selectedIndex = (m_selectedIndex + 1) % m_buttons.size();
 
@@ -36,30 +51,44 @@ void ui::SceneUI::renderButtons()
 	for (auto& button : m_buttons)
 		button.renderButton();
 
-	bool hoveredExists = false;
-	int i = 0;
-	for (auto& button : m_buttons)
+	if (m_lastInput == eInputSource::Mouse)
 	{
-		if (button.isHovered())
-		{
-			hoveredExists = true;
-			m_selectedIndex = i;
-			break;
-		}
-		i++;
-	}
-
-	if (hoveredExists)
-	{
+		bool hoveredExists = false;
+		int i = 0;
 		for (auto& button : m_buttons)
 		{
 			if (button.isHovered())
+			{
+				hoveredExists = true;
+				m_selectedIndex = i;
+				break;
+			}
+			i++;
+		}
+		if (hoveredExists)
+		{
+			for (auto& button : m_buttons)
+			{
+				if (button.isHovered())
+					continue;
+				button.setIsSelected(false);
+			}
+		}
+	}
+	else
+	{
+		for (auto& button : m_buttons)
+		{
+			if (!button.isHovered())
 				continue;
+			if (m_buttons.at(m_selectedIndex).getButtonId() == button.getButtonId())
+				break;
 			button.setIsSelected(false);
+			break;
 		}
 	}
 
-	handleKeyboardPresses();
+	handleInput();
 
 	for (auto& button : m_buttons)
 		button.renderText();
@@ -67,7 +96,7 @@ void ui::SceneUI::renderButtons()
 	ImGui::PopFont();
 }
 
-void ui::SceneUI::handleKeyboardPresses()
+void ui::SceneUI::handleInput()
 {
 	if (m_isSelectionBusy)
 	{
