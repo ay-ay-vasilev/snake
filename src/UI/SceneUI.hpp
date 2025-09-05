@@ -54,7 +54,12 @@ protected:
 	int m_selectedIndex{0};
 	bool m_isSelectionBusy{false};
 private:
+	void detectInputSource();
+	void updateSelection();
+	void syncButtonStates();
 	void handleInput();
+	void layoutButtons();
+	void renderAllButtons();
 
 	enum class eInputSource
 	{

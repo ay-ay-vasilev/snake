@@ -38,7 +38,6 @@ void ui::UIButton::renderButton()
 
 	if (ImGui::IsItemHovered())
 	{
-		m_isSelected = true;
 		m_isHovered = true;
 	}
 
